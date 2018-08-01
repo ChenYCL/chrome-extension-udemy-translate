@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 // init state
 chrome.runtime.onInstalled.addListener(function(){
-  chrome.storage.sync.set({currentState: null},function(){
+  chrome.storage.sync.set({currentState: 'off'},function(){
       console.log('init done')
   })
 })
