@@ -36,13 +36,28 @@ start_btn.onclick = function(element) {
     chrome.tabs.executeScript(
         tabs[0].id,
         {code: `
-        var timeTask;
-        tiemTask = window.setInterval(function(){
-          document.body.style.backgroundColor = 'green'
-          let subtitle = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf');
-          console.log(subtitle[0].outerText)
-          document.body.style.backgroundColor = 'green'
-        },1000)
+        try{
+          var timeTask;
+          document.body.style.backgroundColor = 'green';
+          document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0].style.display = 'none'
+          if(document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0]){
+            var oldSub = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0].outerText;
+          }
+          tiemTask = window.setInterval(function(){
+            document.body.style.backgroundColor = 'green'
+            let subtitle = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf');
+            if(subtitle[0]){
+              if(subtitle[0].outerText !== oldSub){
+                console.log(subtitle[0].outerText)
+                console.log(new Date())
+                oldSub = subtitle[0].outerText;
+              }
+            }
+          
+          },200)
+        }catch(e){
+
+        }
        
         `}
         
@@ -68,7 +83,10 @@ end_btn.onclick = function(element) {
         tabs[0].id,
         // {code: 'document.body.style.backgroundColor = "' + color + '";'}
         {code: `
-          window.clearInterval(timeTask)
+          // window.clearInterval(timeTask)
+        for(var i = 0; i < 9999; i++) {
+            clearInterval(i)
+        }
         `}  // stop func here
         
       )

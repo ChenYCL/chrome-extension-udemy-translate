@@ -15,3 +15,4 @@ chrome.runtime.onInstalled.addListener(function(){
       console.log('init done')
   })
 })
+
