@@ -1,13 +1,9 @@
 {
-  "name": "Getting Started Example",
+  "name": "udemy translate",
   "version": "1.0",
-  "description": "Build an Extension!",
+  "description": "udemy translate",
   "background": {
-    "scripts": [
-      "background.js",
-      "jquery-3.1.1.min.js",
-      "md5.js"
-    ],
+    "scripts": ["background.js"],
     "persistent": true
   },
   "browser_action": {
@@ -19,18 +15,7 @@
       "128": "images/get_started128.png"
     }
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://*/"
-      ],
-      "js": [
-        "jquery-3.1.1.min.js",
-        "md5.js",
-        "subtitle.js"
-      ]
-    }
-  ],
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
   "permissions": [
     "http://*/*",
     "https://*/*",
