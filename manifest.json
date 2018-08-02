@@ -3,11 +3,15 @@
   "version": "1.0",
   "description": "Build an Extension!",
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "scripts": [
+      "background.js",
+      "jquery-3.1.1.min.js",
+      "md5.js"
+    ],
+    "persistent": true
   },
-  "browser_action":{
-    "default_popup":"popup.html",
+  "browser_action": {
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "images/get_started16.png",
       "32": "images/get_started32.png",
@@ -15,7 +19,29 @@
       "128": "images/get_started128.png"
     }
   },
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/"
+      ],
+      "js": [
+        "jquery-3.1.1.min.js",
+        "md5.js",
+        "subtitle.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "tabs",
+    "contextMenus",
+    "notifications",
+    "webRequestBlocking",
+    "storage",
+    "activeTab",
+    "declarativeContent"
+  ],
   "options_page": "options.html",
   "icons": {
     "16": "images/get_started16.png",
