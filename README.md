@@ -1,2 +1,22 @@
-# chrome-extension-udemy-translate
-Translate Udemy's subtitles into Chinese
+Udemy视频英文字幕翻译 (Udemy translate)
+====
+
+## 作用
+
+将Udemy英文字幕翻译成中文，效果只能说能看
+
+## 版本实现
+
+v1.0 英文->中文
+
+## 目标
+
+- [x] 初版
+
+- [] 配置项抽取 
+
+- [] 谷歌接口 
+
+- [] 多语种翻译(机翻) 
+
+- [] icon自己做一套,目前就是用的官方套
