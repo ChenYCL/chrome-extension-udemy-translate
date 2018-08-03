@@ -1,8 +1,7 @@
 
 try {
-    alert('preparing...')
+    // alert('preparing...')
 
-    document.body.style.backgroundColor = 'green';
     // $('.captions-display--vjs-ud-captions-cue-text--38tMf').addClass('cover');
     cssAppend();
     if (document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0]) {
