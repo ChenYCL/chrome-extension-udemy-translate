@@ -7,16 +7,17 @@
 $(function () {
   let start_btn = document.getElementById('on');
   let end_btn = document.getElementById('off');
+  let option_btn = document.getElementById('options');
 
   chrome.storage.sync.get('currentState', function (data) {
-    if (data.currentState == 'off') {
+    if (data.currentState == 'off') { // if is off before
       chrome.storage.sync.get('color', function (data) {
         end_btn.style.backgroundColor = data.color;
         end_btn.style.color = 'white';
       });
 
     } else {
-      chrome.storage.sync.get('color', function (data) {
+      chrome.storage.sync.get('color', function (data) { 
         start_btn.style.backgroundColor = data.color;
         start_btn.style.color = 'white';
       });
@@ -24,6 +25,11 @@ $(function () {
 
     }
   });
+
+  // options event
+  option_btn.onclick = function (){
+    chrome.runtime.openOptionsPage()
+  }
 
   // start event
   start_btn.onclick = function (element) {

@@ -5,7 +5,8 @@
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <style>
     #off,
-    #on {
+    #on,
+    #options {
       height: 30px;
       width: 100px;
       outline: none;
@@ -13,12 +14,14 @@
       text-align: center
     }
 
-    #off {
+    #off,#options {
       margin-top: 4px;
     }
 
+
     #off:hover,
-    #on:hover {
+    #on:hover,
+    #options:hover{
       opacity: 0.8;
       background: green;
       cursor: pointer;
@@ -31,6 +34,7 @@
 <body>
   <button id="on">开启翻译</button>
   <button id="off">关闭翻译</button>
+  <button id="options">更多配置</button>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="md5.js"></script>
   <script src="popup.js"></script>
