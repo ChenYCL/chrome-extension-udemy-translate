@@ -28,7 +28,9 @@ $(function () {
 
   // options event
   option_btn.onclick = function (){
-    chrome.runtime.openOptionsPage()
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.runtime.openOptionsPage()
+    });
   }
 
   // start event
@@ -46,13 +48,9 @@ $(function () {
       chrome.tabs.executeScript(null, { file: "lib/jquery-3.1.1.min.js" });
       chrome.tabs.executeScript(null, { file: "lib/md5.js" });
       chrome.tabs.executeScript(null, { file: "start.js" });
-
     });
   };
 
-  // chrome.runtime.sendMessage({
-  //   method: 'showAlert'
-  // }, function (response) { });
 
   // end_btn event
   end_btn.onclick = function (element) {

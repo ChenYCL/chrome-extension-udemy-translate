@@ -68,3 +68,20 @@ function cssAppend() {
     }
     head.appendChild(style);
 }
+
+
+function chooseApi() {
+    let info = localStorage.getItem('udemy-tranlate');
+    if (info.type == 'youdao') {
+        youdao_Send();
+    } else if (info.type == 'baidu') {
+        baidu_Send();
+    }
+    function youdao_Send() {
+        // youdao translate request 
+    }
+    function baidu_Send() {
+        // baidu translate request 
+
+    }
+}

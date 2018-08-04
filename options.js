@@ -20,5 +20,46 @@
 // }
 // constructOptions(kButtonColors);
 
-console.log(Vue);
+window.onload = function(){
+    var apiconfig ={
+        'youdao':{
+            apikey:''
+        },
+        'baidu':{
+            apikey:''
+        }
+    }
+
+    $('.apply').on('click',function(e){
+        e.stopPropagation();
+        config();
+    })
+    $('.cancel').on('click',function(e){
+        e.stopPropagation();
+        alert(1)
+    })
+
+    
+    
+}
+
+
+function config(){
+
+    let config ={
+        'apiType':$('input[name=apiType]:checked').val()
+    }
+
+    console.log(config);
+
+    return config;
+}
+// chrome.browserAction.onClicked.addListener(function (tab) {
+//     chrome.tabs.executeScript({
+//         file: 'lib/jquery-3.1.1.min.js'
+//     });
+//     chrome.tabs.executeScript({
+//         file: 'lib/metro.min.js'
+//     });
+// });
 

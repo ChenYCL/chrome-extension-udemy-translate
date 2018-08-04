@@ -3,7 +3,9 @@
   "version": "1.0",
   "description": "udemy translate",
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": true
   },
   "browser_action": {
@@ -15,7 +17,6 @@
       "128": "images/get_started128.png"
     }
   },
-  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
   "permissions": [
     "http://*/*",
     "https://*/*",
