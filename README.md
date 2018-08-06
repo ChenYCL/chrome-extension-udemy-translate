@@ -15,7 +15,7 @@ v1.0 英文->中文
 
 - [] Yandex translate api 等多接口
 
-- [] 配置项api key抽取
+- [x] 配置项api key抽取
 
 - [] 谷歌接口 
 
