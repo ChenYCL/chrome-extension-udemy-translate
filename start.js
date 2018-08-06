@@ -7,45 +7,24 @@ try {
         var oldSub = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0].outerText;
     }
 
+    let configInfo = null;
+    chrome.storage.sync.get('udemy', function (data) {
+        console.log(JSON.parse(data.udemy).apiKey);
+        configInfo = JSON.parse(data.udemy);
+    })
+  
     setInterval(function () {
-
         let subtitle = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf');
         if (subtitle[0]) {
             if (subtitle[0].outerText !== oldSub) {
                 console.log(subtitle[0].outerText)
                 oldSub = subtitle[0].outerText;
-                /* requeset */
-                var appKey = '30ab5b76f94031b6';
-                var key = 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5';// 注意：暴露appSecret，有被盗用造成损失的风险
-                var salt = (new Date).getTime();
-                var query = subtitle[0].outerText;
-                // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
-                var from = 'en';
-                var to = 'zh-CHS';
-                var str1 = appKey + query + salt + key;
-                var sign = md5(str1);
-                $.ajax({
-                    url: 'https://openapi.youdao.com/api',
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        q: query,
-                        appKey: appKey,
-                        salt: salt,
-                        from: from,
-                        to: to,
-                        sign: sign
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        let wrapper = $('.vjs-ud-captions-display div').eq(1);
-                        if (!wrapper.has('h2').length) {
-                            wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${data.translation[0]}</h2></div>`)
-                        } else {
-                            wrapper.find('h2').text(data.translation[0])
-                        }
-                    }
-                });
+                // send request
+                let _apiKey = configInfo.apiKey;
+                let _Key = configInfo.Key;
+                let apiKey = _apiKey == 'undefined' ? '30ab5b76f94031b6' : _apiKey;
+                let Key = _Key == 'undefined' ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : _Key;
+                chooseApiSend(configInfo, apiKey, Key, subtitle[0].outerText,md5);
             }
         }
 
@@ -70,17 +49,50 @@ function cssAppend() {
 }
 
 
-function chooseApi() {
-    let info = localStorage.getItem('udemy-tranlate');
-    if (info.type == 'youdao') {
-        youdao_Send();
-    } else if (info.type == 'baidu') {
-        baidu_Send();
+function chooseApiSend(configInfo, apiKey, key, subtitle,md5) {
+    if (configInfo.apiType == 'youdao') {
+        youdao_Send(apiKey, key, subtitle,md5);
+    } else if (configInfo.apiType == 'baidu') {
+        baidu_Send(apiKey, key, subtitle,md5);
     }
-    function youdao_Send() {
+    function youdao_Send(apiKey, key, subtitle,md5) {
         // youdao translate request 
+        /* requeset */
+        var apiKey = apiKey;
+        var key = key;
+        var salt = (new Date).getTime();
+        var query = subtitle;
+        var from = '';
+        var to = configInfo.aimLang == 'undefined' ? 'zh-CHS' : configInfo.aimLang;
+        var str1 = apiKey + query + salt + key;
+        var sign = md5(str1);
+        console.log(apiKey, key);
+        $.ajax({
+            url: 'https://openapi.youdao.com/api',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                q: query,
+                appKey: apiKey,
+                salt: salt,
+                from: from,
+                to: to,
+                sign: sign
+            },
+            success: function (data) {
+                let wrapper = $('.vjs-ud-captions-display div').eq(1);
+                if (!wrapper.has('h2').length) {
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${data.translation[0]}</h2></div>`)
+                } else {
+                    wrapper.find('h2').text(data.translation[0])
+                }
+            },
+            error: function () {
+                alert('用户配置有误，或当前接口流量已达上限');
+            }
+        });
     }
-    function baidu_Send() {
+    function baidu_Send(apiKey, key, subtitle) {
         // baidu translate request 
 
     }

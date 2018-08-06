@@ -4,7 +4,9 @@
   "description": "udemy translate",
   "background": {
     "scripts": [
-      "background.js"
+      "background.js",
+      "lib/jquery-3.1.1.min.js",
+      "lib/md5.js"
     ],
     "persistent": true
   },
@@ -17,6 +19,13 @@
       "128": "images/get_started128.png"
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["https://*.udemy.com/*"],
+      "css": ["css/style.css"],
+      "js": ["localstorage.js","lib/jquery-3.1.1.min.js","lib/md5.js"]
+    }
+  ],
   "permissions": [
     "http://*/*",
     "https://*/*",

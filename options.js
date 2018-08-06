@@ -20,46 +20,59 @@
 // }
 // constructOptions(kButtonColors);
 
-window.onload = function(){
-    var apiconfig ={
-        'youdao':{
-            apikey:''
+window.onload = function () {
+    let configInfoBefore = null;
+    restore(configInfoBefore);
+    var apiconfig = {
+        'youdao': {
+            apikey: ''
         },
-        'baidu':{
-            apikey:''
+        'baidu': {
+            apikey: ''
         }
     }
 
-    $('.apply').on('click',function(e){
+    $('.apply').on('click', function (e) {
         e.stopPropagation();
         config();
     })
-    $('.cancel').on('click',function(e){
+    $('.cancel').on('click', function (e) {
         e.stopPropagation();
-        alert(1)
     })
 
-    
-    
+
+
 }
 
+function restore(configInfoBefore) {
 
-function config(){
+    chrome.storage.sync.get('udemy', function (data) {
+        configInfoBefore = JSON.parse(data.udemy);
+        // $('input[name=apiType]:checked').val()
+        $('input[name=apiValue]').val(configInfoBefore.apiKey)
+        // $('input[name=' + $('input[name=apiType]:checked').val() + ']:checked').val()
+        $('input[name=key]').val(configInfoBefore.Key)
+    })
 
-    let config ={
-        'apiType':$('input[name=apiType]:checked').val()
+}
+
+function config() {
+
+    let config = {
+        'apiType': $('input[name=apiType]:checked').val(),
+        'apiKey': $('input[name=apiValue]').val(),
+        'aimLang': $('input[name=' + $('input[name=apiType]:checked').val() + ']:checked').val(),
+        'Key': $('input[name=key]').val(),
     }
-
+    // chrome.extension.sendRequest({greeting: "hello"}, function(response) {
+    //     console.log(1);
+    // });
+    chrome.storage.sync.set({ udemy: JSON.stringify(config) }, function () {
+        console.log('存入')
+    })
     console.log(config);
 
     return config;
 }
-// chrome.browserAction.onClicked.addListener(function (tab) {
-//     chrome.tabs.executeScript({
-//         file: 'lib/jquery-3.1.1.min.js'
-//     });
-//     chrome.tabs.executeScript({
-//         file: 'lib/metro.min.js'
-//     });
-// });
+
 

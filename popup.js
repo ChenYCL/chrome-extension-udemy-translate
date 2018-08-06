@@ -10,6 +10,7 @@ $(function () {
   let option_btn = document.getElementById('options');
 
   chrome.storage.sync.get('currentState', function (data) {
+    console.log(data.currentState)
     if (data.currentState == 'off') { // if is off before
       chrome.storage.sync.get('color', function (data) {
         end_btn.style.backgroundColor = data.color;
@@ -43,7 +44,7 @@ $(function () {
       start_btn.style.color = 'white';
     });
     chrome.storage.sync.set({ currentState: 'on' });
-
+  
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.executeScript(null, { file: "lib/jquery-3.1.1.min.js" });
       chrome.tabs.executeScript(null, { file: "lib/md5.js" });
@@ -64,7 +65,6 @@ $(function () {
     });
 
     chrome.storage.sync.set({ currentState: 'off' });
-
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.executeScript(null, { file: "end.js" });
     });
@@ -76,3 +76,10 @@ $(function () {
 
 
 })
+
+
+// chrome.extension.onRequest.addListener(
+//   function(request, sender, sendResponse) {
+//     console.log(request);
+//   });
+

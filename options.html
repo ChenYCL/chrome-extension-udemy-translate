@@ -15,13 +15,14 @@
       height: 100vh;
       padding: 0;
     }
-    .window{
+
+    .window {
       height: 100vh;
     }
-    ul{
+
+    ul {
       list-style: none;
     }
-   
   </style>
 </head>
 
@@ -33,67 +34,72 @@
         <span class="title">配置项</span>
       </div>
       <div class="window-content p-2">
-        <div data-role="panel"
-          data-title-caption="接口类型"
-          data-title-icon="<span class='mif-apps fg-red'></span>"
-          data-width="500"
-          class="bd-lightgreen fg-red"
-        >
-        <ul>
-            <li><input type="radio" name="apiType" data-role="radio" data-caption="有道云" value="youdaoyun"></li>
-            <li><input type="radio" name="apiType" data-role="radio" data-caption="百度" value="baidu" checked></li>
-        </ul>
-    
+        <div data-role="panel" data-title-caption="接口类型" data-title-icon="<span class='mif-apps fg-red'></span>" data-width="500"
+          class="bd-lightgreen fg-red">
+          <ul>
+            <li>
+              <input type="radio" name="apiType" data-role="radio" data-caption="有道云" value="youdao">
+            </li>
+            <li>
+              <input type="radio" name="apiType" data-role="radio" data-caption="百度" value="baidu" checked>
+            </li>
+          </ul>
+
         </div>
 
 
         <br>
-        <div data-role="panel"
-          data-title-caption="Apikey录入""
-          data-title-icon="<span class='mif-apps fg-red'></span>"
-          data-width="500"
-          class="bd-grey fg-red"
-        >
-        <ul><li style="width: 350px"><input type="text" name="apiValue" data-role="input"></li></ul>
+        <div data-role="panel" data-title-caption="Apikey录入" "
+          data-title-icon="<span class='mif-apps fg-red'>
+          </span>" data-width="500" class="bd-grey fg-red" >
+          <ul>
+            Apikey:
+            <li style="width: 350px">
+              <input type="text" name="apiValue" data-role="input">
+            </li>
+            key:
+            <li style="width: 350px">
+              <input type="text" name="key" data-role="input">
+            </li>
+          </ul>
         </div>
 
         <br>
-        <div data-role="panel"
-          data-title-caption="目标语言"
-          data-title-icon="<span class='mif-apps fg-red'></span>"
-          data-width="500"
-          class="bd-grey fg-red"
-        >
-            <ul data-role="treeview">
-                <li class="expanded" data-caption="有道云">
-                    <ul>
-                        <li><input type="radio" name="youdaoT" data-role="radio" data-caption="中文"></li>
-                        <li><input type="radio" name="youdaoT" data-role="radio" data-caption="英文" checked></li>
-                    </ul>
+        <div data-role="panel" data-title-caption="目标语言" data-title-icon="<span class='mif-apps fg-red'></span>" data-width="500"
+          class="bd-grey fg-red">
+          <ul data-role="treeview">
+            <li class="expanded" data-caption="有道云">
+              <ul>
+                <li>
+                  <input type="radio" name="youdao" data-role="radio" data-caption="中文" value="zh-CHS" checked>
                 </li>
-                <li class="expanded" data-caption="百度">
-                    <ul>
-                        <li><input type="radio" name="baiduT" data-role="radio" data-caption="英文"></li>
-                        <li><input type="radio" name="baiduT" data-role="radio" data-caption="中文"" checked></li>
-                    </ul>
+                <li>
+                  <input type="radio" name="youdao" data-role="radio" data-caption="英文" value="en">
                 </li>
-            </ul>
+              </ul>
+            </li>
+            <li class="expanded" data-caption="百度">
+              <ul>
+                <li>
+                  <input type="radio" name="baidu" data-role="radio" data-caption="中文" value="zh-CHS" checked>
+                </li>
+                <li>
+                  <input type="radio" name="baidu" data-role="radio" data-caption="英文" value="en">
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
 
         <br>
-        <div data-role="panel"
-          data-title-caption="关于"
-          data-title-icon="<span class='mif-apps fg-red'></span>"
-          data-width="500"
-          class="bd-grey fg-red"
-        >
-         关于api配置，可参考相关网站
+        <div data-role="panel" data-title-caption="关于" data-title-icon="<span class='mif-apps fg-red'></span>" data-width="500" class="bd-grey fg-red">
+          关于api配置，可参考相关网站
         </div>
         <br>
         <button class="button success apply">应用</button>
         <button class="button light cancel">取消</button>
+      </div>
     </div>
-  </div>
 
   </div>
 </body>
