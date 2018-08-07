@@ -3,7 +3,11 @@ Udemy视频英文字幕翻译 (Udemy translate)
 
 ## 作用
 
-将Udemy英文字幕翻译成中文，效果只能说能看
+将Udemy英文字幕翻译成中文
+
+## 使用方式
+Step1:
+
 
 ## 版本实现
 
