@@ -1,36 +1,40 @@
-Udemy视频英文字幕翻译 (Udemy translate)
+Udemy translate
 ====
 
-## 作用
+## Usage
 
-将Udemy英文字幕翻译成中文
+Translate Udemy Media English subtitles into Chinese
 
-## 使用方式
+## Install
 Step1:
 
 
-## 版本实现
+## Version
 
-v1.0 英文->中文
+v1.0 
 
-## 目标
+## 
 
-- [x] 初版
+- [x] Basic function
 
-- [] Yandex translate 接口
+- [] Yandex translate Api support
 
-- [x] 有道云接口录入配置项
+- [x] Youdo Cloud Api config support
 
-- [] 百度翻译接口录入配置项
+- [] Baidu Api Support
 
-- [x] 配置项api key抽取
+- [x] Config panel
 
-- [] 谷歌接口 
+- [] Google Translate Api
 
-- [] 多语种翻译(机翻) 
+- [] Multi-language support
 
-- [] icon自己做一套,目前就是用的官方套
+- [] Icon
 
-# 关于
+# why
 
-尽可能解决一些学习之路上的阻碍
+Better UnderStand
+
+# License
+
+MIT
