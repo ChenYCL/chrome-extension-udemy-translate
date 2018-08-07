@@ -19,7 +19,7 @@ v1.0
 
 - [] Yandex translate Api support
 
-- [x] Youdo Cloud Api config support
+- [x] Youdo Cloud Api  support
 
 - [] Baidu Api Support
 
