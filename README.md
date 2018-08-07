@@ -7,16 +7,16 @@ Translate Udemy Media English subtitles into Chinese
 
 ## Install
 Step1:
-![Step1](media/step1.png)
+![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
 
 Step2:
-![Step2](media/step1.png)
+![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step2.png)
 
 Step3:
-![Step3](media/step1.png)
+![Step3](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step3.png)
 
 Step4:
-![Step4](media/step1.png)
+![Step4](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step4.png)
 
 ## Version
 
