@@ -26,7 +26,7 @@ Step4:
 
 v1.0 
 
-## 
+## Features
 
 - [x] Basic function
 
@@ -44,7 +44,7 @@ v1.0
 
 - [] Icon
 
-# why
+# Why
 
 Better UnderStand
 
