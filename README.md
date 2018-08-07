@@ -27,6 +27,7 @@ Step5:
 ![Step4](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step4.png)
 
 Now,It works
+
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
 
 ## Version
