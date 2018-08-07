@@ -18,9 +18,16 @@ Step3:
 
 ![Step3](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step3.png)
 
-Step4:
+Step:4:
+
+Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
+
+Step5:
 
 ![Step4](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step4.png)
+
+Now,It works
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
 
 ## Version
 
