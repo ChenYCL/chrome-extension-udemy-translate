@@ -1,7 +1,6 @@
 for(var i = 0; i < 99999; i++) {
     clearInterval(i)
 }
-// document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0].style.display = 'block !important'
 cssAppend()
 function cssAppend() {
     var css = `.captions-display--vjs-ud-captions-cue-text--38tMf { display: block !important; }
