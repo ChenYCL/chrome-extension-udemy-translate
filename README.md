@@ -7,7 +7,16 @@ Translate Udemy Media English subtitles into Chinese
 
 ## Install
 Step1:
+![Step1](media/step1.png)
 
+Step2:
+![Step2](media/step1.png)
+
+Step3:
+![Step3](media/step1.png)
+
+Step4:
+![Step4](media/step1.png)
 
 ## Version
 
