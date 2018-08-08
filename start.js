@@ -85,18 +85,18 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
         },
         success: function (data) {
             if (typeof data.translation == "undefined") {
-                alert('当前配置错误,或目标语言相同')
                 chrome.storage.sync.set({ currentState: 'off' }, function () {
                     console.log('error,reset state')
                 });
 
                 return
             }
+            let subtitle = typeof data.translation == "undefined" ?'当前配置错误,或目标语言相同':data.translation[0]
             let wrapper = $('.vjs-ud-captions-display div').eq(1);
             if (!wrapper.has('h2').length) {
-                wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${data.translation[0]}</h2></div>`)
+                wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}</h2></div>`)
             } else {
-                wrapper.find('h2').text(data.translation[0])
+                wrapper.find('h2').text(subtitle)
             }
         },
         error: function () {
@@ -107,5 +107,47 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
 
 function baiduSend(configInfo, apiKey, key, subtitle) {
     // baidu translate request 
+
+    var apiKey = apiKey;
+    var key = key;
+    var salt = (new Date).getTime();
+    var query = subtitle;
+    var from = 'auto';
+    var to = configInfo.aimLang == 'undefined' ? 'zh' : configInfo.aimLang;
+    var str1 = apiKey + query + salt + key;
+    var sign = md5(str1);
+    // console.log(apiKey, key);
+
+    $.ajax({
+        url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
+        type: 'post',
+        dataType: 'json',
+        data: {
+            q: query,
+            appid: apiKey,
+            salt: salt,
+            from: from,
+            to: to,
+            sign: sign
+        },
+        success: function (data) {
+            if (typeof data.trans_result == "undefined") {
+                chrome.storage.sync.set({ currentState: 'off' }, function () {
+                    console.log('error,reset state')
+                });
+                return
+            }
+            let subtitle = typeof data.trans_result == "undefined" ?'当前配置错误,或目标语言相同':data.trans_result[0].dst
+            let wrapper = $('.vjs-ud-captions-display div').eq(1);
+            if (!wrapper.has('h2').length) {
+                wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}</h2></div>`)
+            } else {
+                wrapper.find('h2').text(subtitle)
+            }
+        },
+        error: function () {
+            alert('用户配置有误，或当前接口流量已达上限');
+        }
+    });
 
 }
