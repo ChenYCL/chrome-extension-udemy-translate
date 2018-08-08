@@ -7,23 +7,28 @@ Translate Udemy Media English subtitles into Chinese, **it also support other la
 
 ## Panel config
 
-<font color=green size=7>If the default configuration traffic expires,Please register via the link below</font>
+<font color=green size=7>If the default configuration traffic expires,please register via the link below</font>
 
+<div align=center><img width="100%" height="600" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/config.png"/></div>
 
-![config](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/config.png=400x480)
+Register links:
+
+[有道](https://fanyi-api.baidu.com/api/trans/product/desktop)
+[百度](https://ai.youdao.com/index.s)
+
 
 ## Install
 Step1:
 
-![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png=400x480)
+![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
 
 Step2:
 
-![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step2.png=400x480)
+![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step2.png)
 
 Step3:
 
-![Step3](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step3.png=400x480)
+![Step3](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step3.png)
 
 Step:4:
 
@@ -31,11 +36,11 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 Step5:
 
-![Step4](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step4.png=400x480)
+![Step4](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step4.png)
 
 Now,It works
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png=400x480)
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
 
 ## Version
 
@@ -49,7 +54,7 @@ v1.0
 
 - [x] Youdo Cloud Api  support
 
-- [] Baidu Api Support
+- [x] Baidu Api Support
 
 - [x] Config panel
 
