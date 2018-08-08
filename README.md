@@ -9,7 +9,7 @@ Translate Udemy Media English subtitles into Chinese, **it also support other la
 
 <font color=green size=7>If the default configuration traffic expires,please register via the link below</font>
 
-<div align=center><img width="150" height="150" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/config.png"/></div>
+<div align=center><img width="400" height="480" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/config.png"/></div>
 
 ## Install
 Step1:
