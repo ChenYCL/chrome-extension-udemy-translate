@@ -2,11 +2,11 @@ Udemy translate
 ====
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 
-## Usage
+## 作用
 
 将英文字幕翻译成中文, **现在也支持将其它语言字幕翻译成中文**
 
-## Panel config
+## 面板配置
 
 <font color=green size=7>如果默认的配置流量到期，请参考下方链接注册</font>
 
@@ -18,7 +18,7 @@ Register links:
 [百度](https://ai.youdao.com/index.s)
 
 
-## Install
+## 安装使用
 步骤一:
 
 ![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
