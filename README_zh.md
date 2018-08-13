@@ -12,7 +12,7 @@ Udemy translate
 
 <div align=center><img width="100%" height="600" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/config.png"/></div>
 
-Register links:
+注册链接:
 
 [有道](https://fanyi-api.baidu.com/api/trans/product/desktop)
 [百度](https://ai.youdao.com/index.s)
