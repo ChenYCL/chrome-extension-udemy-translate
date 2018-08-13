@@ -52,7 +52,7 @@ v1.0
 
 - [] Yandex translate Api support
 
-- [x] Youdo Cloud Api  support
+- [x] Youdao Cloud Api  support
 
 - [x] Baidu Api Support
 
