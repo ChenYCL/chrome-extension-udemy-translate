@@ -1,6 +1,6 @@
 Udemy translate
 ====
-[![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README.md)
+[![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 
 ## Usage
 
