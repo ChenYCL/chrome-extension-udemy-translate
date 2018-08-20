@@ -42,6 +42,8 @@ Now,It works
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
 
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/netflix.png)
+
 ## Version
 
 v1.0 
@@ -49,6 +51,8 @@ v1.0
 ## Features
 
 - [x] Basic function
+
+- [x] netflix video support
 
 - [] Yandex translate Api support
 

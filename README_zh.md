@@ -43,6 +43,8 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
 
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/netflix.png)
+
 ## 版本
 
 v1.0 
@@ -50,6 +52,8 @@ v1.0
 ## 特性
 
 - [x] 完成基本翻译功能
+
+- [x] 奈飞视频字幕支持
 
 - [] Yandex 支持
 
