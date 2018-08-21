@@ -13,8 +13,9 @@ Translate Udemy Media English subtitles into Chinese, **it also support other la
 
 Register links:
 
-[有道](https://fanyi-api.baidu.com/api/trans/product/desktop)
-[百度](https://ai.youdao.com/index.s)
+[Youdao](https://ai.youdao.com/index.s)
+[Baidu](https://fanyi-api.baidu.com/api/trans/product/desktop)
+
 
 
 ## Install

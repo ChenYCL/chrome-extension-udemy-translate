@@ -14,8 +14,9 @@ Udemy translate
 
 注册链接:
 
-[有道](https://fanyi-api.baidu.com/api/trans/product/desktop)
-[百度](https://ai.youdao.com/index.s)
+[有道](https://ai.youdao.com/index.s)
+[百度](https://fanyi-api.baidu.com/api/trans/product/desktop)
+
 
 
 ## 安装使用

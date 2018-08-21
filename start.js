@@ -26,22 +26,6 @@ try {
     let firstInit = 1;
 
     setInterval(function () {
-        /*         let subtitle = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf');
-                if (subtitle[0]) {
-                    if (subtitle[0].outerText !== oldSub) {
-                        console.log(subtitle[0].outerText)
-                        oldSub = subtitle[0].outerText;
-                        if (firstInit == 1 && configInfo == null) {
-                            alert('当前未配置,使用默认有道云api,可能流量到期,请尽早配置')
-                            firstInit++;
-                        }
-                        // send request
-                        let _apiKey = configInfo == null ? '30ab5b76f94031b6' : configInfo.apiKey == '' ? '30ab5b76f94031b6' : configInfo.apiKey;
-                        let _Key = configInfo == null ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key == '' ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key;
-                        chooseApiSend(configInfo, _apiKey, _Key, subtitle[0].outerText, md5);
-                    }
-                } */
-
         if (typeUrl.includes('udemy')) {  // udemy subtitle
             let subtitle = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf');
             if (subtitle[0] && (subtitle[0].outerText !== oldSub)) {
