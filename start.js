@@ -87,6 +87,8 @@ function chooseApiSend(configInfo, apiKey, key, subtitle, md5) {
         youdaoSend(configInfo, apiKey, key, subtitle, md5);
     } else if (configInfo.apiType == 'baidu') {
         baiduSend(configInfo, apiKey, key, subtitle, md5);
+    }else if(configInfo.apiType == 'yandex'){
+        yandexSend(configInfo,apiKey,subtitle);
     }
 }
 
@@ -232,4 +234,65 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
         }
     });
 
+}
+
+function yandexSend(configInfo,apiKey,subtitle){
+    var apiKey = apiKey;
+    var query = subtitle;
+    var to = configInfo.aimLang == 'undefined' ? 'zh' : configInfo.aimLang;
+
+    $.ajax({
+        url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+        type: 'post',
+        dataType: 'json',
+        data: {
+            key: apiKey,
+            text:query,
+            lang:to
+        },
+        success: function (data) {
+            if (typeof data.text == "undefined") {
+                chrome.storage.sync.set({ currentState: 'off' }, function () {
+                    console.log('error,reset state')
+                });
+
+                return
+            }
+            let subtitle = typeof data.text == "undefined" ? '当前配置错误,或目标语言相同' : data.text[0]
+            // judge typeUrl
+            let typeUrl = window.location.href;
+            if (typeUrl.includes('udemy')) {
+                var wrapper = $('.vjs-ud-captions-display div').eq(1);
+                if (!wrapper.has('h2').length) {
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}</h2></div>`)
+                } else {
+                    wrapper.find('h2').text(subtitle)
+                }
+            }
+            if (typeUrl.includes('netflix')) {
+                var wrapper = $('.player-timedtext')
+                chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                    console.log('saved')
+                });
+                if(wrapper.siblings(".zh_sub").length<1){
+                    wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background:#4F5155">
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}</h2></div>`)
+                }else{
+                    $('.zh_sub h2').text(subtitle);
+                }
+                console.log(subtitle);
+            }
+
+        },
+        error: function () {
+            alert('用户配置有误，或当前接口流量已达上限');
+        }
+    });
 }

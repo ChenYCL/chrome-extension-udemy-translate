@@ -4,7 +4,7 @@
 window.onload = function () {
     let configInfoBefore = null;
     restore(configInfoBefore);
-  
+
     $('.apply').on('click', function (e) {
         e.stopPropagation();
         config();
@@ -27,6 +27,9 @@ function restore(configInfoBefore) {
         switch (configInfoBefore.apiType) {
             case 'baidu':
                 $('li.baidu').find('input[name=baidu][value=' + configInfoBefore.aimLang + ']').attr('checked', 'checked');
+                break;
+            case 'yandex':
+                $('li.yandex').find('input[name=yandex][value=' + configInfoBefore.aimLang + ']').attr('checked', 'checked');
                 break;
             default:
                 $('li.youdao').find('input[name=youdao][value=' + configInfoBefore.aimLang + ']').attr('checked', 'checked');

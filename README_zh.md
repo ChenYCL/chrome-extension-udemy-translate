@@ -16,6 +16,7 @@ Udemy translate
 
 [有道](https://ai.youdao.com/index.s)
 [百度](https://fanyi-api.baidu.com/api/trans/product/desktop)
+[Yandex](https://translate.yandex.com/developers/keys)
 
 
 
@@ -56,7 +57,7 @@ v1.0
 
 - [x] 奈飞视频字幕支持
 
-- [] Yandex 支持
+- [x] Yandex 支持
 
 - [x] 有道接口
 
@@ -69,6 +70,10 @@ v1.0
 - [x] 多语言支持
 
 - [] 当前应用图标
+  
+# 说明
+
+如果你选择的是Yandex,只需要配置id即可
 
 # 目的
 

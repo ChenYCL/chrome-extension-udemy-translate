@@ -15,6 +15,7 @@ Register links:
 
 [Youdao](https://ai.youdao.com/index.s)
 [Baidu](https://fanyi-api.baidu.com/api/trans/product/desktop)
+[Yandex](https://translate.yandex.com/developers/keys)
 
 
 
@@ -55,7 +56,7 @@ v1.0
 
 - [x] netflix video support
 
-- [] Yandex translate Api support
+- [x] Yandex translate Api support
 
 - [x] Youdao Cloud Api  support
 
@@ -68,6 +69,11 @@ v1.0
 - [] Multi-language support
 
 - [] Icon
+
+# PS：
+
+if you choose Yandex,you only nedd fill id.
+
 
 # Why
 
