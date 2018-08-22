@@ -74,7 +74,6 @@ $(function () {
     dom.style.backgroundColor = ''
   }
 
-
 })
 
 

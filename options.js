@@ -54,4 +54,16 @@ function config() {
     return config;
 }
 
-
+$('input[name=apiType]').on('click',function(){
+    let apiType = null;
+    let _this = this;
+    chrome.storage.sync.get('udemy', function (data) {
+        let configInfoBefore = JSON.parse(data.udemy);
+        apiType = configInfoBefore.apiType;
+        if(apiType !== $(_this).val()) {
+            $('input[name=apiValue]').val('')
+            $('input[name=key]').val('')
+        }
+    })
+ 
+})
