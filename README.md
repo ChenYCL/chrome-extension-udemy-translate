@@ -72,7 +72,7 @@ v1.0
 
 # PS：
 
-if you choose Yandex,you only nedd fill id.
+if you choose Yandex,you only need fill id.
 
 
 # Why
