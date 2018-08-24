@@ -23,6 +23,12 @@ Udemy translate
 ## 安装使用
 步骤一:
 
+下载文件并解压到电脑中
+
+![下载](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/download.png)
+
+或者打开命令窗口输入:  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
+
 ![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
 
 步骤二:
