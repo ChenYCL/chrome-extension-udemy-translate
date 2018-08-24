@@ -26,7 +26,7 @@ Download this file and unzip it.
 
 ![Download](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/download.png)
 
-or  open Cmder,  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
+or  open Cmder input  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
 
 ![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
 
