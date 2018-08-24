@@ -28,6 +28,8 @@ Download this file and unzip it.
 
 or  open Cmder input  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
 
+then open your Chrome browser
+
 ![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
 
 Step2:
