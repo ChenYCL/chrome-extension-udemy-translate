@@ -29,6 +29,8 @@ Udemy translate
 
 或者打开命令窗口输入:  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
 
+打开谷歌浏览器
+
 ![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
 
 步骤二:
