@@ -72,11 +72,11 @@ v1.0
 
 - [x] Config panel
 
-- [] Google Translate Api
+- [ ] Google Translate Api
 
-- [] Multi-language support
+- [ ] Multi-language support
 
-- [] Icon
+- [ ] Icon
 
 # PS：
 
