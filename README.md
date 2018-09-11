@@ -1,4 +1,10 @@
-Udemy translate
+<p align="center">
+  <img src="https://github.com/Nozbe/WatermelonDB/raw/master/images/128.png" alt="Udemy Translate" height="160" width="539" />
+</p>
+
+<h4 align="center">
+  Udemy Translate
+</h4>
 ====
 [![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README_zh.md)
 ## Usage
