@@ -1,5 +1,10 @@
-Udemy translate
-====
+<p align="center">
+  <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/images/128.png" alt="Udemy Translate" height="128" width="128" />
+</p>
+
+<h4 align="center">
+  Udemy Translate
+</h4>
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 
 ## 作用
