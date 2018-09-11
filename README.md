@@ -82,7 +82,7 @@ v1.0
 
 - [ ] Multi-language support
 
-- [ ] Icon
+- [x] ICON
 
 # PS：
 
