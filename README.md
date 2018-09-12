@@ -74,11 +74,13 @@ v1.0
 
 - [x] Yandex translate Api support
 
-- [x] Youdao Cloud Api  support
+- [x] Youdao Cloud Api support
 
 - [x] Baidu Api Support
 
 - [x] Config panel
+
+- [x] Double subtitle
 
 - [ ] Google Translate Api
 
