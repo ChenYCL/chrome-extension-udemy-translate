@@ -15,6 +15,14 @@ try {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
             }
         }
+    } else if(typeUrl.includes('lynda')){
+        if($('.mejs-captions-position mejs-captions-position-hover').length){
+            var oldSub = '';
+            var container = $('.mejs-captions-position mejs-captions-position-hover').find('span');
+            for (let i = 0, len = container.length; i < len; i++) {
+                oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
+            }
+        }
     }
 
 
@@ -41,6 +49,7 @@ try {
                 chooseApiSend(configInfo, _apiKey, _Key, subtitle[0].outerText, md5);
             }
         }
+        // netflix and lynda
         if (typeUrl.includes('netflix')) {
             let el = $('.VideoContainer').find('span');
             let netflixSub = '';
@@ -61,6 +70,27 @@ try {
             }
         }
 
+        if(typeUrl.includes('lynda')){
+            let el = $('.mejs-captions-position').find('span');
+            let lyndaSub = '';
+            for(let i=0,len = el.length;i<len;i++){
+                lyndaSub += el.eq(i).html().replace('<br>', ' ').replace(/\[(.+)\]/, '').replace('-', '');
+            }
+            if(el.length && (lyndaSub !== oldSub) ){
+                console.log(lyndaSub)
+                oldSub = lyndaSub;
+                if (firstInit == 1 && configInfo == null) {
+                    alert('当前未配置,使用默认有道云api,可能流量到期,请尽早配置')
+                    firstInit++;
+                }
+                // send request
+                let _apiKey = configInfo == null ? '30ab5b76f94031b6' : configInfo.apiKey == '' ? '30ab5b76f94031b6' : configInfo.apiKey;
+                let _Key = configInfo == null ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key == '' ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key;
+                chooseApiSend(configInfo, _apiKey, _Key, lyndaSub, md5);
+            }
+        
+        }
+
     }, 100)
 } catch (e) {
 
@@ -69,7 +99,7 @@ try {
 
 
 function cssAppend() {
-    var css = '.captions-display--vjs-ud-captions-cue-text--38tMf { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important}',
+    var css = '.captions-display--vjs-ud-captions-cue-text--38tMf { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');
     style.type = 'text/css';
@@ -121,7 +151,6 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                 chrome.storage.sync.set({ currentState: 'off' }, function () {
                     console.log('error,reset state')
                 });
-
                 return
             }
             let subtitle = typeof data.translation == "undefined" ? '当前配置错误,或目标语言相同' : data.translation[0]
@@ -138,6 +167,27 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
             if (typeUrl.includes('netflix')) {
                 var wrapper = $('.player-timedtext')
                 chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                    console.log('saved')
+                });
+                if(wrapper.siblings(".zh_sub").length<1){
+                    wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background:#4F5155">
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}</h2></div>`)
+                }else{
+                    $('.zh_sub h2').text(subtitle);
+                }
+                console.log(subtitle);
+            }
+
+            if (typeUrl.includes('lynda')) {
+                var wrapper = $('.mejs-captions-position')
+                chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
                 if(wrapper.siblings(".zh_sub").length<1){
@@ -228,6 +278,26 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                 }
                 console.log(subtitle);
             }
+            if (typeUrl.includes('lynda')) {
+                var wrapper = $('.mejs-captions-position')
+                chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
+                    console.log('saved')
+                });
+                if($('.mejs-captions-position').find('h2').length<1){
+                    wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background:#4F5155">
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}</h2></div>`)
+                }else{
+                    $('.zh_sub h2').text(subtitle);
+                }
+                console.log(subtitle);
+            }
         },
         error: function () {
             alert('用户配置有误，或当前接口流量已达上限');
@@ -271,6 +341,26 @@ function yandexSend(configInfo,apiKey,subtitle){
             }
             if (typeUrl.includes('netflix')) {
                 var wrapper = $('.player-timedtext')
+                chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                    console.log('saved')
+                });
+                if(wrapper.siblings(".zh_sub").length<1){
+                    wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background:#4F5155">
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}</h2></div>`)
+                }else{
+                    $('.zh_sub h2').text(subtitle);
+                }
+                console.log(subtitle);
+            }
+            if (typeUrl.includes('lynda')) {
+                var wrapper = $('.mejs-captions-position')
                 chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
