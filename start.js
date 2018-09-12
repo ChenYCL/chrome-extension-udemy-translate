@@ -190,7 +190,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                 chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if(wrapper.siblings(".zh_sub").length<1){
+                if($('.mejs-captions-position').find('h2').length<1){
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -361,10 +361,10 @@ function yandexSend(configInfo,apiKey,subtitle){
             }
             if (typeUrl.includes('lynda')) {
                 var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if(wrapper.siblings(".zh_sub").length<1){
+                if($('.mejs-captions-position').find('h2').length<1){
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
