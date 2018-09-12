@@ -70,6 +70,8 @@ v1.0
 
 - [x] netflix video support
 
+- [x] lynda video support
+
 - [x] Yandex translate Api support
 
 - [x] Youdao Cloud Api  support
