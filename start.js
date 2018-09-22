@@ -1,6 +1,6 @@
 
 try {
-
+    
     cssAppend();
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
@@ -15,8 +15,8 @@ try {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
             }
         }
-    } else if(typeUrl.includes('lynda')){
-        if($('.mejs-captions-position mejs-captions-position-hover').length){
+    } else if (typeUrl.includes('lynda')) {
+        if ($('.mejs-captions-position mejs-captions-position-hover').length) {
             var oldSub = '';
             var container = $('.mejs-captions-position mejs-captions-position-hover').find('span').eq(0);
             for (let i = 0, len = container.length; i < len; i++) {
@@ -70,13 +70,13 @@ try {
             }
         }
 
-        if(typeUrl.includes('lynda')){
+        if (typeUrl.includes('lynda')) {
             let el = $('.mejs-captions-position').find('span').eq(0);
             let lyndaSub = '';
-            for(let i=0,len = el.length;i<len;i++){
+            for (let i = 0, len = el.length; i < len; i++) {
                 lyndaSub += el.eq(i).html().replace('<br>', ' ').replace(/\[(.+)\]/, '').replace('-', '');
             }
-            if(el.length && (lyndaSub !== oldSub) ){
+            if (el.length && (lyndaSub !== oldSub)) {
                 console.log(lyndaSub)
                 oldSub = lyndaSub;
                 if (firstInit == 1 && configInfo == null) {
@@ -88,7 +88,7 @@ try {
                 let _Key = configInfo == null ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key == '' ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key;
                 chooseApiSend(configInfo, _apiKey, _Key, lyndaSub, md5);
             }
-        
+
         }
 
     }, 100)
@@ -117,8 +117,8 @@ function chooseApiSend(configInfo, apiKey, key, subtitle, md5) {
         youdaoSend(configInfo, apiKey, key, subtitle, md5);
     } else if (configInfo.apiType == 'baidu') {
         baiduSend(configInfo, apiKey, key, subtitle, md5);
-    }else if(configInfo.apiType == 'yandex'){
-        yandexSend(configInfo,apiKey,subtitle);
+    } else if (configInfo.apiType == 'yandex') {
+        yandexSend(configInfo, apiKey, subtitle);
     }
 }
 
@@ -159,7 +159,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
             if (typeUrl.includes('udemy')) {
                 var wrapper = $('.vjs-ud-captions-display div').eq(1);
                 if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
                 } else {
                     wrapper.find('h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`)
                 }
@@ -169,7 +169,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                 chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if(wrapper.siblings(".zh_sub").length<1){
+                if (wrapper.siblings(".zh_sub").length < 1) {
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -177,9 +177,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                     bottom:10%; 
                     left: 50%;
                     transform: translateX(-50%);
-                    background:#4F5155">
+                    ">
                     <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
-                }else{
+                } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
                 console.log(subtitle);
@@ -190,7 +190,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                 chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if($('.mejs-captions-position').find('h2').length<1){
+                if ($('.mejs-captions-position').find('h2').length < 1) {
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -198,9 +198,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                     bottom:10%; 
                     left: 50%;
                     transform: translateX(-50%);
-                    background:#4F5155">
+                    ">
                     <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
-                }else{
+                } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
                 console.log(subtitle);
@@ -239,7 +239,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
             sign: sign
         },
         success: function (data) {
-     
+
             if (typeof data.trans_result == "undefined") {
                 chrome.storage.sync.set({ currentState: 'off' }, function () {
                     console.log('error,reset state')
@@ -253,7 +253,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
             if (typeUrl.includes('udemy')) {
                 var wrapper = $('.vjs-ud-captions-display div').eq(1);
                 if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
                 } else {
                     wrapper.find('h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`)
                 }
@@ -263,7 +263,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                 chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if(wrapper.siblings(".zh_sub").length<1){
+                if (wrapper.siblings(".zh_sub").length < 1) {
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -271,9 +271,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     bottom:10%; 
                     left: 50%;
                     transform: translateX(-50%);
-                    background:#4F5155">
+                    ">
                     <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
-                }else{
+                } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
                 console.log(subtitle);
@@ -283,7 +283,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                 chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if($('.mejs-captions-position').find('h2').length<1){
+                if ($('.mejs-captions-position').find('h2').length < 1) {
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -291,9 +291,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     bottom:10%; 
                     left: 50%;
                     transform: translateX(-50%);
-                    background:#4F5155">
+                    ">
                     <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
-                }else{
+                } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
                 console.log(subtitle);
@@ -306,7 +306,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
 
 }
 
-function yandexSend(configInfo,apiKey,subtitle){
+function yandexSend(configInfo, apiKey, subtitle) {
     var apiKey = apiKey;
     var query = subtitle;
     var to = configInfo.aimLang == 'undefined' ? 'zh' : configInfo.aimLang;
@@ -317,8 +317,8 @@ function yandexSend(configInfo,apiKey,subtitle){
         dataType: 'json',
         data: {
             key: apiKey,
-            text:query,
-            lang:to
+            text: query,
+            lang: to
         },
         success: function (data) {
             if (typeof data.text == "undefined") {
@@ -334,7 +334,7 @@ function yandexSend(configInfo,apiKey,subtitle){
             if (typeUrl.includes('udemy')) {
                 var wrapper = $('.vjs-ud-captions-display div').eq(1);
                 if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;background:#4F5155"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
                 } else {
                     wrapper.find('h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`)
                 }
@@ -344,7 +344,7 @@ function yandexSend(configInfo,apiKey,subtitle){
                 chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if(wrapper.siblings(".zh_sub").length<1){
+                if (wrapper.siblings(".zh_sub").length < 1) {
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -352,9 +352,9 @@ function yandexSend(configInfo,apiKey,subtitle){
                     bottom:10%; 
                     left: 50%;
                     transform: translateX(-50%);
-                    background:#4F5155">
+                    ">
                     <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
-                }else{
+                } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
                 console.log(subtitle);
@@ -364,7 +364,7 @@ function yandexSend(configInfo,apiKey,subtitle){
                 chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
                     console.log('saved')
                 });
-                if($('.mejs-captions-position').find('h2').length<1){
+                if ($('.mejs-captions-position').find('h2').length < 1) {
                     wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
@@ -372,9 +372,9 @@ function yandexSend(configInfo,apiKey,subtitle){
                     bottom:10%; 
                     left: 50%;
                     transform: translateX(-50%);
-                    background:#4F5155">
+                    ">
                     <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
-                }else{
+                } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
                 console.log(subtitle);
@@ -386,3 +386,5 @@ function yandexSend(configInfo,apiKey,subtitle){
         }
     });
 }
+
+

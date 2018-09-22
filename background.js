@@ -4,15 +4,15 @@
 
 'use strict';
 chrome.runtime.onInstalled.addListener(function () {
-  chrome.storage.sync.set({ color: 'green' }, function () {
-    console.log("The color is green.");
+  chrome.storage.sync.set({ color: 'green', background: '#4F5155', currentState: 'off', opacity: 1 }, function () {
+    console.log("Init btn color,subtitle cover background,state");
   });
 });
 
 // init state
-chrome.runtime.onInstalled.addListener(function () {
-  chrome.storage.sync.set({ currentState: 'off' }, function () {
-    console.log('init done')
-  })
-});
+// chrome.runtime.onInstalled.addListener(function () {
+//   chrome.storage.sync.set({ currentState: 'off' }, function () {
+//     console.log('init done')
+//   })
+// });
 
