@@ -60,6 +60,8 @@ Now,It works
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/netflix.png)
 
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/lynda.png)
+
 ## Version
 
 v1.0 

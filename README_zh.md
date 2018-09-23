@@ -61,6 +61,9 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/netflix.png)
 
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/lynda.png)
+
+
 ## 版本
 
 v1.0 
