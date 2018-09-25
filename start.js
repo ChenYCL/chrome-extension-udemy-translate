@@ -10,7 +10,7 @@ try {
     } else if (typeUrl.includes('netflix')) {
         if ($('.player-timedtext-text-container').length) {
             var oldSub = '';
-            var container = $('.player-timedtext-text-container').find('span').eq(0);
+            var container = $('.player-timedtext-text-container').find('span');
             for (let i = 0, len = container.length; i < len; i++) {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
             }
@@ -51,7 +51,7 @@ try {
         }
         // netflix and lynda
         if (typeUrl.includes('netflix')) {
-            let el = $('.VideoContainer').find('span').eq(0);
+            let el = $('.VideoContainer').find('span');
             let netflixSub = '';
             for (let i = 0, len = el.length; i < len; i++) {
                 netflixSub += el.eq(i).html().replace('<br>', ' ').replace(/\[(.+)\]/, '').replace('-', '');
@@ -91,7 +91,7 @@ try {
 
         }
 
-    }, 100)
+    }, 50)
 } catch (e) {
 
 }
@@ -178,7 +178,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><i style="font-size:18px;font-style:normal">${query}</i></h2></div>`)
                 } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
@@ -272,7 +272,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><i style="font-size:18px;font-style:normal">${query}</i></h2></div>`)
                 } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }
@@ -353,7 +353,7 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><i style="font-size:18px;font-style:normal">${query}</i></h2></div>`)
                 } else {
                     $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
                 }

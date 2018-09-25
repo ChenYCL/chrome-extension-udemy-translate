@@ -69,12 +69,26 @@ $(function () {
   // start event
   start_btn.onclick = function (element) {
     chrome.storage.sync.get('background', function (data) {
-      let style = `<style>.zh_sub{background:${data.background} !importang;}</style>`
-      document.body.appendChild(style)
+      if(document.all){ // document.createStyleSheet(url)
+        window.style=`.zh_sub{background:${data.background} !important;}`; 
+        document.createStyleSheet("javascript:style"); 
+      }else{ //document.createElement(style)
+        var style = document.createElement('style'); 
+        style.type = 'text/css'; 
+        style.innerHTML=`.zh_sub{background:${data.background} !important;}`; 
+        document.getElementsByTagName('HEAD').item(0).appendChild(style); 
+    } 
     })
     chrome.storage.sync.get('opacity', function (data) {
-      let style = `<style>.zh_sub{opacity:${data.opacity} !importang;}</style>`
-      document.body.appendChild(style)
+      if(document.all){ // document.createStyleSheet(url)
+        window.style=`.zh_sub{opacity:${data.opacity} !important;}`
+        document.createStyleSheet("javascript:style"); 
+      }else{ //document.createElement(style)
+        var style = document.createElement('style'); 
+        style.type = 'text/css'; 
+        style.innerHTML=`.zh_sub{opacity:${data.opacity} !important;}`
+        document.getElementsByTagName('HEAD').item(0).appendChild(style); 
+    } 
     })
     chrome.storage.sync.get('color', function (data) { // get color property
       resetBtn(end_btn);
