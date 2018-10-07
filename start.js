@@ -4,11 +4,11 @@ try {
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
         if ($('[data-purpose=captions-cue-text]').length > 0) {
-            let oldSub = $('[data-purpose=captions-cue-text]').html();
+            var oldSub = $('[data-purpose=captions-cue-text]').html();
         }
     } else if (typeUrl.includes('netflix')) {
         if ($('.player-timedtext-text-container').length) {
-            let oldSub = '';
+            var oldSub = '';
             let container = $('.player-timedtext-text-container').find('span');
             for (let i = 0, len = container.length; i < len; i++) {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
@@ -16,7 +16,7 @@ try {
         }
     } else if (typeUrl.includes('lynda')) {
         if ($('.mejs-captions-position mejs-captions-position-hover').length) {
-            let oldSub = '';
+            var oldSub = '';
             let container = $('.mejs-captions-position mejs-captions-position-hover').find('span').eq(0);
             for (let i = 0, len = container.length; i < len; i++) {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
@@ -310,7 +310,7 @@ function yandexSend(configInfo, apiKey, subtitle) {
     var apiKey = apiKey;
     var query = subtitle;
     var to = configInfo.aimLang == 'undefined' ? 'zh' : configInfo.aimLang;
-
+    if(query == '') return
     $.ajax({
         url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
         type: 'post',
