@@ -1,24 +1,23 @@
-
 try {
-    
+
     cssAppend();
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
-        if ($('[data-purpose=captions-cue-text]').length>0) {
-            var oldSub = $('[data-purpose=captions-cue-text]').html();
+        if ($('[data-purpose=captions-cue-text]').length > 0) {
+            let oldSub = $('[data-purpose=captions-cue-text]').html();
         }
     } else if (typeUrl.includes('netflix')) {
         if ($('.player-timedtext-text-container').length) {
-            var oldSub = '';
-            var container = $('.player-timedtext-text-container').find('span');
+            let oldSub = '';
+            let container = $('.player-timedtext-text-container').find('span');
             for (let i = 0, len = container.length; i < len; i++) {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
             }
         }
     } else if (typeUrl.includes('lynda')) {
         if ($('.mejs-captions-position mejs-captions-position-hover').length) {
-            var oldSub = '';
-            var container = $('.mejs-captions-position mejs-captions-position-hover').find('span').eq(0);
+            let oldSub = '';
+            let container = $('.mejs-captions-position mejs-captions-position-hover').find('span').eq(0);
             for (let i = 0, len = container.length; i < len; i++) {
                 oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
             }
@@ -97,9 +96,8 @@ try {
 }
 
 
-
 function cssAppend() {
-    var css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important}',
+    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');
     style.type = 'text/css';
@@ -148,7 +146,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
         },
         success: function (data) {
             if (typeof data.translation == "undefined") {
-                chrome.storage.sync.set({ currentState: 'off' }, function () {
+                chrome.storage.sync.set({currentState: 'off'}, function () {
                     console.log('error,reset state')
                 });
                 return
@@ -166,7 +164,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
             }
             if (typeUrl.includes('netflix')) {
                 var wrapper = $('.player-timedtext')
-                chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({netflixSubCache: wrapper.html()}, function () {
                     console.log('saved')
                 });
                 if (wrapper.siblings(".zh_sub").length < 1) {
@@ -187,7 +185,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) {  // youdao transla
 
             if (typeUrl.includes('lynda')) {
                 var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({lyndaSubCache: wrapper.html()}, function () {
                     console.log('saved')
                 });
                 if ($('.mejs-captions-position').find('h2').length < 1) {
@@ -241,9 +239,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
         success: function (data) {
 
             if (typeof data.trans_result == "undefined") {
-                if(data.error_code == 54004){
+                if (data.error_code == 54004) {
                     alert('账户流量额度不足')
-                    chrome.storage.sync.set({ currentState: 'off' }, function () {
+                    chrome.storage.sync.set({currentState: 'off'}, function () {
                         console.log('error,reset state')
                     });
                     return
@@ -262,7 +260,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
             }
             if (typeUrl.includes('netflix')) {
                 var wrapper = $('.player-timedtext')
-                chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({netflixSubCache: wrapper.html()}, function () {
                     console.log('saved')
                 });
                 if (wrapper.siblings(".zh_sub").length < 1) {
@@ -282,7 +280,7 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
             }
             if (typeUrl.includes('lynda')) {
                 var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({lyndaSubCache: wrapper.html()}, function () {
                     console.log('saved')
                 });
                 if ($('.mejs-captions-position').find('h2').length < 1) {
@@ -324,7 +322,7 @@ function yandexSend(configInfo, apiKey, subtitle) {
         },
         success: function (data) {
             if (typeof data.text == "undefined") {
-                chrome.storage.sync.set({ currentState: 'off' }, function () {
+                chrome.storage.sync.set({currentState: 'off'}, function () {
                     console.log('error,reset state')
                 });
 
@@ -343,7 +341,7 @@ function yandexSend(configInfo, apiKey, subtitle) {
             }
             if (typeUrl.includes('netflix')) {
                 var wrapper = $('.player-timedtext')
-                chrome.storage.sync.set({ netflixSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({netflixSubCache: wrapper.html()}, function () {
                     console.log('saved')
                 });
                 if (wrapper.siblings(".zh_sub").length < 1) {
@@ -363,7 +361,7 @@ function yandexSend(configInfo, apiKey, subtitle) {
             }
             if (typeUrl.includes('lynda')) {
                 var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({ lyndaSubCache: wrapper.html() }, function () {
+                chrome.storage.sync.set({lyndaSubCache: wrapper.html()}, function () {
                     console.log('saved')
                 });
                 if ($('.mejs-captions-position').find('h2').length < 1) {
