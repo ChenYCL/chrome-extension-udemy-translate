@@ -10,7 +10,7 @@ if(window.location.href.includes('netflix')){
 
 
 function cssAppend() {
-    var css = `.captions-display--vjs-ud-captions-cue-text--38tMf { display: block !important; }
+    var css = `div[class^="captions-display--vjs-ud-captions-cue-text"] { display: block !important; }
     .zh_sub{ display: none !important } .player-timedtext-text-container { display: none !important} .mejs-captions-text{display: block !important}`,
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');

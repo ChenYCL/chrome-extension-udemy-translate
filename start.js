@@ -4,8 +4,8 @@ try {
     cssAppend();
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
-        if (document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0]) {
-            var oldSub = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf')[0].outerText;
+        if ($('[data-purpose=captions-cue-text]').length>0) {
+            var oldSub = $('[data-purpose=captions-cue-text]').html();
         }
     } else if (typeUrl.includes('netflix')) {
         if ($('.player-timedtext-text-container').length) {
@@ -35,7 +35,7 @@ try {
 
     setInterval(function () {
         if (typeUrl.includes('udemy')) {  // udemy subtitle
-            let subtitle = document.getElementsByClassName('captions-display--vjs-ud-captions-cue-text--38tMf');
+            let subtitle = $('[data-purpose=captions-cue-text]');
             if (subtitle[0] && (subtitle[0].outerText !== oldSub)) {
                 console.log(subtitle[0].outerText)
                 oldSub = subtitle[0].outerText;
@@ -99,7 +99,7 @@ try {
 
 
 function cssAppend() {
-    var css = '.captions-display--vjs-ud-captions-cue-text--38tMf { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important}',
+    var css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');
     style.type = 'text/css';
@@ -241,11 +241,13 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
         success: function (data) {
 
             if (typeof data.trans_result == "undefined") {
-                chrome.storage.sync.set({ currentState: 'off' }, function () {
-                    console.log('error,reset state')
-                });
-
-                return
+                if(data.error_code == 54004){
+                    alert('账户流量额度不足')
+                    chrome.storage.sync.set({ currentState: 'off' }, function () {
+                        console.log('error,reset state')
+                    });
+                    return
+                }
             }
             let subtitle = typeof data.trans_result == "undefined" ? '当前配置错误,或目标语言相同' : data.trans_result[0].dst
             // judge typeUrl
