@@ -63,7 +63,7 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/lynda.png)
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/hulu.png)
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/hulu.jpg)
 
 
 ## 版本
