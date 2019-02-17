@@ -37,22 +37,22 @@ try {
             
         }
         for (let i = 0; i < container.length; i++) {
-            if (container.eq(i)[0].innerText&&!container.eq(i)[0].innerText.includes('/')) {
-                oldSub += ' ' + container.eq(i)[0].innerText
+            if (container.eq(i).html()&&!container.eq(i).html().includes('/')) {
+                oldSub += ' ' + container.eq(i).html()
             }
         }
         oldSub = oldSub.replace(/[\r\n]/g, "").trim();
         oldSub = oldSub.replace(/undefined/g, '')
-        if (oldSub.indexOf('Series Movies Kids') == 0) {
-            oldSub = ''
-        } else {
-            if (oldSub.includes('Series Movies Kids')) {
-                oldSub = oldSub.substr(0, oldSub.lastIndexOf('Series Movies Kids'))
-            }
-            if(oldSub.includes('.')&&oldSub.substr(oldSub.lastIndexOf('.'),100000).includes('/')&&(oldSub.length-1)!=oldSub.lastIndexOf('.')){
-                oldSub = oldSub.substr(0,oldSub.lastIndexOf('.')+1)
-            }
-        }
+        // if (oldSub.indexOf('Series Movies Kids') == 0) {
+        //     oldSub = ''
+        // } else {
+        //     if (oldSub.includes('Series Movies Kids')) {
+        //         oldSub = oldSub.substr(0, oldSub.lastIndexOf('Series Movies Kids'))
+        //     }
+        //     if(oldSub.includes('.')&&oldSub.substr(oldSub.lastIndexOf('.'),100000).includes('/')&&(oldSub.length-1)!=oldSub.lastIndexOf('.')){
+        //         oldSub = oldSub.substr(0,oldSub.lastIndexOf('.')+1)
+        //     }
+        // }
     }else if(typeUrl.includes('hulu')){
         var oldSub = '';
         let subHtml = $('.caption-text-box > p').html();
@@ -141,22 +141,22 @@ try {
                 
             }
             for (let i = 0; i < container.length; i++) {
-                if (container.eq(i)[0].innerText&&!container.eq(i)[0].innerText.includes('/')) {
-                    hboSub += ' ' + container.eq(i)[0].innerText
+                if (container.eq(i).html()&&!container.eq(i).html().includes('/')) {
+                    hboSub += ' ' + container.eq(i).html()
                 }
             }
             hboSub = hboSub.replace(/[\r\n]/g, "").trim();
             hboSub = hboSub.replace(/undefined/g, '')
-            if (hboSub.indexOf('Series Movies Kids') == 0) {
-                hboSub = ''
-            } else {
-                if (hboSub.includes('Series Movies Kids')) {
-                    hboSub = hboSub.substr(0, hboSub.lastIndexOf('Series Movies Kids'))
-                }
-                if(hboSub.includes('.')&&hboSub.substr(hboSub.lastIndexOf('.'),100000).includes('/')&&(hboSub.length-1)!=hboSub.lastIndexOf('.')){
-                    hboSub = hboSub.substr(0,hboSub.lastIndexOf('.')+1)
-                }
-            }
+            // if (hboSub.indexOf('Series Movies Kids') == 0) {
+            //     hboSub = ''
+            // } else {
+            //     if (hboSub.includes('Series Movies Kids')) {
+            //         hboSub = hboSub.substr(0, hboSub.lastIndexOf('Series Movies Kids'))
+            //     }
+            //     if(hboSub.includes('.')&&hboSub.substr(hboSub.lastIndexOf('.'),100000).includes('/')&&(hboSub.length-1)!=hboSub.lastIndexOf('.')){
+            //         hboSub = hboSub.substr(0,hboSub.lastIndexOf('.')+1)
+            //     }
+            // }
 
             if (hboSub !== oldSub && hboSub.trim() != '') {
                 console.log(hboSub)
