@@ -63,6 +63,8 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/lynda.png)
 
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/hulu.jpg)
+
 
 ## 版本
 
@@ -75,6 +77,12 @@ v1.0
 - [x] 奈飞视频字幕支持
 
 - [x] Lynda视频字幕翻译
+
+- [x] HBO NOW视频字幕翻译
+
+- [x] HULU视频字幕翻译
+
+- [ ] 亚马逊视频字幕翻译
 
 - [x] Yandex 支持
 

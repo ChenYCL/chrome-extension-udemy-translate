@@ -62,6 +62,8 @@ Now,It works
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/lynda.png)
 
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/hulu.jpg)
+
 ## Version
 
 v1.0 
