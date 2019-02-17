@@ -23,6 +23,7 @@ try {
             }
         }
     } else if (typeUrl.includes('hbo')) {
+        let oldSub="",container;
         if(!$('video').parent().parent().next().hasClass('zh_sub')){
             $('video').parent().parent().next().addClass('hbo-now')
         }else{
@@ -43,16 +44,7 @@ try {
         }
         oldSub = oldSub.replace(/[\r\n]/g, "").trim();
         oldSub = oldSub.replace(/undefined/g, '')
-        // if (oldSub.indexOf('Series Movies Kids') == 0) {
-        //     oldSub = ''
-        // } else {
-        //     if (oldSub.includes('Series Movies Kids')) {
-        //         oldSub = oldSub.substr(0, oldSub.lastIndexOf('Series Movies Kids'))
-        //     }
-        //     if(oldSub.includes('.')&&oldSub.substr(oldSub.lastIndexOf('.'),100000).includes('/')&&(oldSub.length-1)!=oldSub.lastIndexOf('.')){
-        //         oldSub = oldSub.substr(0,oldSub.lastIndexOf('.')+1)
-        //     }
-        // }
+   
     }else if(typeUrl.includes('hulu')){
         var oldSub = '';
         let subHtml = $('.caption-text-box > p').html();
@@ -131,7 +123,7 @@ try {
         }
         // hbo
         if (typeUrl.includes('hbo')) {
-            let hboSub,container;
+            let hboSub="",container;
      
             if($('video').parent().parent().next().hasClass('zh_sub')){
                 container = $('.zh_sub').next().find('span');
@@ -147,16 +139,7 @@ try {
             }
             hboSub = hboSub.replace(/[\r\n]/g, "").trim();
             hboSub = hboSub.replace(/undefined/g, '')
-            // if (hboSub.indexOf('Series Movies Kids') == 0) {
-            //     hboSub = ''
-            // } else {
-            //     if (hboSub.includes('Series Movies Kids')) {
-            //         hboSub = hboSub.substr(0, hboSub.lastIndexOf('Series Movies Kids'))
-            //     }
-            //     if(hboSub.includes('.')&&hboSub.substr(hboSub.lastIndexOf('.'),100000).includes('/')&&(hboSub.length-1)!=hboSub.lastIndexOf('.')){
-            //         hboSub = hboSub.substr(0,hboSub.lastIndexOf('.')+1)
-            //     }
-            // }
+
 
             if (hboSub !== oldSub && hboSub.trim() != '') {
                 console.log(hboSub)
@@ -180,7 +163,7 @@ try {
                     "display": "none"
                 })
             }
-            let huluSub;
+            let huluSub = "";
             let subHtml = $('.caption-text-box > p').html();
             if(subHtml.split('<br>').length>1){
                 huluSub = subHtml.split('<br>')[0]+' '+subHtml.split('<br>')[1]
