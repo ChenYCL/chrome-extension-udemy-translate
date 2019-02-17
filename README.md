@@ -74,6 +74,12 @@ v1.0
 
 - [x] lynda video support
 
+- [x] HBO NOW video support
+
+- [x] HULU video support
+
+- [ ] Amazon video support
+
 - [x] Yandex translate Api support
 
 - [x] Youdao Cloud Api support
