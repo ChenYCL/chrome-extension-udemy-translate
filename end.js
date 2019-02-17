@@ -1,8 +1,8 @@
-for(var i = 0; i < 99999; i++) {
+for (var i = 0; i < 99999; i++) {
     clearInterval(i)
 }
 cssAppend()
-if(window.location.href.includes('netflix')){
+if (window.location.href.includes('netflix')) {
     chrome.storage.sync.get('netflixSubCache', function (data) {
         window.location.reload();
     })
@@ -10,7 +10,7 @@ if(window.location.href.includes('netflix')){
 
 
 function cssAppend() {
-    let css = `div[class^="captions-display--vjs-ud-captions-cue-text"] { display: block !important; }
+    let css = `div[class^="captions-display--vjs-ud-captions-cue-text"] { display: block !important; } .caption-text-box{display:block !important} .hbo-now{display:block !important}
     .zh_sub{ display: none !important } .player-timedtext-text-container { display: none !important} .mejs-captions-text{display: block !important}`,
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');
