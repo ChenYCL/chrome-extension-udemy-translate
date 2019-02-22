@@ -23,34 +23,35 @@ try {
             }
         }
     } else if (typeUrl.includes('hbo')) {
-        let oldSub="",container;
-        if(!$('video').parent().parent().next().hasClass('zh_sub')){
+        let oldSub = "",
+            container;
+        if (!$('video').parent().parent().next().hasClass('zh_sub')) {
             $('video').parent().parent().next().addClass('hbo-now')
-        }else{
-            $('.zh_sub').next().addClass('hbo-now') 
+        } else {
+            $('.zh_sub').next().addClass('hbo-now')
         }
-    
-        if($('video').parent().parent().next().hasClass('zh_sub')){
+
+        if ($('video').parent().parent().next().hasClass('zh_sub')) {
             container = $('.zh_sub').next().find('span');
-           
-        }else{
+
+        } else {
             container = $('video').parent().parent().next().find('span');
-            
+
         }
         for (let i = 0; i < container.length; i++) {
-            if (container.eq(i).html()&&!container.eq(i).html().includes('/')) {
+            if (container.eq(i).html() && !container.eq(i).html().includes('/')) {
                 oldSub += ' ' + container.eq(i).html()
             }
         }
         oldSub = oldSub.replace(/[\r\n]/g, "").trim();
         oldSub = oldSub.replace(/undefined/g, '')
-   
-    }else if(typeUrl.includes('hulu')){
+
+    } else if (typeUrl.includes('hulu')) {
         var oldSub = '';
         let subHtml = $('.caption-text-box > p').html();
-        if(subHtml.split('<br>').length>1){
-            oldSub = subHtml.split('<br>')[0]+' '+subHtml.split('<br>')[1]
-        }else{
+        if (subHtml.split('<br>').length > 1) {
+            oldSub = subHtml.split('<br>')[0] + ' ' + subHtml.split('<br>')[1]
+        } else {
             oldSub = subHtml;
         }
         oldSub = oldSub.replace(/[\r\n]/g, "").trim();
@@ -123,17 +124,18 @@ try {
         }
         // hbo
         if (typeUrl.includes('hbo')) {
-            let hboSub="",container;
-     
-            if($('video').parent().parent().next().hasClass('zh_sub')){
+            let hboSub = "",
+                container;
+
+            if ($('video').parent().parent().next().hasClass('zh_sub')) {
                 container = $('.zh_sub').next().find('span');
-               
-            }else{
+
+            } else {
                 container = $('video').parent().parent().next().find('span');
-                
+
             }
             for (let i = 0; i < container.length; i++) {
-                if (container.eq(i).html()&&!container.eq(i).html().includes('/')) {
+                if (container.eq(i).html() && !container.eq(i).html().includes('/')) {
                     hboSub += ' ' + container.eq(i).html()
                 }
             }
@@ -156,7 +158,7 @@ try {
 
         }
         // hulu
-        if(typeUrl.includes('hulu')){
+        if (typeUrl.includes('hulu')) {
             if (window.location.href.includes('hbo')) {
                 let broSubDom = $('video').parent().parent();
                 broSubDom.next().css({
@@ -165,9 +167,9 @@ try {
             }
             let huluSub = "";
             let subHtml = $('.caption-text-box > p').html();
-            if(subHtml.split('<br>').length>1){
-                huluSub = subHtml.split('<br>')[0]+' '+subHtml.split('<br>')[1]
-            }else{
+            if (subHtml.split('<br>').length > 1) {
+                huluSub = subHtml.split('<br>')[0] + ' ' + subHtml.split('<br>')[1]
+            } else {
                 huluSub = subHtml;
             }
             huluSub = huluSub.replace(/[\r\n]/g, "").trim();
@@ -194,21 +196,30 @@ try {
 function cssAppend() {
     let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important}',
         head = document.getElementsByTagName('head')[0],
-        style = document.createElement('style');
-    style.type = 'text/css';
-    if (style.styleSheet) {
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(css));
-    }
-    head.appendChild(style);
-    if (window.location.href.includes('hbo')) {
-        let broSubDom = $('video').parent().parent();
-        broSubDom.next().css({
-            "display": "none"
-        })
-    }
-  
+        style = document.createElement('style'),
+            _cssText = ``;
+        chrome.storage.sync.get(null, function (items) {
+
+        var allKeys = Object.keys(items);
+        _cssText = `.zh_sub h2{color:${items['zhcolor']} !important;font-size:${items['zhfontSize']}px !important;font-weight:${items['zhfontWeight']} !important;}
+                .zh_sub span{color:${items['escolor']} !important;font-size:${items['esfontSize']}px !important;font-weight:${items['esfontWeight']} !important;}
+                .zh_sub{background:${items['background']} !important;opacity:${items['opacity']} !important}
+            `
+        css = css + ' ' + _cssText
+        style.type = 'text/css';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        head.appendChild(style);
+        if (window.location.href.includes('hbo')) {
+            let broSubDom = $('video').parent().parent();
+            broSubDom.next().css({
+                "display": "none"
+            })
+        }
+    });
 }
 
 
@@ -261,9 +272,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
             if (typeUrl.includes('udemy')) {
                 var wrapper = $('.vjs-ud-captions-display div').eq(1);
                 if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    wrapper.find('h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`)
+                    wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
                 }
             }
             if (typeUrl.includes('netflix')) {
@@ -282,9 +293,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><i style="font-size:18px;font-style:normal">${query}</i></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
                 console.log(subtitle);
             }
@@ -305,9 +316,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
                 console.log(subtitle);
             }
@@ -328,9 +339,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
 
 
@@ -352,9 +363,9 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);color:white;font-size:1.8rem;text-align:center;font-weight:bold">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
 
             }
@@ -410,9 +421,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
             if (typeUrl.includes('udemy')) {
                 var wrapper = $('.vjs-ud-captions-display div').eq(1);
                 if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    wrapper.find('h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`)
+                    wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
                 }
             }
             if (typeUrl.includes('netflix')) {
@@ -431,9 +442,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><i style="font-size:18px;font-style:normal">${query}</i></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
                 console.log(subtitle);
             }
@@ -453,9 +464,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
                 console.log(subtitle);
             }
@@ -476,9 +487,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
 
 
@@ -500,9 +511,9 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);color:white;font-size:1.8rem;text-align:center;font-weight:bold">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
 
             }
@@ -544,9 +555,9 @@ function yandexSend(configInfo, apiKey, subtitle) {
             if (typeUrl.includes('udemy')) {
                 var wrapper = $('.vjs-ud-captions-display div').eq(1);
                 if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    wrapper.find('h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`)
+                    wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
                 }
             }
             if (typeUrl.includes('netflix')) {
@@ -565,9 +576,9 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><i style="font-size:18px;font-style:normal">${query}</i></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
                 console.log(subtitle);
             }
@@ -587,9 +598,9 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
                 console.log(subtitle);
             }
@@ -609,9 +620,9 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);color:white;font-size:1.5rem;text-align:center">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
 
 
@@ -633,9 +644,9 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     left: 50%;
                     transform: translateX(-50%);
                     ">
-                    <h2 style="text-shadow:0.07em 0.07em 0 rgba(0, 0, 0, 0.1);color:white;font-size:1.8rem;text-align:center;font-weight:bold">${subtitle}<br><span style="font-size:18px">${query}</span></h2></div>`)
+                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
                 } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="font-size:18px">${query}</span>`);
+                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
                 }
 
             }
