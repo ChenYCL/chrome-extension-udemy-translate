@@ -197,8 +197,8 @@ function cssAppend() {
     let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
-            _cssText = ``;
-        chrome.storage.sync.get(null, function (items) {
+        _cssText = ``;
+    chrome.storage.sync.get(null, function (items) {
 
         var allKeys = Object.keys(items);
         _cssText = `.zh_sub h2{color:${items['zhcolor']} !important;font-size:${items['zhfontSize']}px !important;font-weight:${items['zhfontWeight']} !important;}
@@ -240,141 +240,23 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
     var salt = (new Date).getTime();
     var query = subtitle;
     var from = '';
-    var to = configInfo.aimLang == 'undefined' ? 'zh-CHS' : configInfo.aimLang;
     var str1 = apiKey + query + salt + key;
     var sign = md5(str1);
-    // console.log(apiKey, key);
 
-    $.ajax({
-        url: 'https://openapi.youdao.com/api',
-        type: 'post',
-        dataType: 'json',
-        data: {
-            q: query,
-            appKey: apiKey,
-            salt: salt,
-            from: from,
-            to: to,
-            sign: sign
-        },
-        success: function (data) {
-            if (typeof data.translation == "undefined") {
-                chrome.storage.sync.set({
-                    currentState: 'off'
-                }, function () {
-                    console.log('error,reset state')
-                });
-                return
-            }
-            let subtitle = typeof data.translation == "undefined" ? '当前配置错误,或目标语言相同' : data.translation[0]
-            // judge typeUrl
-            let typeUrl = window.location.href;
-            if (typeUrl.includes('udemy')) {
-                var wrapper = $('.vjs-ud-captions-display div').eq(1);
-                if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
-                }
-            }
-            if (typeUrl.includes('netflix')) {
-                var wrapper = $('.player-timedtext')
-                chrome.storage.sync.set({
-                    netflixSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-                if (wrapper.siblings(".zh_sub").length < 1) {
-                    wrapper.append(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-                console.log(subtitle);
-            }
-
-            if (typeUrl.includes('lynda')) {
-                var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({
-                    lyndaSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-                if ($('.mejs-captions-position').find('h2').length < 1) {
-                    wrapper.append(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-                console.log(subtitle);
-            }
-            if (typeUrl.includes('hbo')) {
-                let wrapperBroSub = $('video').parent().parent();
-                chrome.storage.sync.set({
-                    hboSubCache: wrapperBroSub.next().html()
-                }, function () {
-                    console.log('saved')
-                });
-
-                if (wrapperBroSub.next().find('h2').length < 1) {
-                    wrapperBroSub.after(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-
-
-            }
-            if (typeUrl.includes('hulu')) {
-                var wrapper = $('.caption-text-box')
-                chrome.storage.sync.set({
-                    hboSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-
-                if (wrapper.next().find('h2').length < 1) {
-                    wrapper.after(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-
-            }
-
-        },
-        error: function () {
-            console.error('用户配置有误，或当前接口流量已达上限');
-        }
+    // send message to background.js
+    chrome.runtime.sendMessage({
+        currentRequstName: 'youdao',
+        apiKey: apiKey,
+        subtitle: query,
+        configInfo: configInfo,
+        sign: sign,
+        from: from,
+        salt: salt
+    }, function (response) {
+        // when background get info
     });
+
+
 }
 
 function baiduSend(configInfo, apiKey, key, subtitle) {
@@ -385,143 +267,21 @@ function baiduSend(configInfo, apiKey, key, subtitle) {
     var salt = (new Date).getTime();
     var query = subtitle;
     var from = 'auto';
-    var to = configInfo.aimLang == 'undefined' ? 'zh' : configInfo.aimLang;
     var str1 = apiKey + query + salt + key;
     var sign = md5(str1);
-    // console.log(apiKey, key);
 
-    $.ajax({
-        url: 'https://api.fanyi.baidu.com/api/trans/vip/translate',
-        type: 'post',
-        dataType: 'json',
-        data: {
-            q: query,
-            appid: apiKey,
-            salt: salt,
-            from: from,
-            to: to,
-            sign: sign
-        },
-        success: function (data) {
-
-            if (typeof data.trans_result == "undefined") {
-                if (data.error_code == 54004) {
-                    alert('账户流量额度不足')
-                    chrome.storage.sync.set({
-                        currentState: 'off'
-                    }, function () {
-                        console.log('error,reset state')
-                    });
-                    return
-                }
-            }
-            let subtitle = typeof data.trans_result == "undefined" ? '当前配置错误,或目标语言相同' : data.trans_result[0].dst
-            // judge typeUrl
-            let typeUrl = window.location.href;
-            if (typeUrl.includes('udemy')) {
-                var wrapper = $('.vjs-ud-captions-display div').eq(1);
-                if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
-                }
-            }
-            if (typeUrl.includes('netflix')) {
-                var wrapper = $('.player-timedtext')
-                chrome.storage.sync.set({
-                    netflixSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-                if (wrapper.siblings(".zh_sub").length < 1) {
-                    wrapper.append(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-                console.log(subtitle);
-            }
-            if (typeUrl.includes('lynda')) {
-                var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({
-                    lyndaSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-                if ($('.mejs-captions-position').find('h2').length < 1) {
-                    wrapper.append(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-                console.log(subtitle);
-            }
-            if (typeUrl.includes('hbo')) {
-                let wrapperBroSub = $('video').parent().parent();
-                chrome.storage.sync.set({
-                    hboSubCache: wrapperBroSub.next().html()
-                }, function () {
-                    console.log('saved')
-                });
-
-                if (wrapperBroSub.next().find('h2').length < 1) {
-                    wrapperBroSub.after(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-
-
-            }
-            if (typeUrl.includes('hulu')) {
-                var wrapper = $('.caption-text-box')
-                chrome.storage.sync.set({
-                    hboSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-
-                if (wrapper.next().find('h2').length < 1) {
-                    wrapper.after(`<div class="zh_sub" 
-                    style="padding:0 8px 2px 8px;
-                    text-align:center;
-                    position:absolute;
-                    bottom:10%; 
-                    left: 50%;
-                    transform: translateX(-50%);
-                    ">
-                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-
-            }
-        },
-        error: function () {
-            console.error('用户配置有误，或当前接口流量已达上限');
-        }
+    chrome.runtime.sendMessage({
+        currentRequstName: 'baidu',
+        apiKey: apiKey,
+        subtitle: query,
+        configInfo: configInfo,
+        sign: sign,
+        from: from,
+        salt: salt
+    }, function (response) {
+        // when background get info
     });
+
 
 }
 
@@ -530,45 +290,51 @@ function yandexSend(configInfo, apiKey, subtitle) {
     var query = subtitle;
     var to = configInfo.aimLang == 'undefined' ? 'zh' : configInfo.aimLang;
     if (query == '') return
-    $.ajax({
-        url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
-        type: 'post',
-        dataType: 'json',
-        data: {
-            key: apiKey,
-            text: query,
-            lang: to
-        },
-        success: function (data) {
-            if (typeof data.text == "undefined") {
-                chrome.storage.sync.set({
-                    currentState: 'off'
-                }, function () {
-                    console.log('error,reset state')
-                });
 
-                return
-            }
-            let subtitle = typeof data.text == "undefined" ? '当前配置错误,或目标语言相同' : data.text[0]
-            // judge typeUrl
-            let typeUrl = window.location.href;
-            if (typeUrl.includes('udemy')) {
-                var wrapper = $('.vjs-ud-captions-display div').eq(1);
-                if (!wrapper.has('h2').length) {
-                    wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
-                }
-            }
-            if (typeUrl.includes('netflix')) {
-                var wrapper = $('.player-timedtext')
-                chrome.storage.sync.set({
-                    netflixSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-                if (wrapper.siblings(".zh_sub").length < 1) {
-                    wrapper.append(`<div class="zh_sub" 
+
+    chrome.runtime.sendMessage({
+        apiKey: apiKey,
+        subtitle: query,
+        configInfo: configInfo,
+        currentRequstName: 'yandex'
+    }, function (response) {
+        // when background get info
+    });
+
+}
+
+
+function yandexSendOkThenChangeSubtitle(data) {
+    var [data, query] = data;
+    if (typeof data.text == "undefined") {
+        chrome.storage.sync.set({
+            currentState: 'off'
+        }, function () {
+            console.log('error,reset state')
+        });
+
+        return
+    }
+    let subtitle = typeof data.text == "undefined" ? '当前配置错误,或目标语言相同' : data.text[0]
+    // judge typeUrl
+    let typeUrl = window.location.href;
+    if (typeUrl.includes('udemy')) {
+        var wrapper = $('.vjs-ud-captions-display div').eq(1);
+        if (!wrapper.has('h2').length) {
+            wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
+        }
+    }
+    if (typeUrl.includes('netflix')) {
+        var wrapper = $('.player-timedtext')
+        chrome.storage.sync.set({
+            netflixSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
                     position:absolute;
@@ -577,20 +343,20 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     transform: translateX(-50%);
                     ">
                     <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-                console.log(subtitle);
-            }
-            if (typeUrl.includes('lynda')) {
-                var wrapper = $('.mejs-captions-position')
-                chrome.storage.sync.set({
-                    lyndaSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
-                if ($('.mejs-captions-position').find('h2').length < 1) {
-                    wrapper.append(`<div class="zh_sub" 
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('lynda')) {
+        var wrapper = $('.mejs-captions-position')
+        chrome.storage.sync.set({
+            lyndaSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if ($('.mejs-captions-position').find('h2').length < 1) {
+            wrapper.append(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
                     position:absolute;
@@ -599,20 +365,20 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     transform: translateX(-50%);
                     ">
                     <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-                console.log(subtitle);
-            }
-            if (typeUrl.includes('hbo')) {
-                let wrapperBroSub = $('video').parent().parent();
-                chrome.storage.sync.set({
-                    hboSubCache: wrapperBroSub.next().html()
-                }, function () {
-                    console.log('saved')
-                });
-                if (wrapperBroSub.next().find('h2').length < 1) {
-                    wrapperBroSub.after(`<div class="zh_sub" 
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('hbo')) {
+        let wrapperBroSub = $('video').parent().parent();
+        chrome.storage.sync.set({
+            hboSubCache: wrapperBroSub.next().html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapperBroSub.next().find('h2').length < 1) {
+            wrapperBroSub.after(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
                     position:absolute;
@@ -621,22 +387,22 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     transform: translateX(-50%);
                     ">
                     <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
 
 
-            }
-            if (typeUrl.includes('hulu')) {
-                var wrapper = $('.caption-text-box')
-                chrome.storage.sync.set({
-                    hboSubCache: wrapper.html()
-                }, function () {
-                    console.log('saved')
-                });
+    }
+    if (typeUrl.includes('hulu')) {
+        var wrapper = $('.caption-text-box')
+        chrome.storage.sync.set({
+            hboSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
 
-                if (wrapper.next().find('h2').length < 1) {
-                    wrapper.after(`<div class="zh_sub" 
+        if (wrapper.next().find('h2').length < 1) {
+            wrapper.after(`<div class="zh_sub" 
                     style="padding:0 8px 2px 8px;
                     text-align:center;
                     position:absolute;
@@ -645,15 +411,269 @@ function yandexSend(configInfo, apiKey, subtitle) {
                     transform: translateX(-50%);
                     ">
                     <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
-                } else {
-                    $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
-                }
-
-            }
-
-        },
-        error: function () {
-            console.error('用户配置有误，或当前接口流量已达上限');
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
         }
-    });
+
+    }
 }
+
+function youdaoSendThenChangeSubtitle(data) {
+    var [data, query] = data;
+    if (typeof data.translation == "undefined") {
+        chrome.storage.sync.set({
+            currentState: 'off'
+        }, function () {
+            console.log('error,reset state')
+        });
+        return
+    }
+    let subtitle = typeof data.translation == "undefined" ? '当前配置错误,或目标语言相同' : data.translation[0]
+    // judge typeUrl
+    let typeUrl = window.location.href;
+    if (typeUrl.includes('udemy')) {
+        var wrapper = $('.vjs-ud-captions-display div').eq(1);
+        if (!wrapper.has('h2').length) {
+            wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
+        }
+    }
+    if (typeUrl.includes('netflix')) {
+        var wrapper = $('.player-timedtext')
+        chrome.storage.sync.set({
+            netflixSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+
+    if (typeUrl.includes('lynda')) {
+        var wrapper = $('.mejs-captions-position')
+        chrome.storage.sync.set({
+            lyndaSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if ($('.mejs-captions-position').find('h2').length < 1) {
+            wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('hbo')) {
+        let wrapperBroSub = $('video').parent().parent();
+        chrome.storage.sync.set({
+            hboSubCache: wrapperBroSub.next().html()
+        }, function () {
+            console.log('saved')
+        });
+
+        if (wrapperBroSub.next().find('h2').length < 1) {
+            wrapperBroSub.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+    }
+    if (typeUrl.includes('hulu')) {
+        var wrapper = $('.caption-text-box')
+        chrome.storage.sync.set({
+            hboSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+
+        if (wrapper.next().find('h2').length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+
+    }
+
+}
+
+function baiduSendThenChangeSubtitle(data) {
+    var [data, query] = data;
+    if (typeof data.trans_result == "undefined") {
+        if (data.error_code == 54004) {
+            alert('账户流量额度不足')
+            chrome.storage.sync.set({
+                currentState: 'off'
+            }, function () {
+                console.log('error,reset state')
+            });
+            return
+        }
+        if (data.error_code == 52003) {
+            console.log('账户已欠费')
+            chrome.storage.sync.set({
+                currentState: 'off'
+            }, function () {
+                console.log('error,reset state')
+            });
+            return
+        }
+    }
+    let subtitle = typeof data.trans_result == "undefined" ? '当前配置错误,或目标语言相同' : data.trans_result[0].dst
+    // judge typeUrl
+    let typeUrl = window.location.href;
+    if (typeUrl.includes('udemy')) {
+        var wrapper = $('.vjs-ud-captions-display div').eq(1);
+        if (!wrapper.has('h2').length) {
+            wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            wrapper.find('h2').html(`${subtitle}<br><span style="">${query}</span>`)
+        }
+    }
+    if (typeUrl.includes('netflix')) {
+        var wrapper = $('.player-timedtext')
+        chrome.storage.sync.set({
+            netflixSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('lynda')) {
+        var wrapper = $('.mejs-captions-position')
+        chrome.storage.sync.set({
+            lyndaSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if ($('.mejs-captions-position').find('h2').length < 1) {
+            wrapper.append(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('hbo')) {
+        let wrapperBroSub = $('video').parent().parent();
+        chrome.storage.sync.set({
+            hboSubCache: wrapperBroSub.next().html()
+        }, function () {
+            console.log('saved')
+        });
+
+        if (wrapperBroSub.next().find('h2').length < 1) {
+            wrapperBroSub.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+
+
+    }
+    if (typeUrl.includes('hulu')) {
+        var wrapper = $('.caption-text-box')
+        chrome.storage.sync.set({
+            hboSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+
+        if (wrapper.next().find('h2').length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center;">${subtitle}<br><span style="">${query}</span></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+
+    }
+}
+
+
+// get message from background.js
+var beforeGet = null;
+chrome.extension.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (beforeGet != request) {
+            beforeGet = request;
+            console.log("%c%s","color: red; background: yellow; font-size: 24px;",JSON.stringify(request[0]));
+            // judge connection type that change subtitle
+            if (request[2] == 'yandex') {
+                yandexSendOkThenChangeSubtitle(request)
+            } else if (request[2] == "baidu") {
+                baiduSendThenChangeSubtitle(request)
+            } else if (request[2] == "youdao") {
+                youdaoSendThenChangeSubtitle(request)
+            }
+        }
+    }
+);
