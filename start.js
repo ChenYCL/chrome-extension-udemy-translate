@@ -11,7 +11,7 @@ try {
             var oldSub = '';
             let container = $('.player-timedtext-text-container').find('span');
             for (let i = 0, len = container.length; i < len; i++) {
-                oldSub += container.eq(i).html().replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
+                oldSub += (container.eq(i).html()+" ").replace('<br>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
             }
         }
     } else if (typeUrl.includes('lynda')) {
@@ -86,7 +86,7 @@ try {
             let el = $('.VideoContainer').find('span');
             let netflixSub = '';
             for (let i = 0, len = el.length; i < len; i++) {
-                netflixSub += el.eq(i).html().replace('<br>', ' ').replace(/\[(.+)\]/, '').replace('-', '');
+                netflixSub += (el.eq(i).html()+" ").replace('<br>', ' ').replace(/\[(.+)\]/, '').replace('-', '');
             }
             if (el.length && (netflixSub !== oldSub)) {
                 console.log(netflixSub)
