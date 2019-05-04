@@ -319,7 +319,8 @@ function yandexSendOkThenChangeSubtitle(data) {
     // judge typeUrl
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
-        var wrapper = $('.vjs-ud-captions-display div').eq(1);
+        // var wrapper = $('.vjs-ud-captions-display div').eq(1);
+        var wrapper = $('div[class^=captions-display--vjs-ud-captions-container]');
         if (!wrapper.has('h2').length) {
             wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
         } else {
