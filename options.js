@@ -26,21 +26,6 @@ function restore(configInfoBefore) {
 
         let select = $('#'+configInfoBefore.apiType).data('select');
         select.val(configInfoBefore.aimLang)
-        // switch (configInfoBefore.apiType) {
-        //     case 'baidu':
-        //         // $('li.baidu').find('input[name=baidu][value=' + configInfoBefore.aimLang + ']').attr('checked', 'checked');
-        //         // $('#baidu').find('option[value='+configInfoBefore.aimLang+']')
-        //         let select = $('#baidu').data('select');
-        //         select.val(configInfoBefore.aimLang)
-        //         break;
-        //     case 'yandex':
-        //         // $('li.yandex').find('input[name=yandex][value=' + configInfoBefore.aimLang + ']').attr('checked', 'checked');
-        //         $('#yandex').find('option[value='+configInfoBefore.aimLang+']')
-        //         break;
-        //     default:
-        //         // $('li.youdao').find('input[name=youdao][value=' + configInfoBefore.aimLang + ']').attr('checked', 'checked');
-        //         $('#youdao').find('option[value='+configInfoBefore.aimLang+']')
-        // }
     })
 
 }
