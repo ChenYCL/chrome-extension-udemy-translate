@@ -68,7 +68,7 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 ## 版本
 
-v1.0 
+v1.13 
 
 ## 特性
 
