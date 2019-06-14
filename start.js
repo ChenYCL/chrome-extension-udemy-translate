@@ -239,7 +239,7 @@ function youdaoSend(configInfo, apiKey, key, subtitle, md5) { // youdao translat
     var key = key;
     var salt = (new Date).getTime();
     var query = subtitle;
-    var from = '';
+    var from = 'auto';
     var str1 = apiKey + query + salt + key;
     var sign = md5(str1);
 
