@@ -194,7 +194,7 @@ try {
 
 
 function cssAppend() {
-    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important}',
+    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"],[data-purpose="captions-cue-text"]{ display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
         _cssText = ``;
@@ -320,7 +320,7 @@ function yandexSendOkThenChangeSubtitle(data) {
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
         // var wrapper = $('.vjs-ud-captions-display div').eq(1);
-        var wrapper = $('div[class^=captions-display--vjs-ud-captions-container]');
+        var wrapper = $('div[class^=captions-display--captions-container]');
         if (!wrapper.has('h2').length) {
             wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
         } else {
@@ -433,7 +433,7 @@ function youdaoSendThenChangeSubtitle(data) {
     // judge typeUrl
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
-        var wrapper = $('div[class^=captions-display--vjs-ud-captions-container]');
+        var wrapper = $('div[class^=captions-display--captions-container]');
         if (!wrapper.has('h2').length) {
             wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
         } else {
@@ -559,7 +559,7 @@ function baiduSendThenChangeSubtitle(data) {
     // judge typeUrl
     let typeUrl = window.location.href;
     if (typeUrl.includes('udemy')) {
-        var wrapper = $('div[class^=captions-display--vjs-ud-captions-container]');
+        var wrapper = $('div[class^=captions-display--captions-container]');
         if (!wrapper.has('h2').length) {
             wrapper.append(`<div class="zh_sub" style="padding:0 5px 5px 5px;text-align:center;position:relative;top:-12px;"><h2 style="">${subtitle}<br><span style="">${query}</span></h2></div>`)
         } else {
