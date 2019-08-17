@@ -57,7 +57,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         var to = request.configInfo.aimLang == 'undefined' ? 'zh' : request.configInfo.aimLang;
         if (query == '') return
 
-        _promise = ajaxThen("https://translate.yandex.net/api/v1.5/tr.json/translate", {
+        _promise = ajaxThen("https://openapi.youdao.com/api", {
             q: query,
             appKey: apiKey,
             salt: salt,
