@@ -1,6 +1,6 @@
 
 function cssAppend() {
-    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important}',
+    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"] { display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important} .timedTextBackground{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
         _cssText = ``;

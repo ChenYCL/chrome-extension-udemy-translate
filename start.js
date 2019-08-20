@@ -55,6 +55,22 @@ try {
             oldSub = subHtml;
         }
         oldSub = oldSub.replace(/[\r\n]/g, "").trim();
+    } else if (typeUrl.includes('primevideo')) {
+        if ($('.timedTextWindow').length) {
+            var oldSub = '';
+            let container = $('.timedTextWindow').find('span');
+            for (let i = 0, len = container.length; i < len; i++) {
+                oldSub += (container.eq(i).html()+" ").replace('<br>', ' ').replace('<span>', '').replace('</span>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
+            }
+        }
+    } else if (typeUrl.includes('amazon')) {
+        if ($('.timedTextWindow').length) {
+            var oldSub = '';
+            let container = $('.timedTextWindow').find('span');
+            for (let i = 0, len = container.length; i < len; i++) {
+                oldSub += (container.eq(i).html()+" ").replace('<br>', ' ').replace('<span>', '').replace('</span>', ' ').replace('-', '').replace(/\[(.+)\]/, '');
+            }
+        }
     }
 
 
@@ -186,6 +202,46 @@ try {
                 chooseApiSend(configInfo, _apiKey, _Key, huluSub, md5);
             }
         }
+        // primevideo  
+        if (typeUrl.includes('primevideo')) {
+            let el = $('.timedTextWindow').find('span');
+            let primevideoSub = '';
+            for (let i = 0, len = el.length; i < len; i++) {
+                primevideoSub += (el.eq(i).html()+" ").replace('<br>', ' ').replace('<span>', '').replace('</span>', '').replace(/\[(.+)\]/, '').replace('-', '');
+            }
+            if (el.length && (primevideoSub !== oldSub)) {
+                console.log(primevideoSub)
+                oldSub = primevideoSub;
+                if (firstInit == 1 && configInfo == null) {
+                    alert('当前未配置,使用默认有道云api,可能流量到期,请尽早配置')
+                    firstInit++;
+                }
+                // send request
+                let _apiKey = configInfo == null ? '30ab5b76f94031b6' : configInfo.apiKey == '' ? '30ab5b76f94031b6' : configInfo.apiKey;
+                let _Key = configInfo == null ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key == '' ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key;
+                chooseApiSend(configInfo, _apiKey, _Key, primevideoSub, md5);
+            }
+        }
+        // amazon  
+        if (typeUrl.includes('amazon')) {
+            let el = $('.timedTextWindow').find('span');
+            let amazonSub = '';
+            for (let i = 0, len = el.length; i < len; i++) {
+                amazonSub += (el.eq(i).html()+" ").replace('<br>', ' ').replace('<span>', '').replace('</span>', '').replace(/\[(.+)\]/, '').replace('-', '');
+            }
+            if (el.length && (amazonSub !== oldSub)) {
+                console.log(amazonSub)
+                oldSub = amazonSub;
+                if (firstInit == 1 && configInfo == null) {
+                    alert('当前未配置,使用默认有道云api,可能流量到期,请尽早配置')
+                    firstInit++;
+                }
+                // send request
+                let _apiKey = configInfo == null ? '30ab5b76f94031b6' : configInfo.apiKey == '' ? '30ab5b76f94031b6' : configInfo.apiKey;
+                let _Key = configInfo == null ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key == '' ? 'PT2CD9BQMwINFv8LdqdQkes4dqHvVLa5' : configInfo.Key;
+                chooseApiSend(configInfo, _apiKey, _Key, amazonSub, md5);
+            }
+        }
 
     }, 50)
 } catch (e) {
@@ -194,7 +250,7 @@ try {
 
 
 function cssAppend() {
-    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"],[data-purpose="captions-cue-text"]{ display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important}',
+    let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"],[data-purpose="captions-cue-text"]{ display: none !important; }  .zh_sub{ display: block !important } .player-timedtext-text-container{display:none !important} .mejs-captions-text{display:none !important} .caption-text-box{display:none !important} .hbo-now{display:none !important} .timedTextBackground{display:none !important}',
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
         _cssText = ``;
@@ -417,6 +473,50 @@ function yandexSendOkThenChangeSubtitle(data) {
         }
 
     }
+    if (typeUrl.includes('primevideo')) {
+        var wrapper = $('.timedTextWindow')
+        chrome.storage.sync.set({
+            primevideoSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('amazon')) {
+        var wrapper = $('.timedTextWindow')
+        chrome.storage.sync.set({
+            amazonSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
 }
 
 function youdaoSendThenChangeSubtitle(data) {
@@ -530,7 +630,50 @@ function youdaoSendThenChangeSubtitle(data) {
         }
 
     }
-
+    if (typeUrl.includes('primevideo')) {
+        var wrapper = $('.timedTextWindow')
+        chrome.storage.sync.set({
+            primevideoSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('amazon')) {
+        var wrapper = $('.timedTextWindow')
+        chrome.storage.sync.set({
+            amazonSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
 }
 
 function baiduSendThenChangeSubtitle(data) {
@@ -657,6 +800,50 @@ function baiduSendThenChangeSubtitle(data) {
             $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
         }
 
+    }
+    if (typeUrl.includes('primevideo')) {
+        var wrapper = $('.timedTextWindow')
+        chrome.storage.sync.set({
+            primevideoSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
+    }
+    if (typeUrl.includes('amazon')) {
+        var wrapper = $('.timedTextWindow')
+        chrome.storage.sync.set({
+            amazonSubCache: wrapper.html()
+        }, function () {
+            console.log('saved')
+        });
+        if (wrapper.siblings(".zh_sub").length < 1) {
+            wrapper.after(`<div class="zh_sub" 
+                    style="padding:0 8px 2px 8px;
+                    text-align:center;
+                    position:absolute;
+                    bottom:10%; 
+                    left: 50%;
+                    transform: translateX(-50%);
+                    ">
+                    <h2 style="text-align:center">${subtitle}<br><i style=";font-style:normal">${query}</i></h2></div>`)
+        } else {
+            $('.zh_sub h2').html(`${subtitle}<br><span style="">${query}</span>`);
+        }
+        console.log(subtitle);
     }
 }
 
