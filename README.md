@@ -80,7 +80,7 @@ v1.13
 
 - [x] HULU video support
 
-- [ ] Amazon video support
+- [x] Amazon video support
 
 - [x] Yandex translate Api support
 
