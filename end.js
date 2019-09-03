@@ -10,7 +10,9 @@ if (window.location.href.includes('netflix')) {
 
 
 function cssAppend() {
-    let css = `div[class^="captions-display--vjs-ud-captions-cue-text"] { display: block !important; } .caption-text-box{display:block !important} .hbo-now{display:block !important}
+    let css = `div[class^="captions-display--vjs-ud-captions-cue-text"] { display: block !important; } 
+    [data-purpose=captions-cue-text]{ display: block !important}
+    .caption-text-box{display:block !important} .hbo-now{display:block !important}
     .zh_sub{ display: none !important } .player-timedtext-text-container { display: none !important} .mejs-captions-text{display: block !important} .timedTextBackground{display: block !important}`,
         head = document.getElementsByTagName('head')[0],
         style = document.createElement('style');

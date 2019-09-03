@@ -7,8 +7,7 @@
       "background.js",
       "lib/jquery-3.1.1.min.js",
       "lib/md5.js"
-    ],
-    "persistent": true
+    ]
   },
   "browser_action": {
     "default_popup": "popup.html",
