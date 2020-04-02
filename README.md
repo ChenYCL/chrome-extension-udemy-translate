@@ -7,9 +7,12 @@
 </h4>
 
 [![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README_zh.md)
+
+[refactor version](https://github.com/ChenYCL/chrome-extension-udemy-translate/tree/v2.0.0)
+
 ## Usage
 
-Translate Udemy/netflix/lynda Media  subtitles into Chinese or English, **it also support other language subtitles into Chinese now**
+Translate Udemy/netflix/lynda Media subtitles into Chinese or English, **it also support other language subtitles into Chinese now**
 
 ## Panel config
 
@@ -23,16 +26,15 @@ Register links:
 [Baidu](https://fanyi-api.baidu.com/api/trans/product/desktop)
 [Yandex](https://translate.yandex.com/developers/keys)
 
-
-
 ## Install
+
 Step1:
 
 Download this file and unzip it.
 
 ![Download](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/download.png)
 
-or  open Cmder input  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
+or open Cmder input `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
 
 then open your Chrome browser
 
@@ -66,7 +68,7 @@ Now,It works
 
 ## Version
 
-v1.13 
+v1.13
 
 ## Features
 
@@ -101,7 +103,6 @@ v1.13
 # PS：
 
 if you choose Yandex,you only need fill id.
-
 
 # Why
 

@@ -8,9 +8,11 @@
 
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 
+[重构版本](https://github.com/ChenYCL/chrome-extension-udemy-translate/tree/v2.0.0)
+
 ## 作用
 
-将udemy/netflix/lynda字幕翻译成中文或者英文, **现在也支持将其它语言字幕翻译成中文**
+将 udemy/netflix/lynda 字幕翻译成中文或者英文, **现在也支持将其它语言字幕翻译成中文**
 
 ## 面板配置
 
@@ -24,16 +26,15 @@
 [百度](https://fanyi-api.baidu.com/api/trans/product/desktop)
 [Yandex](https://translate.yandex.com/developers/keys)
 
-
-
 ## 安装使用
+
 步骤一:
 
 下载文件并解压到电脑中
 
 ![下载](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/download.png)
 
-或者打开命令窗口输入:  `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
+或者打开命令窗口输入: `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
 
 打开谷歌浏览器
 
@@ -65,10 +66,9 @@ Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/hulu.jpg)
 
-
 ## 版本
 
-v1.13 
+v1.13
 
 ## 特性
 
@@ -76,11 +76,11 @@ v1.13
 
 - [x] 奈飞视频字幕支持
 
-- [x] Lynda视频字幕翻译
+- [x] Lynda 视频字幕翻译
 
-- [x] HBO NOW视频字幕翻译
+- [x] HBO NOW 视频字幕翻译
 
-- [x] HULU视频字幕翻译
+- [x] HULU 视频字幕翻译
 
 - [x] 亚马逊视频字幕翻译
 
@@ -99,10 +99,10 @@ v1.13
 - [ ] 多语言支持
 
 - [x] 当前应用图标
-  
+
 # 说明
 
-如果你选择的是Yandex,只需要配置id即可
+如果你选择的是 Yandex,只需要配置 id 即可
 
 # 目的
 
