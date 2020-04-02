@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/chrome-extension-boilerplate-react.iml" filepath="$PROJECT_DIR$/.idea/chrome-extension-boilerplate-react.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/chrome-extension-udemy-translate.iml" filepath="$PROJECT_DIR$/.idea/chrome-extension-udemy-translate.iml" />
     </modules>
   </component>
 </project>
