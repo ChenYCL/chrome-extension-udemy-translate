@@ -18,7 +18,7 @@ Translate Udemy/netflix/lynda Media subtitles into Chinese or English, **it also
 
 <div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
-<div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
+<div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
 
 Register links:
 
