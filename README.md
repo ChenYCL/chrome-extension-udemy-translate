@@ -13,6 +13,7 @@
 ## Usage
 
 Translate Udemy/netflix/lynda Media subtitles into Chinese or English, **it also support other language subtitles into Chinese now**
+，support new edge browser
 
 ## Panel config
 
