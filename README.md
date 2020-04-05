@@ -72,17 +72,17 @@ v2.0.0
 
 - [ ] Amazon video support
 
-- [ ] Yandex translate Api support
+- [x] Yandex translate Api support
 
 - [x] Youdao Cloud Api support
 
-- [ ] Baidu Api Support
+- [x] Baidu Api Support
 
 - [x] Config panel
 
 - [x] Double subtitle
 
-- [ ] Google Translate Api
+- [x] Google Translate Api (200 times 60min)
 
 - [x] Multi-language support
 
