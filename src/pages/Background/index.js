@@ -1,4 +1,4 @@
-import { googleTranslate, youdaoRequset } from '../Content/modules/aixos';
+import { baiduRequest, googleTranslate, youdaoRequset } from '../Content/modules/aixos';
 import { getItem } from '../Content/modules/localStorage';
 
 require('../../assets/img/icon-48.png');
@@ -51,7 +51,7 @@ const REQUEST = async (originText) => {
         translate: res.data[0],
       };
     case 'baidu':
-      break;
+      return await baiduRequest(originText);
     case 'yandex':
       break;
 

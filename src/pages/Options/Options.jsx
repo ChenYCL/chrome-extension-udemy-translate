@@ -466,7 +466,7 @@ class Options extends Component {
             <p style={{ padding: '15px' }}>
               <Input name='baidu-id' onChange={this.inputHandle} placeholder="ID" value={baidu.id}
                      style={{ width: '400px' }}/>
-              <Input name='baidu-key' onChange={this.inputHandle} placeholder="KEY" value={baidu.key}
+              <Input name='baidu-key' onChange={this.inputHandle} placeholder="KEY/密钥" value={baidu.key}
                      style={{ width: '400px', marginTop: '10px', marginLeft: '10px' }}/>
             </p>
           </section>

@@ -8,8 +8,6 @@ import translate from 'google-translate-open-api';
 export const youdaoRequset = async (text) => {
   let key = '';
   let id = '';
-  let origin = '';
-  let translate = '';
   let salt = await (new Date()).getTime();
   let language = await getItem('language');
 
@@ -34,18 +32,64 @@ export const youdaoRequset = async (text) => {
     url: 'https://openapi.youdao.com/api',
   };
 
-  let res = await axios(options);
-  [origin, translate] = [res.data.query, res['data']['translation'][0]];
+  const res = await axios(options);
+  const [origin, translate] = [res.data.query, res['data']['translation'][0]];
   return { origin, translate };
 };
 
-export const googleTranslate = async (text)=>{
+export const googleTranslate = async (text) => {
   const language = await getItem('language');
   return translate(text, {
     tld: 'cn',
     to: language === 'zh' ? 'zh-CN' : language,
     browers: true,
   });
+};
+
+
+export const baiduRequest = async (text) => {
+  let key = '';
+  let id = '';
+  let salt = await (new Date()).getTime();
+  let language = await getItem('language');
+
+  await getItem('trans_api').then(trans_api => {
+    key = trans_api['baidu']['key'];
+    id = trans_api['baidu']['id'];
+  });
+
+  const params = {
+    q: text,
+    appid: id,
+    salt: salt,
+    from: 'auto',
+    to: language === 'zh-cn' ? 'zh' : language,
+    sign: md5(id + text + salt + key),
+  };
+
+  const options = {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(params),
+    url: 'https://fanyi-api.baidu.com/api/trans/vip/translate',
+  };
+
+  let res = await axios(options);
+  const { src, dst } = res.data.trans_result[0];
+
+  if (!dst) {
+    return {
+      origin: text,
+      translate: '请检查配置，或者账号欠费到期等',
+    };
+  } else {
+    return {
+      origin: text,
+      translate: dst,
+    };
+  }
+
+
 };
 
 
