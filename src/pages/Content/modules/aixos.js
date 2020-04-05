@@ -89,7 +89,49 @@ export const baiduRequest = async (text) => {
     };
   }
 
+};
+
+
+export const yandexRequest = async (text) => {
+  let key = null;
+  await getItem('trans_api').then(trans_api => {
+    key = trans_api['yandex']['id'];
+  });
+
+  let language = await getItem('language');
+
+  const params = {
+    lang: language === 'zh-cn' ? 'zh' : language,
+    text,
+    key,
+  };
+
+  const opt = {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(params),
+    url: 'https://translate.yandex.net/api/v1.5/tr.json/translate',
+  };
+
+  let res = await axios(opt);
+
+  if (res.data.code === 200) {
+    return {
+      origin: text,
+      translate: res.data.text[0],
+    };
+  } else {
+    return {
+      origin: text,
+      translate: '接口配置错误',
+    };
+  }
 
 };
 
+
+// new version
+export const deeplRequest = async (text) => {
+
+};
 

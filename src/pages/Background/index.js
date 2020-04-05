@@ -1,4 +1,4 @@
-import { baiduRequest, googleTranslate, youdaoRequset } from '../Content/modules/aixos';
+import { baiduRequest, googleTranslate, youdaoRequset,yandexRequest } from '../Content/modules/aixos';
 import { getItem } from '../Content/modules/localStorage';
 
 require('../../assets/img/icon-48.png');
@@ -53,8 +53,9 @@ const REQUEST = async (originText) => {
     case 'baidu':
       return await baiduRequest(originText);
     case 'yandex':
+      return await yandexRequest(originText);
+    case 'deepl':
       break;
-
   }
 };
 
