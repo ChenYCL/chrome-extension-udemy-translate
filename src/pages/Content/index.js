@@ -1,5 +1,4 @@
 import { printLine } from './modules/print';
-import './modules/utils';
 
 const hrefMap = {
   udemy: 'udemy',

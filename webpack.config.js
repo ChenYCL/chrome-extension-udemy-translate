@@ -50,6 +50,10 @@ var options = {
   module: {
     rules: [
       {
+        test:/\.tsx?$/,
+        loader: ['babel-loader','ts-loader'],
+      },
+      {
         test: require.resolve('zepto'),
         use: 'imports-loader?this=>window',
       },
@@ -88,7 +92,7 @@ var options = {
     alias: alias,
     extensions: fileExtensions
       .map((extension) => '.' + extension)
-      .concat(['.jsx', '.js', '.css','.scss']),
+      .concat(['.jsx', '.js', '.css','.scss','tsx','ts']),
   },
   plugins: [
     new webpack.ProgressPlugin(),

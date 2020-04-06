@@ -1,42 +1,27 @@
 import $ from 'zepto';
 import { getItem } from './localStorage';
+import { hiddenSubtitleCssInject } from './utils.ts';
 
-// 1.获取节点，获得字幕
+// 1.get screen subtitle
 const sub = {
   pre: '',
   current: '',
 };
 
-const appendCSS = () => {
-  let css = 'div[class^="captions-display--vjs-ud-captions-cue-text"],' +
-    '[data-purpose="captions-cue-text"]{ display: none !important; }  ';
-  const head = document.getElementsByTagName('head')[0];
-  const style = document.createElement('style');
-  style.type = 'text/css';
-  style.id = 'chrome-extension-plugin-css';
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-  head.appendChild(style);
-};
-
-
 sub.pre = $('[data-purpose=captions-cue-text]').html();
-
 
 const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-      appendCSS();
+    hiddenSubtitleCssInject(['div[class^="captions-display--vjs-ud-captions-cue-text"]',
+      '[data-purpose="captions-cue-text"]']);
     let current = $('[data-purpose=captions-cue-text]').html();
 
     // when change send request ,then make same
     if (sub.pre !== current && current !== null) {
       sub.pre = current;
-      // send message to background
+      // 2. send message to background
       if (typeof chrome.app.isInstalled !== 'undefined') {
         chrome.runtime.sendMessage({ text: current });
       }
@@ -50,9 +35,7 @@ const run = async () => {
 };
 run();
 
-// 2.监听得到消息，并修改字幕
-
-//Used for sending/receiving URL to/from background.js
+// 3.when get translated text from background.js, append subtitle
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
@@ -62,8 +45,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       position: relative;
       display: inline;
       height: auto;
-      max-width: 80%;
-      color: #fff;
+      max-width: 100%;
       text-align: center;
       margin: 0 .5em 1em;
       padding: 20px 8px;
@@ -72,6 +54,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
       unicode-bidi: plaintext;
       direction: ltr;
       -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
       background: ${items['backgroundColor']};
       opacity: ${items['backgroundColor']};
     ">
@@ -90,8 +73,8 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
         "
         >${request.translate}</div>
     </div>`;
-      let status = $('div.SUBTILTE').length === 0;
-      if (status) {
+      let hasSubtitleDom = $('div.SUBTILTE').length === 0;
+      if (hasSubtitleDom) {
         $('[data-purpose=captions-cue-text]').after(subtitle);
       } else {
         $('div.SUBTILTE').remove();
@@ -101,6 +84,3 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
   }
 });
 
-// 3.接收结果    接收中心
-
-// 4.替换内容   替换中心
