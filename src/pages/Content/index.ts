@@ -1,4 +1,4 @@
-import { printLine } from './modules/print';
+import { printLine } from './modules/print.js';
 
 const hrefMap = {
   udemy: 'udemy',
@@ -21,11 +21,11 @@ console.log('%c 当前视频页面类型:', 'background:red;color:white', whatsP
 
 switch (whatsPage(window.location.href)) {
   case 'udemy':
-    require('../Content/modules/udemy.js');
+    require('./modules/udemy.ts');
     // import（xx）.then(v=>v)
     break;
   case 'netflix':
-    require('../Content/modules/netflix.js');
+    require('./modules/netflix.ts');
     break;
   case 'lynda':
     break;
