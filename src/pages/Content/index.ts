@@ -22,12 +22,12 @@ console.log('%c 当前视频页面类型:', 'background:red;color:white', whatsP
 switch (whatsPage(window.location.href)) {
   case 'udemy':
     require('./modules/udemy.ts');
-    // import（xx）.then(v=>v)
     break;
   case 'netflix':
     require('./modules/netflix.ts');
     break;
   case 'lynda':
+    require('./modules/lynda.ts');
     break;
   case 'hulu':
     break;

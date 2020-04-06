@@ -1,12 +1,11 @@
 /*
-    Netflix version
+  Lynda video
  */
 
 import { getItem } from './localStorage';
 // @ts-ignore
 import {hiddenSubtitleCssInject,dealSubtitle} from './utils.ts'
 
-// 1.获取节点，获得字幕
 const sub = {
   pre: '',
   current: '',
@@ -14,7 +13,7 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('.player-timedtext-text-container').find('span').forEach((span) => {
+  $('.mejs-captions-position').find('span').forEach((span) => {
     obj_text += (span.innerText + ' ').replace('<br>', ' ')
       .replace(/\[(.+)\]/, '');
   });
@@ -28,7 +27,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.player-timedtext-text-container', '.mejs-captions-text']);
+    hiddenSubtitleCssInject(['.mejs-captions-text', '.caption-text-box']);
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
@@ -54,8 +53,6 @@ run();
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('.player-timedtext',request);
+    dealSubtitle('.mejs-captions-position',request);
   }
 });
-
-
