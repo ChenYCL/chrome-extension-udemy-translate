@@ -7,6 +7,7 @@ const hrefMap = {
   hulu: 'hulu',
   amazon: 'amazon',
   hbo: 'hbo',
+  primevideo:'primevideo'
 };
 
 const whatsPage = (href) => {
@@ -30,10 +31,16 @@ switch (whatsPage(window.location.href)) {
     require('./modules/lynda.ts');
     break;
   case 'hulu':
+    require('./modules/hulu.ts');
     break;
   case 'amazon':
+    require('./modules/amazon.ts');
     break;
   case 'hbo':
+    require('./modules/hbo.ts');
+    break;
+  case 'primevideo':
+    require('./modules/primevideo.ts');
     break;
 }
 
