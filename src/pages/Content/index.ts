@@ -22,25 +22,25 @@ console.log('%c 当前视频页面类型:', 'background:red;color:white', whatsP
 
 switch (whatsPage(window.location.href)) {
   case 'udemy':
-    require('./modules/udemy.ts');
+    require('./VideoType/udemy.ts');
     break;
   case 'netflix':
-    require('./modules/netflix.ts');
+    require('./VideoType/netflix.ts');
     break;
   case 'lynda':
-    require('./modules/lynda.ts');
+    require('./VideoType/lynda.ts');
     break;
   case 'hulu':
-    require('./modules/hulu.ts');
+    require('./VideoType/hulu.ts');
     break;
   case 'amazon':
-    require('./modules/amazon.ts');
+    require('./VideoType/amazon.ts');
     break;
   case 'hbo':
-    require('./modules/hbo.ts');
+    require('./VideoType/hbo.ts');
     break;
   case 'primevideo':
-    require('./modules/primevideo.ts');
+    require('./VideoType/primevideo.ts');
     break;
 }
 

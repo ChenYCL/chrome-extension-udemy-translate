@@ -1,37 +1,29 @@
-/*
-    hulu version
- */
-
-
-import { getItem } from './localStorage';
+import { getItem } from '../modules/localStorage.js';
 // @ts-ignore
-import { hiddenSubtitleCssInject, dealSubtitle } from './utils.ts';
+import { hiddenSubtitleCssInject,dealSubtitle } from "../modules/utils.ts";
 
+// 1.get screen subtitle
 const sub = {
   pre: '',
   current: '',
 };
 
-const getOriginText = () => {
-  let obj_text = $('.caption-text-box > p').html();
-  obj_text.replace('<br>', ' ').replace(/\[(.+)\]/, '').replace(/[\r\n]/g, "").trim();
-  return obj_text;
-};
 
-// sub.pre first time get
-sub.pre = getOriginText();
+sub.pre = $('[data-purpose=captions-cue-text]').html();
 
 const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.caption-text-box']);
-    let current = getOriginText();
+    hiddenSubtitleCssInject(['div[class^="captions-display--vjs-ud-captions-cue-text"]',
+      '[data-purpose="captions-cue-text"]']);
+    let current = $('[data-purpose=captions-cue-text]').html();
+
     // when change send request ,then make same
-    if (sub.pre !== current && current !== '') {
+
+    if (sub.pre !== current && current !== null) {
       sub.pre = current;
-      console.log(sub);
-      // send message to background
+      // 2. send message to background
       // @ts-ignore
       if (typeof chrome.app.isInstalled !== 'undefined') {
         // @ts-ignore
@@ -47,10 +39,12 @@ const run = async () => {
 };
 run();
 
+// 3.when get translated text from background.js, append subtitle
 // @ts-ignore
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('.caption-text-box', request);
+    dealSubtitle('[data-purpose=captions-cue-text]',request);
   }
 });
+

@@ -1,28 +1,39 @@
-import { getItem } from './localStorage.js';
-// @ts-ignore
-import { hiddenSubtitleCssInject,dealSubtitle } from "./utils.ts";
+/*
+    primevideo
+ */
 
-// 1.get screen subtitle
+import { getItem } from '../modules/localStorage';
+// @ts-ignore
+import { hiddenSubtitleCssInject, dealSubtitle } from '../modules/utils.ts';
+
 const sub = {
   pre: '',
   current: '',
 };
 
-sub.pre = $('[data-purpose=captions-cue-text]').html();
+const getOriginText = () => {
+  let obj_text = '';
+  $('.timedTextWindow').find('span').forEach((span) => {
+    obj_text += (span.innerText + ' ').replace('<br>', ' ')
+      .replace(/\[(.+)\]/, '');
+  });
+  return obj_text;
+};
+
+// sub.pre first time get
+sub.pre = getOriginText();
 
 const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['div[class^="captions-display--vjs-ud-captions-cue-text"]',
-      '[data-purpose="captions-cue-text"]']);
-    let current = $('[data-purpose=captions-cue-text]').html();
-
+    hiddenSubtitleCssInject(['.timedTextBackground']);
+    let current = getOriginText();
     // when change send request ,then make same
-
-    if (sub.pre !== current && current !== null) {
+    if (sub.pre !== current && current !== '') {
       sub.pre = current;
-      // 2. send message to background
+      console.log(sub);
+      // send message to background
       // @ts-ignore
       if (typeof chrome.app.isInstalled !== 'undefined') {
         // @ts-ignore
@@ -38,12 +49,10 @@ const run = async () => {
 };
 run();
 
-// 3.when get translated text from background.js, append subtitle
 // @ts-ignore
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('[data-purpose=captions-cue-text]',request);
+    dealSubtitle('.timedTextWindow', request);
   }
 });
-

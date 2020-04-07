@@ -1,23 +1,20 @@
 /*
-    Netflix version
+    hulu version
  */
 
-import { getItem } from './localStorage';
-// @ts-ignore
-import {hiddenSubtitleCssInject,dealSubtitle} from './utils.ts'
 
-// 1.获取节点，获得字幕
+import { getItem } from '../modules/localStorage';
+// @ts-ignore
+import { hiddenSubtitleCssInject, dealSubtitle } from '../modules/utils.ts';
+
 const sub = {
   pre: '',
   current: '',
 };
 
 const getOriginText = () => {
-  let obj_text = '';
-  $('.player-timedtext-text-container').find('span').forEach((span) => {
-    obj_text += (span.innerText + ' ').replace('<br>', ' ')
-      .replace(/\[(.+)\]/, '');
-  });
+  let obj_text = $('.caption-text-box > p').html();
+  obj_text.replace('<br>', ' ').replace(/\[(.+)\]/, '').replace(/[\r\n]/g, "").trim();
   return obj_text;
 };
 
@@ -28,7 +25,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.player-timedtext-text-container', '.mejs-captions-text']);
+    hiddenSubtitleCssInject(['.caption-text-box']);
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
@@ -54,8 +51,6 @@ run();
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('.player-timedtext',request);
+    dealSubtitle('.caption-text-box', request);
   }
 });
-
-

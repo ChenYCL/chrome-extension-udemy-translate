@@ -1,10 +1,10 @@
 /*
-    primevideo
+  amazon version
  */
 
-import { getItem } from './localStorage';
+import { getItem } from '../modules/localStorage';
 // @ts-ignore
-import { hiddenSubtitleCssInject, dealSubtitle } from './utils.ts';
+import { hiddenSubtitleCssInject, dealSubtitle } from '../modules/utils.ts';
 
 const sub = {
   pre: '',

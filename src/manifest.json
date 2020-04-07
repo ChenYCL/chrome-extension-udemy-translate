@@ -9,6 +9,7 @@
     "default_popup": "popup.html",
     "default_icon": "icon-48.png"
   },
+  "devtools_page": "devtools.html",
   "permissions": [
     "http://*/*",
     "https://*/*",

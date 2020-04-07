@@ -1,11 +1,12 @@
 /*
-  amazon version
+    Netflix version
  */
 
-import { getItem } from './localStorage';
+import { getItem } from '../modules/localStorage';
 // @ts-ignore
-import { hiddenSubtitleCssInject, dealSubtitle } from './utils.ts';
+import {hiddenSubtitleCssInject,dealSubtitle} from '../modules/utils.ts'
 
+// 1.获取节点，获得字幕
 const sub = {
   pre: '',
   current: '',
@@ -13,7 +14,7 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('.timedTextWindow').find('span').forEach((span) => {
+  $('.player-timedtext-text-container').find('span').forEach((span) => {
     obj_text += (span.innerText + ' ').replace('<br>', ' ')
       .replace(/\[(.+)\]/, '');
   });
@@ -27,7 +28,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.timedTextBackground']);
+    hiddenSubtitleCssInject(['.player-timedtext-text-container', '.mejs-captions-text']);
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
@@ -53,6 +54,8 @@ run();
 chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('.timedTextWindow', request);
+    dealSubtitle('.player-timedtext',request);
   }
 });
+
+

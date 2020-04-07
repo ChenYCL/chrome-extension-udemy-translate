@@ -23,8 +23,8 @@ chrome.storage.sync.set({
   trans_way: 'youdao',
   trans_api: {
     youdao: {
-      id: '',
-      key: '',
+      id: '57355d88f4156443',
+      key: 'U6RHqaWtXdNqebvTfq8wjU6qzoy3WaI6',
     },
     baidu: {
       id: '',

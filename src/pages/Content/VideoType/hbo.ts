@@ -3,9 +3,9 @@
  */
 
 
-import { getItem } from './localStorage';
+import { getItem } from '../modules/localStorage';
 // @ts-ignore
-import { hiddenSubtitleCssInject } from './utils.ts';
+import { hiddenSubtitleCssInject } from '../modules/utils.ts';
 
 const sub = {
   pre: '',
