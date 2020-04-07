@@ -75,4 +75,4 @@ chrome.runtime.onMessage.addListener(
   },
 );
 
-
+// devtools connection
