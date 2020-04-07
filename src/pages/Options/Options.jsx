@@ -481,6 +481,13 @@ class Options extends Component {
               {/*<Input placeholder="KEY" style={{width:'400px',marginLeft:'20px'}}/>*/}
             </p>
           </section>
+          <section>
+            <Radio value={'deepl'} disabled>Deepl 人工智能API</Radio>
+            {/*<p style={{ padding: '15px' }}>*/}
+            {/*  <Input name='yandex-id' onChange={this.inputHandle} placeholder="ID" value={yandex.id}*/}
+            {/*         style={{ width: '400px' }}/>*/}
+            {/*</p>*/}
+          </section>
         </Radio.Group>
       </Card>
       <Card className="Card" title="Subtitle/字幕" bordered={false}>

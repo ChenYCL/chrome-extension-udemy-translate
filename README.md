@@ -16,7 +16,7 @@ Translate Udemy/netflix/lynda Media subtitles into different languages.
 
 <font color=green size=7>If the default configuration traffic expires,please register via the link below</font>
 
-<div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
+<div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
 <div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
 
@@ -62,15 +62,17 @@ v2.0.0
 
 - [x] Basic function
 
-- [ ] netflix video support
+- [x] netflix video support
 
-- [ ] lynda video support
+- [x] lynda video support
 
-- [ ] HBO NOW video support
+- [x] HBO NOW video support
 
-- [ ] HULU video support
+- [x] HULU video support
 
-- [ ] Amazon video support
+- [x] Amazon video support
+
+- [ ] Disneyplus video support
 
 - [x] Yandex translate Api support
 
@@ -88,10 +90,13 @@ v2.0.0
 
 - [x] ICON
 
-# ☕️
+# Buy Me A Coffee ☕️
 
-  <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
-    <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
+### Alipay
+  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
+
+### Wechat
+  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
 # License
 

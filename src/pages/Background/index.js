@@ -23,16 +23,20 @@ chrome.storage.sync.set({
   trans_way: 'youdao',
   trans_api: {
     youdao: {
-      id: '57355d88f4156443',
-      key: 'U6RHqaWtXdNqebvTfq8wjU6qzoy3WaI6',
+      id: '',
+      key: '',
     },
     baidu: {
-      id: '20200404000412162',
-      key: 'R7ehsQvB84gh0cHsmurk',
+      id: '',
+      key: '',
     },
     yandex: {
-      id: 'trnsl.1.1.20190217T040712Z.7687025b32fef67e.bb176444ff3f4403d821f1b7b4a93ddcdac45633',
+      id: '',
     },
+    deepl:{
+      id:'',
+      key:''
+    }
     // more...
   },
   // 翻译的文本信息 暂时存储
