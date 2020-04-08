@@ -37,7 +37,8 @@
         "https://*.amazon.com/*",
         "https://*.amazon.co.uk/*",
         "https://*.amazon.de/*",
-        "https://*.amazon.co.jp/*"
+        "https://*.amazon.co.jp/*",
+        "https://*.disneyplus.com/*"
       ],
       "js": [
         "contentScript.bundle.js"
