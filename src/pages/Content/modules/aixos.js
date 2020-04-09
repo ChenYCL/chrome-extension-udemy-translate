@@ -21,7 +21,7 @@ export const youdaoRequset = async (text) => {
     appKey: id,
     salt: salt,
     from: 'auto',
-    to: language,
+    to: language === 'zh-cn' ? 'zh-CHS' : language,
     sign: md5(id + text + salt + key),
   };
 

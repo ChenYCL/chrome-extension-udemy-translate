@@ -507,7 +507,7 @@ class Options extends Component {
           }
         >
           {
-            Object.entries(languageList).map(item => <Option value={item[1]}>{item[0]}</Option>)
+            Object.entries(languageList).map(item => <Option key={item[1]} value={item[1]}>{item[0]}</Option>)
           }
         </Select>
       </Card>

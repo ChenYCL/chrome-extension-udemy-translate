@@ -13,8 +13,10 @@ const sub = {
 };
 
 const getOriginText = () => {
-  let obj_text = $('.caption-text-box > p').html();
-  obj_text.replace('<br>', ' ').replace(/\[(.+)\]/, '').replace(/[\r\n]/g, "").trim();
+  let obj_text = $('.caption-text-box').find('p').html();
+  if(obj_text){
+    obj_text =  obj_text.replace('<br>', ' ')
+  }
   return obj_text;
 };
 
@@ -28,7 +30,7 @@ const run = async () => {
     hiddenSubtitleCssInject(['.caption-text-box']);
     let current = getOriginText();
     // when change send request ,then make same
-    if (sub.pre !== current && current !== '') {
+    if (sub.pre !== current && current !== '' && current !== null) {
       sub.pre = current;
       console.log(sub);
       // send message to background
