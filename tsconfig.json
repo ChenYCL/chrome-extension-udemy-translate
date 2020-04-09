@@ -4,6 +4,7 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "lib": ["es2015","dom"],
+    "types": [ "node" ],
     "typeRoots": [
       "node_modules/@types/zepto"
     ],

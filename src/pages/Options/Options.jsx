@@ -362,6 +362,7 @@ class Options extends Component {
   state = {
     trans_way: 'youdao',
     language: 'zh',
+    origin_lang:'auto',
     trans_api: {
       youdao: {
         id: '',
@@ -396,6 +397,14 @@ class Options extends Component {
     await message.success(`将翻译为：${value}`);
   };
 
+  originChoose = async (value)=>{
+    console.log(`selected ${value}`);
+    await setItem('origin_lang', value);
+    await this.setState({
+      origin_lang: value,
+    });
+    await message.success(`切换为：${value}`);
+  }
 
   onBlur = () => {
     console.log('blur');
@@ -420,6 +429,7 @@ class Options extends Component {
       'trans_way',
       'language',
       'trans_api',
+      'origin_lang'
     ];
     keyMap.forEach(async (key, idx) => {
       let o = {};
@@ -489,6 +499,25 @@ class Options extends Component {
             {/*</p>*/}
           </section>
         </Radio.Group>
+      </Card>
+      <Card className="Card" title="Origin Language/原字幕" bordered={false}>
+        <p>Origin Language</p>
+        <Select
+          value={this.state.origin_lang}
+          showSearch
+          style={{ width: 400 }}
+          placeholder="Select origin language"
+          optionFilterProp="children"
+          onChange={this.onChange}
+          onSearch={this.onSearch}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          <Option key={1} value={'auto'}>自动识别</Option>
+          <Option key={2} value={'ja'}>Japanese</Option>
+          <Option key={3} value={'ko'}>Korean</Option>
+        </Select>
       </Card>
       <Card className="Card" title="Subtitle/字幕" bordered={false}>
         <p>Translate to </p>

@@ -1,1 +1,1 @@
-declare var $:any;
+declare const $: (selector: string) => any;

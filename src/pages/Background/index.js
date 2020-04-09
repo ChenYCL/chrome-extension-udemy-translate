@@ -20,18 +20,19 @@ chrome.storage.sync.set({
   trans_color: '#ffffff',
   trans_weight: 700,
   language: 'zh-cn',
+  origin_lang:'auto',
   trans_way: 'youdao',
   trans_api: {
     youdao: {
-      id: '',
-      key: '',
+      id: '57355d88f4156443',
+      key: 'U6RHqaWtXdNqebvTfq8wjU6qzoy3WaI6',
     },
     baidu: {
-      id: '',
-      key: '',
+      id: '20200404000412162',
+      key: 'R7ehsQvB84gh0cHsmurk',
     },
     yandex: {
-      id: '',
+      id: 'trnsl.1.1.20190217T040712Z.7687025b32fef67e.bb176444ff3f4403d821f1b7b4a93ddcdac45633',
     },
     deepl:{
       id:'',

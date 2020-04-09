@@ -10,6 +10,7 @@ export const youdaoRequset = async (text) => {
   let id = '';
   let salt = await (new Date()).getTime();
   let language = await getItem('language');
+  let from = await getItem('origin_lang');
 
   await getItem('trans_api').then(trans_api => {
     key = trans_api['youdao']['key'];
@@ -20,7 +21,7 @@ export const youdaoRequset = async (text) => {
     q: text,
     appKey: id,
     salt: salt,
-    from: 'auto',
+    from: from,
     to: language === 'zh-cn' ? 'zh-CHS' : language,
     sign: md5(id + text + salt + key),
   };
@@ -52,6 +53,8 @@ export const baiduRequest = async (text) => {
   let id = '';
   let salt = await (new Date()).getTime();
   let language = await getItem('language');
+  let from = await getItem('origin_lang');
+
 
   await getItem('trans_api').then(trans_api => {
     key = trans_api['baidu']['key'];
@@ -62,7 +65,7 @@ export const baiduRequest = async (text) => {
     q: text,
     appid: id,
     salt: salt,
-    from: 'auto',
+    from: from,
     to: language === 'zh-cn' ? 'zh' : language,
     sign: md5(id + text + salt + key),
   };
@@ -99,9 +102,12 @@ export const yandexRequest = async (text) => {
   });
 
   let language = await getItem('language');
+  let from = await getItem('origin_lang');
+  from = from == 'auto' ? '' : (from+'-')
+
 
   const params = {
-    lang: language === 'zh-cn' ? 'zh' : language,
+    lang: from+(language === 'zh-cn' ? 'zh' : language),
     text,
     key,
   };

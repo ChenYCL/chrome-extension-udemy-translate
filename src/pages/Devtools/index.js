@@ -25,7 +25,7 @@ chrome.devtools.panels.elements.createSidebarPane(
   });
 
 
-// devtool 传递 background ， 之后background api翻译完成之后，送往content，处理页面数据
+// devtool -> background -> content
 
 /*   var backgroundPageConnection = chrome.runtime.connect({
      name: "devtools-page"
