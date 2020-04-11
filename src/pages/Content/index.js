@@ -1,0 +1,9 @@
+import { printLine } from './modules/print';
+import './modules/utils';
+import './modules/udemy';
+
+console.log('Content script works!');
+console.log('Must reload extension for modifications to take effect.');
+
+printLine('Using a function from the Print Module');
+

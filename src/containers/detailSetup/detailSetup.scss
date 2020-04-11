@@ -1,0 +1,66 @@
+
+.justify-center {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+}
+
+
+
+.header {
+  padding:8px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  div{
+    display: inline-block;
+  }
+  .brand{
+    padding-left: 8px;
+    font-weight: bolder;
+    color: black;
+    font-size: 14px;
+  }
+  .right{
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    right: 10px;
+
+  }
+}
+
+.content{
+  display: inline-flex;
+  height: 100px;
+  width: 100%;
+  background: radial-gradient(white, rgb(51, 65, 76));;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  .switch{
+    width: 100%;
+    text-align: center;
+  }
+
+}
+
+.flex{
+  display: inline-flex;
+  padding: {
+    left: 15px;
+    right: 15px;
+  }
+  width: 100%;
+  span{
+    flex:1
+  }
+  input{
+    flex: 1;
+  }
+}
+
+.CompactPicker{
+  width: 280px !important;
+}

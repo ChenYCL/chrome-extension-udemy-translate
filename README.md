@@ -1,25 +1,24 @@
 <p align="center">
-  <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/images/128.png" alt="Udemy Translate" height="128" width="128" />
+  <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/ball-logo.png" alt="Udemy
+   Translate
+  " height="128" width="128" />
 </p>
 
 <h4 align="center">
   Udemy Translate
 </h4>
 
-[![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README_zh.md)
-
-[refactor version](https://github.com/ChenYCL/chrome-extension-udemy-translate/tree/v2.0.0)
-
 ## Usage
 
 Translate Udemy/netflix/lynda Media subtitles into Chinese or English, **it also support other language subtitles into Chinese now**
-，support new edge browser
 
 ## Panel config
 
 <font color=green size=7>If the default configuration traffic expires,please register via the link below</font>
 
-<div align=center><img width="100%" height="600" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/config.png"/></div>
+<div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
+
+<div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
 
 Register links:
 
@@ -45,18 +44,6 @@ Step2:
 
 ![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step2.png)
 
-Step3:
-
-![Step3](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step3.png)
-
-Step:4:
-
-Open [Udemy](https://www.udemy.com/mern-stack-front-to-back/)
-
-Step5:
-
-![Step4](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step4.png)
-
 Now,It works
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
@@ -69,13 +56,11 @@ Now,It works
 
 ## Version
 
-v1.13
+v2.0.0
 
 ## Features
 
 - [x] Basic function
-
-- [x] netflix video support
 
 - [x] lynda video support
 
@@ -84,6 +69,8 @@ v1.13
 - [x] HULU video support
 
 - [x] Amazon video support
+
+- [x] Disneyplus video support
 
 - [x] Yandex translate Api support
 
@@ -95,19 +82,16 @@ v1.13
 
 - [x] Double subtitle
 
-- [ ] Google Translate Api
+- [x] Google Translate Api
 
-- [ ] Multi-language support
+- [x] Multi-language support
 
 - [x] ICON
 
-# PS：
+# ☕️
 
-if you choose Yandex,you only need fill id.
-
-# Why
-
-Better UnderStand
+  <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
+    <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
 # License
 

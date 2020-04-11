@@ -1,0 +1,22 @@
+.OptionsContainer {
+  font-size: 1.5rem;
+  position: relative;
+
+  .Card {
+    width: 70vw;
+    margin: 20px calc(30vh);
+  }
+}
+
+canvas {
+  z-index: -1;
+  position : absolute;
+  display: block;
+}
+
+#app-container{
+  display: block;
+  height: 100%;
+  overflow-y: scroll;
+}
+
