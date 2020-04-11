@@ -7,17 +7,16 @@ chrome.devtools.panels.elements.createSidebarPane(
     // sidebar.setObject({ some_data: "Some data to show" });
     chrome.devtools.network.onRequestFinished.addListener(function(request) {
       // 打印每一个请求 到console控制台
-      // chrome.devtools.inspectedWindow.eval(
-      //   'console.log("network: " + unescape("' +
-      //   escape(JSON.stringify(request.request)) + '"))');
+
       if(request.request.url.endsWith('.vtt')){
        request.getContent(function(content,encoding) {
          chrome.devtools.inspectedWindow.eval('console.log("devtools start")',function() {
-          console.dir(content);
+          // console.dir(content);
          })
          networkRequst[i++]= content;
        })
       }
+      sidebar.setObject('');
       sidebar.setObject(networkRequst);
 
     });
