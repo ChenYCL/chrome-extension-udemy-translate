@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "lib": ["es2015","dom"],
+    "types": [ "node" ],
+    "typeRoots": [
+      "node_modules/@types/zepto"
+    ],
+    "allowJs": true,
+    "jsx": "react"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

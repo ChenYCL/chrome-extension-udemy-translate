@@ -38,7 +38,8 @@ var options = {
     options: path.join(__dirname, 'src', 'pages', 'Options', 'index.jsx'),
     popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.jsx'),
     background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
-    contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
+    devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
+    contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.ts'),
   },
   chromeExtensionBoilerplate: {
     notHotReload: ['contentScript'],
@@ -49,6 +50,10 @@ var options = {
   },
   module: {
     rules: [
+      {
+        test:/\.tsx?$/,
+        loader: ['babel-loader','ts-loader'],
+      },
       {
         test: require.resolve('zepto'),
         use: 'imports-loader?this=>window',
@@ -88,9 +93,12 @@ var options = {
     alias: alias,
     extensions: fileExtensions
       .map((extension) => '.' + extension)
-      .concat(['.jsx', '.js', '.css','.scss']),
+      .concat(['.jsx', '.js', '.css','.scss','tsx','ts']),
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $:'zepto'
+    }),
     new webpack.ProgressPlugin(),
     // clean the build folder
     new CleanWebpackPlugin({
@@ -160,6 +168,17 @@ var options = {
       ),
       filename: 'background.html',
       chunks: ['background'],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(
+        __dirname,
+        'src',
+        'pages',
+        'Devtools',
+        'index.html',
+      ),
+      filename: 'devtools.html',
+      chunks: ['devtools'],
     }),
     new WriteFilePlugin(),
   ],

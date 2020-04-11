@@ -1,4 +1,4 @@
-import { googleTranslate, youdaoRequset } from '../Content/modules/aixos';
+import { baiduRequest, googleTranslate, youdaoRequset,yandexRequest } from '../Content/modules/aixos';
 import { getItem } from '../Content/modules/localStorage';
 
 require('../../assets/img/icon-48.png');
@@ -20,6 +20,7 @@ chrome.storage.sync.set({
   trans_color: '#ffffff',
   trans_weight: 700,
   language: 'zh-cn',
+  origin_lang:'auto',
   trans_way: 'youdao',
   trans_api: {
     youdao: {
@@ -33,6 +34,10 @@ chrome.storage.sync.set({
     yandex: {
       id: '',
     },
+    deepl:{
+      id:'',
+      key:''
+    }
     // more...
   },
   // 翻译的文本信息 暂时存储
@@ -51,10 +56,11 @@ const REQUEST = async (originText) => {
         translate: res.data[0],
       };
     case 'baidu':
-      break;
+      return await baiduRequest(originText);
     case 'yandex':
+      return await yandexRequest(originText);
+    case 'deepl':
       break;
-
   }
 };
 
@@ -71,3 +77,21 @@ chrome.runtime.onMessage.addListener(
 );
 
 
+
+// devtools connection background.js
+/*
+chrome.runtime.onConnect.addListener(function(devToolsConnection) {
+  // assign the listener function to a variable so we can remove it later
+  var devToolsListener = function(message, sender, sendResponse) {
+    // Inject a content script into the identified tab
+    console.log(message,sender,sendResponse);
+    chrome.tabs.executeScript(message.tabId,
+      { file: message.scriptToInject });
+  }
+  // add the listener
+  devToolsConnection.onMessage.addListener(devToolsListener);
+
+  devToolsConnection.onDisconnect(function() {
+    devToolsConnection.onMessage.removeListener(devToolsListener);
+  });
+});*/

@@ -362,6 +362,7 @@ class Options extends Component {
   state = {
     trans_way: 'youdao',
     language: 'zh',
+    origin_lang:'auto',
     trans_api: {
       youdao: {
         id: '',
@@ -396,6 +397,14 @@ class Options extends Component {
     await message.success(`将翻译为：${value}`);
   };
 
+  originChoose = async (value)=>{
+    console.log(`selected ${value}`);
+    await setItem('origin_lang', value);
+    await this.setState({
+      origin_lang: value,
+    });
+    await message.success(`切换为：${value}`);
+  }
 
   onBlur = () => {
     console.log('blur');
@@ -420,6 +429,7 @@ class Options extends Component {
       'trans_way',
       'language',
       'trans_api',
+      'origin_lang'
     ];
     keyMap.forEach(async (key, idx) => {
       let o = {};
@@ -466,7 +476,7 @@ class Options extends Component {
             <p style={{ padding: '15px' }}>
               <Input name='baidu-id' onChange={this.inputHandle} placeholder="ID" value={baidu.id}
                      style={{ width: '400px' }}/>
-              <Input name='baidu-key' onChange={this.inputHandle} placeholder="KEY" value={baidu.key}
+              <Input name='baidu-key' onChange={this.inputHandle} placeholder="KEY/密钥" value={baidu.key}
                      style={{ width: '400px', marginTop: '10px', marginLeft: '10px' }}/>
             </p>
           </section>
@@ -481,7 +491,33 @@ class Options extends Component {
               {/*<Input placeholder="KEY" style={{width:'400px',marginLeft:'20px'}}/>*/}
             </p>
           </section>
+          <section>
+            <Radio value={'deepl'} disabled>Deepl 人工智能API</Radio>
+            {/*<p style={{ padding: '15px' }}>*/}
+            {/*  <Input name='yandex-id' onChange={this.inputHandle} placeholder="ID" value={yandex.id}*/}
+            {/*         style={{ width: '400px' }}/>*/}
+            {/*</p>*/}
+          </section>
         </Radio.Group>
+      </Card>
+      <Card className="Card" title="Origin Language/原字幕" bordered={false}>
+        <p>Origin Language</p>
+        <Select
+          value={this.state.origin_lang}
+          showSearch
+          style={{ width: 400 }}
+          placeholder="Select origin language"
+          optionFilterProp="children"
+          onChange={this.onChange}
+          onSearch={this.onSearch}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          <Option key={1} value={'auto'}>自动识别</Option>
+          <Option key={2} value={'ja'}>Japanese</Option>
+          <Option key={3} value={'ko'}>Korean</Option>
+        </Select>
       </Card>
       <Card className="Card" title="Subtitle/字幕" bordered={false}>
         <p>Translate to </p>
@@ -500,7 +536,7 @@ class Options extends Component {
           }
         >
           {
-            Object.entries(languageList).map(item => <Option value={item[1]}>{item[0]}</Option>)
+            Object.entries(languageList).map(item => <Option key={item[1]} value={item[1]}>{item[0]}</Option>)
           }
         </Select>
       </Card>

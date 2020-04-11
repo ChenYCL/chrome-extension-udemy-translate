@@ -10,7 +10,11 @@
 
 ## Usage
 
+<<<<<<< HEAD
+Translate Udemy/netflix/lynda Media subtitles into different languages.
+=======
 Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, like Chinese,English etc.
+>>>>>>> master
 
 ## Panel config
 
@@ -18,7 +22,11 @@ Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, 
 
 <div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
+<<<<<<< HEAD
+<div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
+=======
 <div align=center><img width="50%" height="50%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
+>>>>>>> master
 
 Register links:
 
@@ -59,6 +67,9 @@ v2.0.0
 
 - [x] Basic function
 
+<<<<<<< HEAD
+- [x] netflix video support
+
 - [x] lynda video support
 
 - [x] HBO NOW video support
@@ -69,6 +80,18 @@ v2.0.0
 
 - [x] Disneyplus video support
 
+=======
+- [x] lynda video support
+
+- [x] HBO NOW video support
+
+- [x] HULU video support
+
+- [x] Amazon video support
+
+- [x] Disneyplus video support
+
+>>>>>>> master
 - [x] Yandex translate Api support
 
 - [x] Youdao Cloud Api support
@@ -79,16 +102,26 @@ v2.0.0
 
 - [x] Double subtitle
 
+<<<<<<< HEAD
+- [x] Google Translate Api (200 times 60min)
+=======
 - [x] Google Translate Api
+>>>>>>> master
 
 - [x] Multi-language support
 
 - [x] ICON
 
 # Buy Me A Coffee ☕️
+<<<<<<< HEAD
 
-  <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
-    <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
+### Alipay
+  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
+=======
+>>>>>>> master
+
+### Wechat
+  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
 # License
 

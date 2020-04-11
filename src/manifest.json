@@ -9,6 +9,7 @@
     "default_popup": "popup.html",
     "default_icon": "icon-48.png"
   },
+  "devtools_page": "devtools.html",
   "permissions": [
     "http://*/*",
     "https://*/*",
@@ -36,7 +37,8 @@
         "https://*.amazon.com/*",
         "https://*.amazon.co.uk/*",
         "https://*.amazon.de/*",
-        "https://*.amazon.co.jp/*"
+        "https://*.amazon.co.jp/*",
+        "https://*.disneyplus.com/*"
       ],
       "js": [
         "contentScript.bundle.js"
