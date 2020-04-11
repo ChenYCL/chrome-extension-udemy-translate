@@ -10,15 +10,15 @@
 
 ## Usage
 
-Translate Udemy/netflix/lynda Media subtitles into Chinese or English, **it also support other language subtitles into Chinese now**
+Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, like Chinese,English etc.
 
 ## Panel config
 
 <font color=green size=7>If the default configuration traffic expires,please register via the link below</font>
 
-<div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
+<div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
-<div align=center><img width="100%" height="100%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
+<div align=center><img width="50%" height="50%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
 
 Register links:
 
@@ -32,27 +32,23 @@ Step1:
 
 Download this file and unzip it.
 
-![Download](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/download.png)
-
-or open Cmder input `git clone https://github.com/ChenYCL/chrome-extension-udemy-translate.git`
-
 then open your Chrome browser
 
-![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step1.png)
+![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step1.png)
 
 Step2:
 
-![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/step2.png)
+![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
 
 Now,It works
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/show.png)
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/show.png)
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/netflix.png)
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/netflix.png)
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/lynda.png)
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/lynda.png)
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/media/hulu.jpg)
+![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/hulu.jpg)
 
 ## Version
 
@@ -88,7 +84,7 @@ v2.0.0
 
 - [x] ICON
 
-# ☕️
+# Buy Me A Coffee ☕️
 
   <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
     <img style="display:inline" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
