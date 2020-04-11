@@ -30,7 +30,8 @@ Register links:
 
 Step1:
 
-Download this file and unzip it.
+[Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.2)
+
 
 then open your Chrome browser
 
