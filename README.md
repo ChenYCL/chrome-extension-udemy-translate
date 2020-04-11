@@ -72,7 +72,7 @@ v2.0.0
 
 - [x] Amazon video support
 
-- [ ] Disneyplus video support
+- [x] Disneyplus video support
 
 - [x] Yandex translate Api support
 
