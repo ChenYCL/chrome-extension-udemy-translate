@@ -8,11 +8,10 @@
   Udemy Translate
 </h4>
 
+[![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/master)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)   
-[![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
-
 ## 关于本插件
 
 翻译视频站，提供双字幕，支持Udemy,Disneyplus,lynda,amazon,hulu,primevideo,Netflix等站，翻译字幕为中文，英文，日文等。
