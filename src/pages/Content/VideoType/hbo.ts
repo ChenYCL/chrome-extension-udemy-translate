@@ -14,8 +14,8 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('video').parent().parent().next().find('span').forEach((span) => {
-    obj_text += (span.innerText + ' ').replace('<br>', ' ')
+  $('.class2.class3>span>span').forEach((span) => {
+    obj_text += ' '+(span.innerText + ' ').replace('<br>', ' ')
       .replace(/\[(.+)\]/, '').replace(/undefined/g, '').replace(/[\r\n]/g, '').trim();
   });
   return obj_text;
@@ -28,7 +28,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.hbo-now']);
+    hiddenSubtitleCssInject(['.default.class2.class3>span>span']);
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
