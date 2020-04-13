@@ -8,6 +8,11 @@
   Udemy Translate
 </h4>
 
+![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/master)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)   
+[![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README_zh.md)
+
 ## Usage
 
 Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, like Chinese,English etc.
