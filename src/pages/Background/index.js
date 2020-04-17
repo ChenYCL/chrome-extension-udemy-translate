@@ -1,4 +1,4 @@
-import { baiduRequest, googleTranslate, youdaoRequset,yandexRequest } from '../Content/modules/aixos';
+import { baiduRequest, googleTranslate, youdaoRequset, yandexRequest } from '../Content/modules/aixos';
 import { getItem } from '../Content/modules/localStorage';
 
 require('../../assets/img/icon-48.png');
@@ -9,40 +9,50 @@ console.log('Put the background scripts here.');
 console.log('init done');
 
 // init storage
-chrome.storage.sync.set({
-  status: false,
-  backgroundColor: '#000000',
-  backgroundOpacity: 1,
-  origin_font: 22,
-  origin_color: '#ffffff',
-  origin_weight: 700,
-  trans_font: 28,
-  trans_color: '#ffffff',
-  trans_weight: 700,
-  language: 'zh-cn',
-  origin_lang:'auto',
-  trans_way: 'youdao',
-  trans_api: {
-    youdao: {
-      id: '',
-      key: '',
-    },
-    baidu: {
-      id: '',
-      key: '',
-    },
-    yandex: {
-      id: '',
-    },
-    deepl:{
-      id:'',
-      key:''
-    }
-    // more...
-  },
-  // 翻译的文本信息 暂时存储
-  txt: {},
+chrome.runtime.onInstalled.addListener(function(details) {
+  if (details.reason == 'install') {
+    console.log('This is a first install!');
+    chrome.storage.sync.set({
+      status: false,
+      backgroundColor: '#000000',
+      backgroundOpacity: 1,
+      origin_font: 22,
+      origin_color: '#ffffff',
+      origin_weight: 700,
+      trans_font: 28,
+      trans_color: '#ffffff',
+      trans_weight: 700,
+      language: 'zh-cn',
+      origin_lang: 'auto',
+      trans_way: 'youdao',
+      trans_api: {
+        youdao: {
+          id: '',
+          key: '',
+        },
+        baidu: {
+          id: '',
+          key: '',
+        },
+        yandex: {
+          id: '',
+        },
+        deepl: {
+          id: '',
+          key: '',
+        },
+        // more...
+      },
+      // 翻译的文本信息 暂时存储
+      txt: {},
+    });
+
+  } else if (details.reason == 'update') {
+    var thisVersion = chrome.runtime.getManifest().version;
+    console.log('Updated from ' + details.previousVersion + ' to ' + thisVersion + '!');
+  }
 });
+
 
 const REQUEST = async (originText) => {
   let trans_way = await getItem('trans_way');
@@ -75,7 +85,6 @@ chrome.runtime.onMessage.addListener(
     });
   },
 );
-
 
 
 // devtools connection background.js
