@@ -147,10 +147,6 @@ const DetailComponent = () => {
                 ...valueMap,
                 status: !valueMap.status,
               });
-              if (valueMap.status === false) {
-                $('style[id=chrome-extension-plugin-css]').remove();
-                $('.SUBTILTE').remove();
-              }
             });
           }}
           style={{ fontSize: '4em' }}
