@@ -7,8 +7,8 @@ const hrefMap = {
   hulu: 'hulu',
   amazon: 'amazon',
   hbo: 'hbo',
-  primevideo:'primevideo',
-  disneyplus:'disneyplus',
+  primevideo: 'primevideo',
+  disneyplus: 'disneyplus',
 };
 
 const whatsPage = (href) => {
@@ -19,7 +19,11 @@ const whatsPage = (href) => {
   }
 };
 
-console.log('%c 当前视频页面类型:', 'background:red;color:white', whatsPage(window.location.href));
+console.log(
+  '%c 当前视频页面类型:',
+  'background:red;color:white',
+  whatsPage(window.location.href)
+);
 
 switch (whatsPage(window.location.href)) {
   case 'udemy':
@@ -52,4 +56,3 @@ console.log('Content script works!');
 console.log('Must reload extension for modifications to take effect.');
 
 printLine('Using a function from the Print Module');
-

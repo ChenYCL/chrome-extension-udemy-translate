@@ -1,5 +1,4 @@
 import { getItem } from '../modules/localStorage.js';
-// @ts-ignore
 import { hiddenSubtitleCssInject, dealSubtitle } from '../modules/utils.ts';
 
 // 1.get screen subtitle
@@ -10,10 +9,13 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('.well--container--2edq4').find('span').forEach((span) => {
-    obj_text += (span.innerText + ' ').replace('<br>', ' ')
-      .replace(/\[(.+)\]/, '');
-  });
+  $('.well--container--2edq4')
+    .find('span')
+    .forEach((span) => {
+      obj_text += (span.innerText + ' ')
+        .replace('<br>', ' ')
+        .replace(/\[(.+)\]/, '');
+    });
   return obj_text;
 };
 // if origin subtitle under video
@@ -33,19 +35,18 @@ const run = async () => {
       hiddenSubtitleCssInject(['.well--container--2edq4']);
     } else {
       current = $('[data-purpose=captions-cue-text]').html();
-      hiddenSubtitleCssInject(['div[class^="captions-display--vjs-ud-captions-cue-text"]',
-        '[data-purpose="captions-cue-text"]']);
+      hiddenSubtitleCssInject([
+        'div[class^="captions-display--vjs-ud-captions-cue-text"]',
+        '[data-purpose="captions-cue-text"]',
+      ]);
     }
-
 
     // when change send request ,then make same
 
     if (sub.pre !== current && current !== null) {
       sub.pre = current;
       // 2. send message to background
-      // @ts-ignore
       if (typeof chrome.app.isInstalled !== 'undefined') {
-        // @ts-ignore
         chrome.runtime.sendMessage({ text: current });
       }
     }
@@ -59,12 +60,14 @@ const run = async () => {
 run();
 
 // 3.when get translated text from background.js, append subtitle
-// @ts-ignore
-chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function(
+  request,
+  sender,
+  sendResponse
+) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
     if ($('.well--container--2edq4').length) {
-      // @ts-ignore
       chrome.storage.sync.get(null, (items) => {
         const subtitle = `<div class="SUBTILTE"
     style="
@@ -106,10 +109,8 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
           $('.well--container--2edq4').after(subtitle);
         }
       });
-
     } else {
       dealSubtitle('[data-purpose=captions-cue-text]', request);
     }
   }
 });
-

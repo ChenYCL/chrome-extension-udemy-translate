@@ -1,59 +1,53 @@
 {
-  "name": "Udemy Translate",
-  "options_page": "options.html",
-  "background": {
-    "page": "background.html",
-    "persistent": false
-  },
-  "browser_action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon-48.png"
-  },
-  "devtools_page": "devtools.html",
-  "permissions": [
-    "http://*/*",
-    "https://*/*",
-    "tabs",
-    "contextMenus",
-    "notifications",
-    "webRequestBlocking",
-    "storage",
-    "activeTab",
-    "declarativeContent"
-  ],
-  "icons": {
-    "128": "icon-128.png"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*.udemy.com/*",
-        "https://*.youtube.com/*",
-        "https://*.netflix.com/*",
-        "https://*.lynda.com/*",
-        "https://*.hbonow.com/*",
-        "https://*.hulu.com/*",
-        "https://*.primevideo.com/*",
-        "https://*.amazon.com/*",
-        "https://*.amazon.co.uk/*",
-        "https://*.amazon.de/*",
-        "https://*.amazon.co.jp/*",
-        "https://*.disneyplus.com/*"
-      ],
-      "js": [
-        "contentScript.bundle.js"
-      ],
-      "css": [
-        "content.styles.scss"
-      ],
-      "run_at": "document_start"
-    }
-  ],
-  "web_accessible_resources": [
-    "content.styles.scss",
-    "icon-128.png",
-    "icon-48.png"
-  ],
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+    "name": "Udemy Translate",
+    "options_page": "options.html",
+    "background": {
+        "page": "background.html",
+        "persistent": false
+    },
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon-48.png"
+    },
+    "devtools_page": "devtools.html",
+    "permissions": [
+        "http://*/*",
+        "https://*/*",
+        "tabs",
+        "contextMenus",
+        "notifications",
+        "webRequestBlocking",
+        "storage",
+        "activeTab",
+        "declarativeContent"
+    ],
+    "icons": {
+        "128": "icon-128.png"
+    },
+    "content_scripts": [{
+        "matches": [
+            "https://*.udemy.com/*",
+            "https://*.youtube.com/*",
+            "https://*.netflix.com/*",
+            "https://*.lynda.com/*",
+            "https://*.hbonow.com/*",
+            "https://*.hulu.com/*",
+            "https://*.primevideo.com/*",
+            "https://*.amazon.com/*",
+            "https://*.amazon.co.uk/*",
+            "https://*.amazon.de/*",
+            "https://*.amazon.co.jp/*",
+            "https://*.disneyplus.com/*"
+        ],
+        "js": ["contentScript.bundle.js"],
+        "css": ["content.styles.scss"],
+        "run_at": "document_start"
+    }],
+    "web_accessible_resources": [
+        "content.styles.scss",
+        "icon-128.png",
+        "icon-48.png"
+    ],
+    "manifest_version": 2,
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

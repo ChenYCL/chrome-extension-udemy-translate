@@ -3,7 +3,6 @@
  */
 
 import { getItem } from '../modules/localStorage';
-// @ts-ignore
 import { hiddenSubtitleCssInject, dealSubtitle } from '../modules/utils.ts';
 
 const sub = {
@@ -13,10 +12,13 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('.timedTextWindow').find('span').forEach((span) => {
-    obj_text += (span.innerText + ' ').replace('<br>', ' ')
-      .replace(/\[(.+)\]/, '');
-  });
+  $('.timedTextWindow')
+    .find('span')
+    .forEach((span) => {
+      obj_text += (span.innerText + ' ')
+        .replace('<br>', ' ')
+        .replace(/\[(.+)\]/, '');
+    });
   return obj_text;
 };
 
@@ -34,9 +36,7 @@ const run = async () => {
       sub.pre = current;
       console.log(sub);
       // send message to background
-      // @ts-ignore
       if (typeof chrome.app.isInstalled !== 'undefined') {
-        // @ts-ignore
         chrome.runtime.sendMessage({ text: current });
       }
     }
@@ -49,8 +49,11 @@ const run = async () => {
 };
 run();
 
-// @ts-ignore
-chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function(
+  request,
+  sender,
+  sendResponse
+) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
     dealSubtitle('.timedTextWindow', request);

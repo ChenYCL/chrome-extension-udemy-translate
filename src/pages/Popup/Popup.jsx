@@ -6,7 +6,7 @@ class Popup extends Component {
   render() {
     return (
       <div>
-          <DetailSetup/>
+        <DetailSetup />
       </div>
     );
   }

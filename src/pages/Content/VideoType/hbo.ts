@@ -2,9 +2,7 @@
     hbo version
  */
 
-
 import { getItem } from '../modules/localStorage';
-// @ts-ignore
 import { hiddenSubtitleCssInject } from '../modules/utils.ts';
 
 const sub = {
@@ -15,8 +13,14 @@ const sub = {
 const getOriginText = () => {
   let obj_text = '';
   $('.class2.class3>span>span').forEach((span) => {
-    obj_text += ' '+(span.innerText + ' ').replace('<br>', ' ')
-      .replace(/\[(.+)\]/, '').replace(/undefined/g, '').replace(/[\r\n]/g, '').trim();
+    obj_text +=
+      ' ' +
+      (span.innerText + ' ')
+        .replace('<br>', ' ')
+        .replace(/\[(.+)\]/, '')
+        .replace(/undefined/g, '')
+        .replace(/[\r\n]/g, '')
+        .trim();
   });
   return obj_text;
 };
@@ -35,9 +39,7 @@ const run = async () => {
       sub.pre = current;
       console.log(sub);
       // send message to background
-      // @ts-ignore
       if (typeof chrome.app.isInstalled !== 'undefined') {
-        // @ts-ignore
         chrome.runtime.sendMessage({ text: current });
       }
     }
@@ -50,11 +52,13 @@ const run = async () => {
 };
 run();
 
-// @ts-ignore
-chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function(
+  request,
+  sender,
+  sendResponse
+) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    // @ts-ignore
     chrome.storage.sync.get(null, (items) => {
       const subtitle = `<div class="SUBTILTE"
     style="
@@ -90,10 +94,16 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
   </div>`;
       let hasSubtitleDom = $('div.SUBTILTE').length === 0;
       if (hasSubtitleDom) {
-        $('video').parent().parent().after(subtitle);
+        $('video')
+          .parent()
+          .parent()
+          .after(subtitle);
       } else {
         $('div.SUBTILTE').remove();
-        $('video').parent().parent().after(subtitle);
+        $('video')
+          .parent()
+          .parent()
+          .after(subtitle);
       }
     });
   }

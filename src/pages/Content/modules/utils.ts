@@ -7,8 +7,10 @@ Utils js
  * @param domClass
  * @param textInfo:object {origin,translate}
  */
-export const dealSubtitle = (domClass:string,request:{origin:string,translate:string})=>{
-  // @ts-ignore
+export const dealSubtitle = (
+  domClass: string,
+  request: { origin: string; translate: string }
+) => {
   chrome.storage.sync.get(null, (items) => {
     const subtitle = `<div class="SUBTILTE"
     style="
@@ -50,20 +52,30 @@ export const dealSubtitle = (domClass:string,request:{origin:string,translate:st
       $(domClass).after(subtitle);
     }
   });
+};
+
+export function win() {
+  window['listStyle'] = [];
 }
 
 /**
  * hidden subtitle function
  * @param hideClassName
  */
-export const hiddenSubtitleCssInject = (hideClassName:string[])=>{
+export const hiddenSubtitleCssInject = (hideClassName: string[]) => {
   let css = '';
-  hideClassName.forEach(item=>{
-    css +=  `${hideClassName}{display:none !important} \n`
+
+  hideClassName.forEach((item) => {
+    css += `${hideClassName}{display:none !important} \n`;
   });
-  const head = document.getElementsByTagName('head')[0];
-  const style = document.createElement('style');
-  style.id = 'chrome-extension-plugin-css';
-  style.appendChild(document.createTextNode(css));
-  head.appendChild(style);
-}
+  let style = $(`<style id='chrome-extension-plugin-css'>
+    ${css}
+  </style>`);
+  $('body').append(style);
+  return style;
+  // const head = document.getElementsByTagName('head')[0];
+  // const style = document.createElement('style');
+  // style.id = 'chrome-extension-plugin-css';
+  // style.appendChild(document.createTextNode(css));
+  // head.appendChild(style);
+};

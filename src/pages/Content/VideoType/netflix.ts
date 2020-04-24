@@ -3,9 +3,13 @@
  */
 
 import { getItem } from '../modules/localStorage';
-// @ts-ignore
-import {hiddenSubtitleCssInject,dealSubtitle} from '../modules/utils.ts'
+import {
+  win,
+  hiddenSubtitleCssInject,
+  dealSubtitle,
+} from '../modules/utils.ts';
 
+win();
 // 1.获取节点，获得字幕
 const sub = {
   pre: '',
@@ -14,10 +18,13 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('.player-timedtext-text-container').find('span').forEach((span) => {
-    obj_text += (span.innerText + ' ').replace('<br>', ' ')
-      .replace(/\[(.+)\]/, '');
-  });
+  $('.player-timedtext-text-container')
+    .find('span')
+    .forEach((span) => {
+      obj_text += (span.innerText + ' ')
+        .replace('<br>', ' ')
+        .replace(/\[(.+)\]/, '');
+    });
   return obj_text;
 };
 
@@ -28,34 +35,49 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.player-timedtext-text-container', '.mejs-captions-text']);
+    window['listStyle'].push(
+      hiddenSubtitleCssInject([
+        '.player-timedtext-text-container',
+        '.mejs-captions-text',
+      ])
+    );
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
       sub.pre = current;
       console.log(sub);
       // send message to background
-      // @ts-ignore
       if (typeof chrome.app.isInstalled !== 'undefined') {
-        // @ts-ignore
         chrome.runtime.sendMessage({ text: current });
       }
     }
   } else {
     // close plugin
-    await $('style[id=chrome-extension-plugin-css]').remove();
+    console.log(window['listStyle']);
+    window['listStyle'].forEach((item) => item.remove());
     await $('.SUBTILTE').remove();
   }
-  window.requestAnimationFrame(run);
 };
-run();
 
-// @ts-ignore
-chrome.runtime.onMessage.addListener(async function(request, sender, sendResponse) {
+// if exist
+var timer = setTimeout(function() {
+  $('body').on(
+    'DOMNodeInserted',
+    '.player-timedtext-text-container',
+    function() {
+      run();
+      clearTimeout(timer);
+    }
+  );
+}, 3000);
+
+chrome.runtime.onMessage.addListener(async function(
+  request,
+  sender,
+  sendResponse
+) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('.player-timedtext',request);
+    dealSubtitle('.player-timedtext', request);
   }
 });
-
-
