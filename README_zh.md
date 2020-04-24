@@ -11,11 +11,11 @@
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/master)
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)   
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 ## 关于本插件
 
-翻译视频站，提供双字幕，支持Udemy,Disneyplus,lynda,amazon,hulu,primevideo,Netflix等站，翻译字幕为中文，英文，日文等。
-
+翻译视频站，提供双字幕，支持 Udemy,Disneyplus,lynda,amazon,hulu,primevideo,Netflix 等站，翻译字幕为中文，英文，日文等。
 
 ## 使用说明
 
@@ -23,30 +23,27 @@
 
 <div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
-
 <div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
-
 
 注册地址:
 
-[有道智云翻译，通用字幕翻译选择](https://ai.youdao.com/index.s) 
+[有道智云翻译，通用字幕翻译选择](https://ai.youdao.com/index.s)
 
-[百度翻译](https://fanyi-api.baidu.com/api/trans/product/desktop) 
+[百度翻译](https://fanyi-api.baidu.com/api/trans/product/desktop)
 
 [Yandex](https://translate.yandex.com/developers/keys)
 
 ## 安装方式
 
-步骤1:
+步骤 1:
 
 [从这里下压缩文件，并得到解压文件夹](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.2)
 
-
-打开你的谷歌或者Edge新版浏览器
+打开你的谷歌或者 Edge 新版浏览器
 
 ![第一步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step1.png)
 
-步骤2:
+步骤 2:
 开启开发者模式
 ![第二步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
 
@@ -62,25 +59,25 @@
 
 ## 版本
 
-v2.0.2
+v2.0.5
 
 ## 功能点
 
 - [x] 基本翻译
 
-- [x] Netflix视频支持
+- [x] Netflix 视频支持
 
-- [x] Lynda视频支持
+- [x] Lynda 视频支持
 
-- [x] Hbo now视频支持
+- [x] Hbo now 视频支持
 
-- [x] Hulu视频支持
+- [x] Hulu 视频支持
 
-- [x] Amazon视频支持
+- [x] Amazon 视频支持
 
-- [x] Disneyplus视频支持
+- [x] Disneyplus 视频支持
 
-- [x] Yandex翻译接口接入
+- [x] Yandex 翻译接口接入
 
 - [x] 有道智云接口接入
 
@@ -90,21 +87,22 @@ v2.0.2
 
 - [x] 双字幕
 
-- [x] 谷歌翻译 (200次/小时)
+- [x] 谷歌翻译 (200 次/小时)
 
 - [x] 多语言支持
 
 - [x] ICON
 
-
 # 打赏专线 ☕️
 
 ### 支付宝
+
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
 
 ### 微信
+
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
 # 代码贡献
 
-欢迎提交！只需发送PR以获得修复和文档更新，并预先打开新功能的问题。确保测试通过，并且覆盖率保持较高。谢谢
+欢迎提交！只需发送 PR 以获得修复和文档更新，并预先打开新功能的问题。确保测试通过，并且覆盖率保持较高。谢谢

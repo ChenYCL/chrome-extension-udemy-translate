@@ -11,12 +11,11 @@
 [![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README_zh.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/master)
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)   
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 ## Usage
 
 Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, like Chinese,English etc.
-
 
 ## Panel config
 
@@ -24,9 +23,7 @@ Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, 
 
 <div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
-
 <div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
-
 
 Register links:
 
@@ -39,7 +36,6 @@ Register links:
 Step1:
 
 [Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.2)
-
 
 then open your Chrome browser
 
@@ -61,7 +57,7 @@ Now,It works
 
 ## Version
 
-v2.0.0
+v2.0.5
 
 ## Features
 
@@ -97,11 +93,12 @@ v2.0.0
 
 # Buy Me A Coffee ☕️
 
-
 ### Alipay
+
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
 
 ### Wechat
+
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
 # License
