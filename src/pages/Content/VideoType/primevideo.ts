@@ -9,17 +9,24 @@ const sub = {
   pre: '',
   current: '',
 };
-
 const getOriginText = () => {
-  let obj_text = '';
-  $('.persistentPanel')
-    .find('span')
-    .forEach((span) => {
-      obj_text += (span.innerText + ' ')
-        .replace('<br>', ' ')
-        .replace(/\[(.+)\]/, '');
-    });
-  return obj_text;
+  if ($('.persistentPanel span').length) {
+    let obj_text = $('.persistentPanel span').eq(0)[0].innerText;
+    if (obj_text) {
+      obj_text = obj_text.replace('<br>', ' ').replace(/\[(.+)\]/, '');
+    }
+    return obj_text;
+  } else {
+    return '';
+  }
+
+  // $('.persistentPanel')
+  //   .find('span')
+  //   .forEach((span) => {
+  //     obj_text += (span.innerText + ' ')
+  //       .replace('<br>', ' ')
+  //       .replace(/\[(.+)\]/, '');
+  //   });
 };
 
 // sub.pre first time get
@@ -48,6 +55,15 @@ const run = async () => {
   window.requestAnimationFrame(run);
 };
 run();
+
+// let timer = null;
+// timer = setInterval(() => {
+//   $('body')
+//     .undelegate('.persistentPanel', 'DOMNodeInserted')
+//     .delegate('.persistentPanel', 'DOMNodeInserted', function() {
+//       run();
+//     });
+// }, 200);
 
 chrome.runtime.onMessage.addListener(async function(
   request,
