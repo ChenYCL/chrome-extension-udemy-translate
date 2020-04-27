@@ -30,7 +30,12 @@ const run = async () => {
     hiddenSubtitleCssInject(['.caption-text-box']);
     let current = getOriginText();
     // when change send request ,then make same
-    if (sub.pre !== current && current !== '' && current !== null) {
+    if (
+      sub.pre !== current &&
+      current !== '' &&
+      current !== null &&
+      current !== ' '
+    ) {
       sub.pre = current;
       console.log(sub);
       // send message to background
@@ -43,9 +48,15 @@ const run = async () => {
     await $('style[id=chrome-extension-plugin-css]').remove();
     await $('.SUBTILTE').remove();
   }
-  window.requestAnimationFrame(run);
 };
-run();
+
+// if exist
+var timer = setTimeout(function() {
+  $('body').on('DOMNodeInserted', '.caption-text-box', function() {
+    run();
+    clearTimeout(timer);
+  });
+}, 3000);
 
 chrome.runtime.onMessage.addListener(async function(
   request,
