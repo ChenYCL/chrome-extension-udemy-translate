@@ -33,6 +33,10 @@ Register links:
 
 ## Install
 
+[chrome web store](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
+
+Or 
+
 Step1:
 
 [Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.2)
