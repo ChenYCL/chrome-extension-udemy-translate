@@ -57,7 +57,7 @@ Now,It works
 
 ## Version
 
-v2.0.5
+v2.0.6
 
 ## Features
 
@@ -95,7 +95,7 @@ v2.0.5
 
 Welcome to subscribe my wechat offical accout，you can send message 'udemy-translate' to get complete turtorial, and I usually share funny movies & meida & tools on it.
 
-  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/qrcode.BMP" alt="" height="148" width="148" />
+  <img  src="https://raw.githubusercontent.com/ChenYCL/chrome-extension-udemy-translate/master/example/qrcode.BMP" alt="" height="148" width="148" />
 
 # Buy Me A Coffee ☕️
 
