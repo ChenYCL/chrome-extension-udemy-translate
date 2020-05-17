@@ -37,11 +37,11 @@
 
 [应用市场](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
 
-或者下面方式，Edge支持
+或者下面方式，Edge 支持
 
 步骤 1:
 
-[从这里下压缩文件，并得到解压文件夹](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.2)
+[从这里下压缩文件，并得到解压文件夹](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.6)
 
 打开你的谷歌或者 Edge 新版浏览器
 

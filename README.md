@@ -33,13 +33,9 @@ Register links:
 
 ## Install
 
-[chrome web store](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
-
-Or 
-
 Step1:
 
-[Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.2)
+[Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.6)
 
 then open your Chrome browser
 
@@ -94,6 +90,12 @@ v2.0.5
 - [x] Multi-language support
 
 - [x] ICON
+
+# My wechat offical accout
+
+Welcome to subscribe my wechat offical accout，you can send message 'udemy-translate' to get complete turtorial, and I usually share funny movies & meida & tools on it.
+
+  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/qrcode.BMP" alt="" height="148" width="148" />
 
 # Buy Me A Coffee ☕️
 
