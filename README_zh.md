@@ -93,6 +93,12 @@ v2.0.5
 
 - [x] ICON
 
+# 欢迎关注公众号
+
+有相关的插件使用教程，关注回复翻译工具即可获取，同时定期分享值得观看的音视频资讯
+
+  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/qrcode.BMP" alt="" height="148" width="148" />
+
 # 打赏专线 ☕️
 
 ### 支付宝

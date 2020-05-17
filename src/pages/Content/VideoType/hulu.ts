@@ -32,7 +32,7 @@ const run = async () => {
     // when change send request ,then make same
     if (sub.pre !== current && current !== '' && current !== null) {
       sub.pre = current;
-      console.log(sub);
+      console.log(sub, '当前');
       // send message to background
       if (typeof chrome.app.isInstalled !== 'undefined') {
         chrome.runtime.sendMessage({ text: current });
