@@ -39,7 +39,7 @@ or
 
 Step1:
 
-[Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.6)
+[Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases)
 
 then open your Chrome browser
 
