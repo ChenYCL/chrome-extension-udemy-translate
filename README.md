@@ -57,7 +57,7 @@ Now,It works
 
 ## Version
 
-v2.0.6
+v2.0.7
 
 ## Features
 

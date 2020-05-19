@@ -63,7 +63,7 @@
 
 ## 版本
 
-v2.0.6
+v2.0.7
 
 ## 功能点
 
@@ -99,7 +99,7 @@ v2.0.6
 
 # 欢迎关注公众号
 
-有相关的插件使用教程，关注回复翻译工具即可获取，同时定期分享值得观看的音视频资讯
+有相关的插件使用教程，关注回复 '翻译工具' 即可获取，同时定期分享值得观看的音视频资讯
 
   <img  src="https://raw.githubusercontent.com/ChenYCL/chrome-extension-udemy-translate/master/example/qrcode.BMP" alt="" height="148" width="148" />
 
