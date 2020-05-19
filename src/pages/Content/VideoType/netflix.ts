@@ -43,7 +43,7 @@ const run = async () => {
     );
     let current = getOriginText();
     // when change send request ,then make same
-    if (sub.pre !== current && current !== '') {
+    if (sub.pre !== current && current !== '' && current !== ' ') {
       sub.pre = current;
       console.log(sub);
       // send message to background

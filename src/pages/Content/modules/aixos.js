@@ -77,12 +77,7 @@ export const baiduRequest = async(text) => {
     let res = await axios(options);
     const { src, dst } = res.data.trans_result[0];
 
-    if (!dst) {
-        return {
-            origin: text,
-            translate: '请检查配置，或者账号欠费到期等',
-        };
-    } else {
+    if (dst !== '' && dst !== ' ' && dst !== undefined) {
         return {
             origin: text,
             translate: dst,
