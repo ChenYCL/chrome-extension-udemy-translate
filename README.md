@@ -8,44 +8,50 @@
   Udemy Translate
 </h4>
 
-[![Build Status](https://img.shields.io/badge/README-中文-yellow.svg)](README_zh.md)
+[![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README_en.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/master)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-## Usage
+## 关于本插件
 
-Translate Udemy/netflix/Disneyplus/lynda video subtitles to different language, like Chinese,English etc.
+翻译视频站，提供双字幕，支持 Udemy,Disneyplus,lynda,amazon,hulu,primevideo,Netflix 等站，翻译字幕为中文，英文，日文等。
 
-## Panel config
+## 使用说明
 
-<font color=green size=7>If the default configuration traffic expires,please register via the link below</font>
+<font color=green size=7>请先在下方链接注册相应的密钥，id</font>
 
 <div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
 
 <div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
 
-Register links:
+注册地址:
 
-[Youdao](https://ai.youdao.com/index.s)
-[Baidu](https://fanyi-api.baidu.com/api/trans/product/desktop)
+[有道智云翻译，通用字幕翻译选择](https://ai.youdao.com/index.s)
+
+[百度翻译](https://fanyi-api.baidu.com/api/trans/product/desktop)
+
 [Yandex](https://translate.yandex.com/developers/keys)
 
-## Install
+## 安装方式
 
-Step1:
+[应用市场2.0.5版本](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
 
-[Download this file and unzip it.](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.6)
+或者下面方式，Edge 支持
 
-then open your Chrome browser
+步骤 1:
 
-![Step1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step1.png)
+[从这里下压缩文件，并得到解压文件夹](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases/tag/v2.0.6)
 
-Step2:
+打开你的谷歌或者 Edge 新版浏览器
 
-![Step2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
+![第一步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step1.png)
 
-Now,It works
+步骤 2:
+开启开发者模式
+![第二步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
+
+效果如下
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/show.png)
 
@@ -55,58 +61,58 @@ Now,It works
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/hulu.jpg)
 
-## Version
+## 版本
 
 v2.0.7
 
-## Features
+## 功能点
 
-- [x] Basic function
+- [x] 基本翻译
 
-- [x] netflix video support
+- [x] Netflix 视频支持
 
-- [x] lynda video support
+- [x] Lynda 视频支持
 
-- [x] HBO NOW video support
+- [x] Hbo now 视频支持
 
-- [x] HULU video support
+- [x] Hulu 视频支持
 
-- [x] Amazon video support
+- [x] Amazon 视频支持
 
-- [x] Disneyplus video support
+- [x] Disneyplus 视频支持
 
-- [x] Yandex translate Api support
+- [x] Yandex 翻译接口接入
 
-- [x] Youdao Cloud Api support
+- [x] 有道智云接口接入
 
-- [x] Baidu Api Support
+- [x] 百度翻译接口接入
 
-- [x] Config panel
+- [x] 控制面板
 
-- [x] Double subtitle
+- [x] 双字幕
 
-- [x] Google Translate Api (200 times 60min)
+- [x] 谷歌翻译 (200 次/小时)
 
-- [x] Multi-language support
+- [x] 多语言支持
 
 - [x] ICON
 
-# My wechat offical accout
+# 欢迎关注公众号
 
-Welcome to subscribe my wechat offical accout，you can send message 'udemy-translate' to get complete turtorial, and I usually share funny movies & meida & tools on it.
+有相关的插件使用教程，关注回复 '翻译工具' 即可获取，同时定期分享值得观看的音视频资讯
 
   <img  src="https://raw.githubusercontent.com/ChenYCL/chrome-extension-udemy-translate/master/example/qrcode.BMP" alt="" height="148" width="148" />
 
-# Buy Me A Coffee ☕️
+# 打赏专线 ☕️
 
-### Alipay
+### 支付宝
 
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
 
-### Wechat
+### 微信
 
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
-# License
+# 代码贡献
 
-MIT
+欢迎提交！只需发送 PR 以获得修复和文档更新，并预先打开新功能的问题。确保测试通过，并且覆盖率保持较高。谢谢
