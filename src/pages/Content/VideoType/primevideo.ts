@@ -16,6 +16,11 @@ const getOriginText = () => {
       obj_text = obj_text.replace('<br>', ' ').replace(/\[(.+)\]/, '');
     }
     return obj_text;
+  } else if ($('.fg8afi5') != null) {
+    let obj_text = $('.fg8afi5').innerText;
+    if (obj_text) {
+      obj_text = obj_text.replace('<br>', ' ').replace(/\[(.+)\]/, '');
+    }
   } else {
     return '';
   }
@@ -36,7 +41,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.persistentPanel']);
+    hiddenSubtitleCssInject(['.persistentPanel', '.webPlayerUIContainer']);
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
@@ -68,10 +73,14 @@ run();
 chrome.runtime.onMessage.addListener(async function(
   request,
   sender,
-  sendResponse
+  sendResponse,
 ) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    dealSubtitle('.persistentPanel', request);
+    if ($('.persistenPanel')) {
+      dealSubtitle('.persistentPanel', request);
+    } else if ($('.fg8afi5')) {
+      dealSubtitle('.webPlayerUIContainer', request);
+    }
   }
 });
