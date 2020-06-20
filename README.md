@@ -75,6 +75,8 @@ v2.0.8
 
 - [x] Hbo now 视频支持
 
+- [x] Hbo max 视频支持
+
 - [x] Hulu 视频支持
 
 - [x] Amazon 视频支持
