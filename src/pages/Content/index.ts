@@ -7,6 +7,7 @@ const hrefMap = {
   hulu: 'hulu',
   amazon: 'amazon',
   hbo: 'hbo',
+  hbomax:'hbomax',
   primevideo: 'primevideo',
   disneyplus: 'disneyplus',
 };
@@ -43,6 +44,9 @@ switch (whatsPage(window.location.href)) {
     break;
   case 'hbo':
     require('./VideoType/hbo.ts');
+    break;
+  case 'hbomax':
+    require('./VideoType/hbomax.ts');
     break;
   case 'primevideo':
     require('./VideoType/primevideo.ts');

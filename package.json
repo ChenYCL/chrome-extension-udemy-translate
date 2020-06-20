@@ -1,6 +1,6 @@
 {
     "name": "chrome-extension-udemy-translate",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "description": "Translate Udemy's subtitles into Chinese/English(netflix+udemy+lynda+hulu+hbo now字幕翻译)",
     "license": "MIT",
     "repository": {
