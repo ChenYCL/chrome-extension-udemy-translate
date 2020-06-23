@@ -10,45 +10,53 @@ const sub = {
   current: '',
 };
 
-const getOriginText = () => {
-  let obj_text = '';
-  if ($('.persistentPanel')) {
-    $('.persistentPanel')
-      .find('span span')
-      .forEach((element) => {
-        obj_text += element.innerText.replace(/(\n(?=(\n+)))+/g, ' ');
-      });
-  } else {
-    $('.timedTextWindow')
-      .find('span')
-      .forEach((span) => {
-        obj_text += (span.innerText + ' ')
-          .replace(/\n/g, ' ')
-          .replace(/\[(.+)\]/, '');
-      });
-  }
+let obj_text = '';
 
-  return obj_text;
+function getText(node) {
+  function checkout(node) {
+    if (node.nodeType === 3) {
+      obj_text += node.nodeValue;
+    } else {
+      for (var child of node.childNodes) {
+        getText(child);
+      }
+    }
+  }
+  checkout(node);
+}
+
+const getOriginText = () => {
+  if ($('.persistentPanel').length) {
+    getText(document.querySelector('.persistentPanel span'));
+  } else if ($('.timedTextWindow').length) {
+    getText(document.querySelector('.timedTextWindow span'));
+  } else if ($('.fg8afi5').length) {
+    getText(document.querySelector('.fg8afi5'));
+  }
 };
 
 // sub.pre first time get
-sub.pre = getOriginText();
+// sub.pre = getOriginText();
 
 const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-
-    hiddenSubtitleCssInject(['.timedTextBackground', '.persistentPanel']);
-
-    let current = getOriginText();
+    obj_text = '';
+    await getOriginText();
+    console.log(obj_text);
     // when change send request ,then make same
-    if (sub.pre !== current && current !== '') {
-      sub.pre = current;
+    if (sub.pre !== obj_text && obj_text !== '') {
+      hiddenSubtitleCssInject([
+        '.timedTextBackground',
+        '.persistentPanel',
+        '.fg8afi5',
+      ]);
+      sub.pre = obj_text;
       console.log(sub);
       // send message to background
       if (typeof chrome.app.isInstalled !== 'undefined') {
-        chrome.runtime.sendMessage({ text: current });
+        chrome.runtime.sendMessage({ text: obj_text });
       }
     }
   } else {
@@ -67,10 +75,13 @@ chrome.runtime.onMessage.addListener(async function(
 ) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {
-    if ($('.persistentPanel')) {
+    if ($('.persistentPanel').length) {
       dealSubtitle('.persistentPanel', request);
       return;
+    } else if ($('.timedTextWindow').length) {
+      dealSubtitle('.timedTextWindow', request);
+    } else if ($('.fg8afi5').length) {
+      dealSubtitle('.fbhsa9', request);
     }
-    dealSubtitle('.timedTextWindow', request);
   }
 });

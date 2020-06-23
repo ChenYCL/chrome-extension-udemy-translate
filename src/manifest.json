@@ -35,6 +35,7 @@
             "https://*.hulu.com/*",
             "https://*.primevideo.com/*",
             "https://*.amazon.com/*",
+            "https://*.amazon.com/gp/*",
             "https://*.amazon.co.uk/*",
             "https://*.amazon.de/*",
             "https://*.amazon.co.jp/*",
