@@ -35,7 +35,7 @@
 
 ## 安装方式
 
-[应用市场旧版2.0.5版本](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
+[应用市场旧版 2.0.5 版本](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
 
 或者下面方式，Edge 支持
 
@@ -63,7 +63,7 @@
 
 ## 版本
 
-v2.0.8
+v2.1.0
 
 ## 功能点
 
