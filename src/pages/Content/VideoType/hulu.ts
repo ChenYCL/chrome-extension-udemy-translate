@@ -15,7 +15,10 @@ const getOriginText = () => {
     .find('p')
     .html();
   if (obj_text) {
-    obj_text = obj_text.replace('<br>', ' ');
+    obj_text = obj_text
+      .replace(/<br>/g, ' ')
+      .replace(/<i>/g, '')
+      .replace(/<\/i>/g, '');
   }
   return obj_text;
 };
@@ -36,11 +39,11 @@ const run = async () => {
       current !== null &&
       current !== ' '
     ) {
-      sub.pre = current;
-      console.log(sub, '当前');
+      sub.pre = current; //  当前字幕变动存储一次
+      // console.log(sub, '当前');
       // send message to background
       if (typeof chrome.app.isInstalled !== 'undefined') {
-        chrome.runtime.sendMessage({ text: current });
+        chrome.runtime.sendMessage({ text: sub.pre });
       }
     }
   } else {
@@ -63,8 +66,10 @@ chrome.runtime.onMessage.addListener(async function(
   sender,
   sendResponse
 ) {
-  console.log(JSON.stringify(request));
+  // console.log(JSON.stringify(request));
+  console.log(sub.current == sub.pre, sub);
   if (sub.current !== sub.pre) {
-    dealSubtitle('.caption-text-box', request);
+    // always  true
+    dealSubtitle('.closed-caption-container', request);
   }
 });
