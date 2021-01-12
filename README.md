@@ -114,6 +114,12 @@ v2.1.0
 ### 微信
 
   <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
+  
+### 交流
+
+[tg交流](https://t.me/joinchat/Gs1RFzD5MpIwJ7S-)
+
+<img  src="https://i.loli.net/2021/01/12/Vti5GPdqxjN3ETL.jpg" alt="" height="148" width="148" />
 
 # 代码贡献
 
