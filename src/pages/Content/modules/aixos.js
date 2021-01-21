@@ -3,8 +3,9 @@ import qs from 'qs';
 import md5 from 'md5';
 import { getItem } from './localStorage';
 import translate from 'google-translate-open-api';
+import { deeplSupportSource } from "../../../constant";
 
-export const youdaoRequset = async(text) => {
+export const youdaoRequset = async (text) => {
     let key = '';
     let id = '';
     let salt = await new Date().getTime();
@@ -37,7 +38,7 @@ export const youdaoRequset = async(text) => {
     return { origin, translate };
 };
 
-export const googleTranslate = async(text) => {
+export const googleTranslate = async (text) => {
     const language = await getItem('language');
     return translate(text, {
         tld: 'cn',
@@ -46,7 +47,7 @@ export const googleTranslate = async(text) => {
     });
 };
 
-export const baiduRequest = async(text) => {
+export const baiduRequest = async (text) => {
     let key = '';
     let id = '';
     let salt = await new Date().getTime();
@@ -85,7 +86,7 @@ export const baiduRequest = async(text) => {
     }
 };
 
-export const yandexRequest = async(text) => {
+export const yandexRequest = async (text) => {
     let key = null;
     await getItem('trans_api').then((trans_api) => {
         key = trans_api['yandex']['id'];
@@ -123,5 +124,95 @@ export const yandexRequest = async(text) => {
     }
 };
 
-// new version
-export const deeplRequest = async(text) => {};
+export const deepLRequest = async (text) => {
+    let language = await getItem('language');
+    let from = await getItem('origin_lang');
+    let key = '';
+
+    await getItem('trans_api').then((trans_api) => {
+        key = trans_api['deepl']['key'];
+    });
+
+    const data = {
+        auth_key: key,
+        text,
+        source_lang: from,
+        target_lang: 'zh-cn' ? 'ZH' : language.toUpperCase(),
+    }
+
+    if (deeplSupportSource.indexOf(String.prototype.toUpperCase.call(from)) === -1) {
+        delete data.source_lang
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        url: 'https://api.deepl.com/v2/translate'
+    }
+
+    let res = await axios(options);
+
+    if (res.status === 200) {
+        const translatedText =
+            res.data.translations && res.data.translations[0] && res.data.translations[0].text ?
+            res.data.translations[0].text : '翻译失败'
+        return {
+            origin: text,
+            translate: translatedText,
+        };
+    } else {
+        return {
+            origin: text,
+            translate: '接口配置错误',
+        };
+    }
+}
+
+// @api: https://a-translator.royli.dev/
+// @reference: https://www.v2ex.com/t/730356
+// @wiki: https://www.notion.so/geekdada/8119484f98c74e989c0837f89e38a295?v=f57df852e6194f36bc5a0ea9cfc6c4a0
+export const a_translatorRequest = async (text) => {
+    let language = await getItem('language');
+    let from = await getItem('origin_lang');
+    let key = '';
+
+    await getItem('trans_api').then((trans_api) => {
+        key = trans_api['a_translator']['key'];
+    });
+
+    const data = {
+        auth_key: key,
+        text,
+        source_lang: from,
+        target_lang: 'zh-cn' ? 'ZH' : language.toUpperCase(),
+    }
+
+    if (deeplSupportSource.indexOf(String.prototype.toUpperCase.call(from)) === -1) {
+        delete data.source_lang
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        url: 'https://a-translator-api.nerdynerd.org/v2/translate'
+    }
+
+    let res = await axios(options);
+
+    if (res.status === 200) {
+        const translatedText =
+            res.data.translations && res.data.translations[0] && res.data.translations[0].text ?
+                res.data.translations[0].text : '翻译失败'
+        return {
+            origin: text,
+            translate: translatedText,
+        };
+    } else {
+        return {
+            origin: text,
+            translate: '接口配置错误',
+        };
+    }
+}

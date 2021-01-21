@@ -3,6 +3,8 @@ import {
     googleTranslate,
     youdaoRequset,
     yandexRequest,
+    a_translatorRequest,
+    deepLRequest,
 } from '../Content/modules/aixos';
 import { getItem } from '../Content/modules/localStorage';
 
@@ -46,6 +48,9 @@ chrome.runtime.onInstalled.addListener(function(details) {
                     id: '',
                     key: '',
                 },
+                a_translator: {
+                    key: '',
+                },
                 // more...
             },
             // 翻译的文本信息 暂时存储
@@ -74,6 +79,11 @@ const REQUEST = async(originText) => {
             return await baiduRequest(originText);
         case 'yandex':
             return await yandexRequest(originText);
+        // TODO check res type
+        case 'a_translator':
+            return await a_translatorRequest(originText);
+        case 'deepl':
+            return await deepLRequest(originText);
         default:
             // deepl
             break;

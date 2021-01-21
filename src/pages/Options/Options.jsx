@@ -135,6 +135,9 @@ class Options extends Component {
       yandex: {
         id: '',
       },
+      a_translator: {
+        key: '',
+      },
     },
   };
 
@@ -208,7 +211,7 @@ class Options extends Component {
 
   render() {
     const {
-      trans_api: { youdao, baidu, yandex },
+      trans_api: { youdao, baidu, yandex, a_translator },
     } = this.state;
     return (
       <div className="OptionsContainer">
@@ -285,6 +288,14 @@ class Options extends Component {
               {/*         style={{ width: '400px' }}/>*/}
               {/*</p>*/}
             </section>
+            <section>
+              <Radio value={'a_translator'}>
+                A tranltator
+              </Radio>
+              <p style={{ padding: '15px' }}>
+                <Input name='a_translator-key' onChange={this.inputHandle} placeholder="key" value={a_translator.key} style={{ width: '400px' }}/>
+              </p>
+            </section>
           </Radio.Group>
         </Card>
         <Card className="Card" title="Origin Language/原字幕" bordered={false}>
@@ -356,6 +367,7 @@ class Options extends Component {
           </a>
           &nbsp;&nbsp;
           {/*<a href="www.google.com" target='__blank'>Google</a>*/}
+          <a href="https://a-translator.royli.dev/" target="__blank" >a-translator</a>
         </Card>
         <Card
           className="Card"
