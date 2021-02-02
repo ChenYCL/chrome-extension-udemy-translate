@@ -85,6 +85,8 @@ v2.1.0
 
 - [x] Baidu Api Support
 
+- [x] deepl Api Support
+
 - [x] Config panel
 
 - [x] Double subtitle
