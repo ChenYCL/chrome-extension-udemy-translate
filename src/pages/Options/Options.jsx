@@ -283,20 +283,27 @@ class Options extends Component {
               </p>
             </section>
             <section>
-              <Radio value={'deepl'} disabled>
-                Deepl 人工智能API
-              </Radio>
+              <Radio value={'deepl'}>Deepl 人工智能API</Radio>
               <p style={{ padding: '15px' }}>
-                <Input name='deepl-key' onChange={this.inputHandle} placeholder="key" value={deepl.key}
-                       style={{ width: '400px' }}/>
+                <Input
+                  name="deepl-key"
+                  onChange={this.inputHandle}
+                  placeholder="key"
+                  value={deepl.key}
+                  style={{ width: '400px' }}
+                />
               </p>
             </section>
             <section>
-              <Radio value={'a_translator'}>
-                A tranltator
-              </Radio>
+              <Radio value={'a_translator'}>A tranltator</Radio>
               <p style={{ padding: '15px' }}>
-                <Input name='a_translator-key' onChange={this.inputHandle} placeholder="key" value={a_translator.key} style={{ width: '400px' }}/>
+                <Input
+                  name="a_translator-key"
+                  onChange={this.inputHandle}
+                  placeholder="key"
+                  value={a_translator.key}
+                  style={{ width: '400px' }}
+                />
               </p>
             </section>
           </Radio.Group>
@@ -370,10 +377,14 @@ class Options extends Component {
           </a>
           &nbsp;&nbsp;
           {/*<a href="www.google.com" target='__blank'>Google</a>*/}
-          <a href="https://www.deepl.com/" target="__blank" >deepl</a>
+          <a href="https://www.deepl.com/" target="__blank">
+            deepl
+          </a>
           &nbsp;&nbsp;
           {/*<a href="www.google.com" target='__blank'>Google</a>*/}
-          <a href="https://a-translator.royli.dev/" target="__blank" >a-translator</a>
+          <a href="https://a-translator.royli.dev/" target="__blank">
+            a-translator
+          </a>
         </Card>
         <Card
           className="Card"
