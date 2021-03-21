@@ -77,6 +77,8 @@ v2.1.0
 
 - [x] Amazon video support
 
+- [x] paramountplus video support
+
 - [x] Disneyplus video support
 
 - [x] Yandex translate Api support

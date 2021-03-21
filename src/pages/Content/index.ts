@@ -7,9 +7,10 @@ const hrefMap = {
   hulu: 'hulu',
   amazon: 'amazon',
   hbo: 'hbo',
-  hbomax:'hbomax',
+  hbomax: 'hbomax',
   primevideo: 'primevideo',
   disneyplus: 'disneyplus',
+  paramountplus: 'paramountplus',
 };
 
 const whatsPage = (href) => {
@@ -26,35 +27,38 @@ console.log(
   whatsPage(window.location.href)
 );
 
-switch (whatsPage(window.location.href)) {
-  case 'udemy':
-    require('./VideoType/udemy.ts');
-    break;
-  case 'netflix':
-    require('./VideoType/netflix.ts');
-    break;
-  case 'lynda':
-    require('./VideoType/lynda.ts');
-    break;
-  case 'hulu':
-    require('./VideoType/hulu.ts');
-    break;
-  case 'amazon':
-    require('./VideoType/amazon.ts');
-    break;
-  case 'hbo':
-    require('./VideoType/hbo.ts');
-    break;
-  case 'hbomax':
-    require('./VideoType/hbomax.ts');
-    break;
-  case 'primevideo':
-    require('./VideoType/primevideo.ts');
-    break;
-  case 'disneyplus':
-    require('./VideoType/disneyplus.ts');
-    break;
-}
+require(`./VideoType/${hrefMap[whatsPage(window.location.href)]}.ts`);
+// switch (whatsPage(window.location.href)) {
+//   case 'udemy':
+//     require('./VideoType/udemy.ts');
+//     break;
+//   case 'netflix':
+//     require('./VideoType/netflix.ts');
+//     break;
+//   case 'lynda':
+//     require('./VideoType/lynda.ts');
+//     break;
+//   case 'hulu':
+//     require('./VideoType/hulu.ts');
+//     break;
+//   case 'amazon':
+//     require('./VideoType/amazon.ts');
+//     break;
+//   case 'hbo':
+//     require('./VideoType/hbo.ts');
+//     break;
+//   case 'hbomax':
+//     require('./VideoType/hbomax.ts');
+//     break;
+//   case 'primevideo':
+//     require('./VideoType/primevideo.ts');
+//     break;
+//   case 'disneyplus':
+//     require('./VideoType/disneyplus.ts');
+//   case 'paramountplus':
+//     require('./VideoType/paramountplus.ts');
+//     break;
+// }
 
 console.log('Content script works!');
 console.log('Must reload extension for modifications to take effect.');

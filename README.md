@@ -81,6 +81,8 @@ v2.1.0
 
 - [x] Amazon 视频支持
 
+- [x] paramountplus 视频支持
+
 - [x] Disneyplus 视频支持
 
 - [x] Yandex 翻译接口接入
@@ -89,7 +91,7 @@ v2.1.0
 
 - [x] 百度翻译接口接入
 
-- [x] deepl接口接入
+- [x] deepl 接口接入
 
 - [x] 控制面板
 
@@ -119,7 +121,7 @@ v2.1.0
   
 ### 交流
 
-[tg交流](https://t.me/joinchat/Gs1RFzD5MpIwJ7S-)
+[tg 交流](https://t.me/joinchat/Gs1RFzD5MpIwJ7S-)
 
 <img  src="https://i.loli.net/2021/01/12/Vti5GPdqxjN3ETL.jpg" alt="" height="148" width="148" />
 
