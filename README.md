@@ -41,7 +41,7 @@
 
 步骤 1:
 
-[从这里下压缩文件，并得到解压文件夹](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases)
+关注公众号 回复 '工具下载'
 
 打开你的谷歌或者 Edge 新版浏览器
 
