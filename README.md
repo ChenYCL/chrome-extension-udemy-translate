@@ -19,6 +19,8 @@
 
 ## 使用说明
 
+[先看这个](https://github.com/ChenYCL/chrome-extension-udemy-translate/issues/35)
+
 <font color=green size=7>请先在下方链接注册相应的密钥，id</font>
 
 <div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
