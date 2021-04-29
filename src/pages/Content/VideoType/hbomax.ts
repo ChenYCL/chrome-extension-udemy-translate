@@ -3,7 +3,19 @@
  */
 
 import { getItem } from '../modules/localStorage';
-import { hiddenSubtitleCssInject } from '../modules/utils.ts';
+
+export const hiddenSubtitleCssInject = (hideClassName: string[]) => {
+  let css = '';
+  hideClassName.forEach((item) => {
+    css += `span[style*="display: inline-block; position: absolute; white-space: pre; transform: translate(0px, 0px);"] {display:none !important} `;
+  });
+  let style = $(`<style id='chrome-extension-plugin-css'>
+    ${css}
+  </style>`);
+  $('body').append(style);
+  // return style;
+
+};
 
 const sub = {
   pre: '',
@@ -12,9 +24,11 @@ const sub = {
 
 const getOriginText = () => {
   let obj_text = '';
-  $('.class20.class30>span>span').forEach((span) => {
+
+  document.querySelectorAll('span[style="font-family: font0; font-size: 49px; font-style: normal; text-decoration: none; text-transform: none; letter-spacing: 0px; color: rgb(255, 255, 255);"]').forEach((span) => {
     obj_text +=
       ' ' +
+      //@ts-ignore
       (span.innerText + ' ')
         .replace('<br>', ' ')
         .replace(/\[(.+)\]/, '')
@@ -23,6 +37,8 @@ const getOriginText = () => {
         .trim();
   });
   return obj_text;
+
+
 };
 
 // sub.pre first time get
@@ -32,7 +48,8 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.default.class20.class30>span>span']);
+    hiddenSubtitleCssInject([''])
+
     let current = getOriginText();
     // when change send request ,then make same
     if (sub.pre !== current && current !== '') {
@@ -55,7 +72,7 @@ run();
 chrome.runtime.onMessage.addListener(async function(
   request,
   sender,
-  sendResponse
+  sendResponse,
 ) {
   console.log(JSON.stringify(request));
   if (sub.current !== sub.pre) {

@@ -28,11 +28,10 @@
     {
       "matches": [
         "https://*.udemy.com/*",
-        "https://*.youtube.com/*",
         "https://*.netflix.com/*",
         "https://*.lynda.com/*",
-        "https://*.hbonow.com/*",
-        "https://*.hbomax.com/*",
+        "https://play.hbonow.com/*",
+        "https://play.hbomax.com/*",
         "https://*.hulu.com/*",
         "https://*.primevideo.com/*",
         "https://*.amazon.com/*",

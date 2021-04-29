@@ -6,7 +6,7 @@ const hrefMap = {
   lynda: 'lynda',
   hulu: 'hulu',
   amazon: 'amazon',
-  hbo: 'hbo',
+  hbonow: 'hbonow',
   hbomax: 'hbomax',
   primevideo: 'primevideo',
   disneyplus: 'disneyplus',
