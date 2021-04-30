@@ -75,6 +75,9 @@ chrome.runtime.onMessage.addListener(async function(
   sendResponse,
 ) {
   console.log(JSON.stringify(request));
+  if(request.origin==undefined|| request.origin=='' || request.translate==undefined){
+    return false;
+  }
   if (sub.current !== sub.pre) {
     chrome.storage.sync.get(null, (items) => {
       const subtitle = `<div class="SUBTILTE"
