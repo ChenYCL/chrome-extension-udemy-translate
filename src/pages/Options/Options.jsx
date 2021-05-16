@@ -315,7 +315,7 @@ class Options extends Component {
                 <Input
                   name="caiyun-key"
                   onChange={this.inputHandle}
-                  placeholder="key"
+                  placeholder="密钥"
                   value={caiyun.key}
                   style={{ width: '400px' }}
                 />
