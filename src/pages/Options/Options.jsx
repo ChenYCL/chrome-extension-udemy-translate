@@ -141,6 +141,9 @@ class Options extends Component {
       deepl: {
         key: '',
       },
+      caiyun: {
+        key: '',
+      }
     },
   };
 
@@ -214,7 +217,7 @@ class Options extends Component {
 
   render() {
     const {
-      trans_api: { youdao, baidu, yandex, a_translator, deepl },
+      trans_api: { youdao, baidu, yandex, a_translator, deepl, caiyun },
     } = this.state;
     return (
       <div className="OptionsContainer">
@@ -306,6 +309,18 @@ class Options extends Component {
                 />
               </p>
             </section>
+            <section>
+              <Radio value={'caiyun'}>彩云</Radio>
+              <p style={{ padding: '15px' }}>
+                <Input
+                  name="caiyun-key"
+                  onChange={this.inputHandle}
+                  placeholder="key"
+                  value={caiyun.key}
+                  style={{ width: '400px' }}
+                />
+              </p>
+            </section>
           </Radio.Group>
         </Card>
         <Card className="Card" title="Origin Language/原字幕" bordered={false}>
@@ -384,6 +399,11 @@ class Options extends Component {
           {/*<a href="www.google.com" target='__blank'>Google</a>*/}
           <a href="https://a-translator.royli.dev/" target="__blank">
             a-translator
+          </a>
+          &nbsp;&nbsp;
+          {/*<a href="www.google.com" target='__blank'>Google</a>*/}
+          <a href="https://dashboard.caiyunapp.com/user/sign_in/" target="__blank">
+            彩云
           </a>
         </Card>
         <Card

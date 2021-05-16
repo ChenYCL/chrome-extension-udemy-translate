@@ -216,3 +216,44 @@ export const a_translatorRequest = async (text) => {
         };
     }
 }
+
+export const caiyunRequest = async (text) => {
+    let language = await getItem('language');
+    let from = await getItem('origin_lang');
+    let key = '';
+
+    await getItem('trans_api').then((trans_api) => {
+        key = trans_api['caiyun']['key'];
+    });
+    language = language === 'zh-cn' ? 'zh' : language;
+    const data = {
+        source:text,
+        trans_type : from + '2' + language,
+        request_id: 'demo',
+        'detect': true,
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { 'content-type': 'application/json','x-authorization':'token '+ key },
+        data: data,
+        url: 'http://api.interpreter.caiyunai.com/v1/translator',
+    };
+    console.log(options);
+    let res = await axios(options);
+    if (res.status === 200) {
+        const translatedText =
+          res.data.target ?
+            res.data.target : '翻译失败'
+        return {
+            origin: text,
+            translate: translatedText,
+        };
+    } else {
+        return {
+            origin: text,
+            translate: '接口配置错误',
+        };
+    }
+}
+

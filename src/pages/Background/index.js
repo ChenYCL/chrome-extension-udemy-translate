@@ -5,6 +5,7 @@ import {
     yandexRequest,
     a_translatorRequest,
     deepLRequest,
+    caiyunRequest,
 } from '../Content/modules/aixos';
 import { getItem } from '../Content/modules/localStorage';
 
@@ -51,6 +52,9 @@ chrome.runtime.onInstalled.addListener(function(details) {
                 a_translator: {
                     key: '',
                 },
+                caiyun: {
+                    key: '',
+                },
                 // more...
             },
             // 翻译的文本信息 暂时存储
@@ -84,6 +88,8 @@ const REQUEST = async(originText) => {
             return await a_translatorRequest(originText);
         case 'deepl':
             return await deepLRequest(originText);
+        case 'caiyun':
+            return await caiyunRequest(originText);
         default:
             // deepl
             break;

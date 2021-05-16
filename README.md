@@ -35,6 +35,8 @@
 
 [Yandex](https://translate.yandex.com/developers/keys)
 
+[彩云](https://dashboard.caiyunapp.com/user/sign_in/)
+
 ## 安装方式
 
 第一种方式: (版本较老不推荐)[应用市场旧版 2.0.5 版本](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
@@ -94,6 +96,8 @@ v2.1.0
 - [x] 百度翻译接口接入
 
 - [x] deepl 接口接入
+
+- [x] 彩云 接口接入
 
 - [x] 控制面板
 
