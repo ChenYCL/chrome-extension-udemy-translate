@@ -10,17 +10,24 @@ const sub = {
   current: '',
 };
 
-const getOriginText = () => {
-  let obj_text = $('.caption-text-box')
-    .find('p')
-    .html();
-  if (obj_text) {
-    obj_text = obj_text
-      .replace(/<br>/g, ' ')
-      .replace(/<i>/g, '')
-      .replace(/<\/i>/g, '');
+
+function getChildren(textAry: Array<string>, dom) {
+  if (dom == null) {
+    return '';
   }
-  return obj_text;
+  [...dom.children].forEach(node => {
+    if (node.nodeType === 1) {   //判断类型
+      textAry.push(node.innerText);
+    }
+    getChildren(textAry, node);
+  });
+}
+
+const getOriginText = () => {
+  var obj_text = [];
+  getChildren(obj_text, document.querySelector('.CaptionBox'));
+  var real_text = obj_text.join('').replace(/\n/g, ' ');
+  return real_text;
 };
 
 // sub.pre first time get
@@ -30,7 +37,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject(['.caption-text-box']);
+    hiddenSubtitleCssInject(['.CaptionBox']);
     let current = getOriginText();
     // when change send request ,then make same
     if (
@@ -55,7 +62,7 @@ const run = async () => {
 
 // if exist
 var timer = setTimeout(function() {
-  $('body').on('DOMNodeInserted', '.caption-text-box', function() {
+  $('body').on('DOMNodeInserted', '.CaptionBox', function() {
     run();
     clearTimeout(timer);
   });
@@ -64,12 +71,12 @@ var timer = setTimeout(function() {
 chrome.runtime.onMessage.addListener(async function(
   request,
   sender,
-  sendResponse
+  sendResponse,
 ) {
   // console.log(JSON.stringify(request));
   console.log(sub.current == sub.pre, sub);
   if (sub.current !== sub.pre) {
     // always  true
-    dealSubtitle('.closed-caption-container', request);
+    dealSubtitle('.CaptionBox', request);
   }
 });
