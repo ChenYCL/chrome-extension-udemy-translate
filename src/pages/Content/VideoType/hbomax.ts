@@ -25,7 +25,7 @@ const sub = {
 const getOriginText = () => {
   let obj_text = '';
 
-  document.querySelectorAll('span[style="font-family: font0; font-size: 49px; font-style: normal; text-decoration: none; text-transform: none; letter-spacing: 0px; color: rgb(255, 255, 255);"]').forEach((span) => {
+  document.querySelectorAll('span[style="display: inline-block; position: absolute; white-space: pre; transform: translate(0px, 0px);"]>span').forEach((span) => {
     obj_text +=
       ' ' +
       //@ts-ignore
@@ -48,7 +48,7 @@ const run = async () => {
   let plugin_status = await getItem('status');
   if (plugin_status) {
     // cover css
-    hiddenSubtitleCssInject([''])
+    hiddenSubtitleCssInject(['']);
 
     let current = getOriginText();
     // when change send request ,then make same
@@ -75,6 +75,9 @@ chrome.runtime.onMessage.addListener(async function(
   sendResponse,
 ) {
   console.log(JSON.stringify(request));
+  if (request.origin == undefined || request.origin == '' || request.origin == ' ' || request.translate == undefined) {
+    return false;
+  }
   if (sub.current !== sub.pre) {
     chrome.storage.sync.get(null, (items) => {
       const subtitle = `<div class="SUBTILTE"
