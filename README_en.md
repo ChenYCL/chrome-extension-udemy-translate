@@ -30,6 +30,7 @@ Register links:
 [Youdao](https://ai.youdao.com/index.s)
 [Baidu](https://fanyi-api.baidu.com/api/trans/product/desktop)
 [Yandex](https://translate.yandex.com/developers/keys)
+[ColorfulClouds](https://dashboard.caiyunapp.com/user/sign_in/)
 
 ## Install
 
@@ -88,6 +89,8 @@ v2.1.3
 - [x] Baidu Api Support
 
 - [x] deepl Api Support
+
+- [x] ColorfulClouds Api Support
 
 - [x] Config panel
 
