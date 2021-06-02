@@ -3,6 +3,7 @@ import { printLine } from './modules/print.js';
 const hrefMap = {
   udemy: 'udemy',
   netflix: 'netflix',
+  linkedin: 'linkedin',
   lynda: 'lynda',
   hulu: 'hulu',
   amazon: 'amazon',
@@ -24,10 +25,11 @@ const whatsPage = (href) => {
 console.log(
   '%c 当前视频页面类型:',
   'background:red;color:white',
-  whatsPage(window.location.href)
+  whatsPage(window.location.href),
 );
 
 require(`./VideoType/${hrefMap[whatsPage(window.location.href)]}.ts`);
+
 // switch (whatsPage(window.location.href)) {
 //   case 'udemy':
 //     require('./VideoType/udemy.ts');
