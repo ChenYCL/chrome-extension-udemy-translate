@@ -62,7 +62,7 @@ Now,It works
 
 ## Version
 
-v2.1.3
+v2.1.4
 
 ## Features
 
@@ -77,6 +77,8 @@ v2.1.3
 - [x] HULU video support
 
 - [x] Amazon video support
+
+- [x] Linkedin support
 
 - [x] paramountplus video support
 
