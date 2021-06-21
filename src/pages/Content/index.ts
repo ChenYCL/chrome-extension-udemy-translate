@@ -12,6 +12,7 @@ const hrefMap = {
   primevideo: 'primevideo',
   disneyplus: 'disneyplus',
   paramountplus: 'paramountplus',
+  simplilearn: 'simplilearn',
 };
 
 const whatsPage = (href) => {

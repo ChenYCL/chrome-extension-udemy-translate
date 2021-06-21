@@ -84,6 +84,8 @@ v2.1.4
 
 - [x] Disneyplus video support
 
+- [x] simplilearn.com 
+
 - [x] Yandex translate Api support
 
 - [x] Youdao Cloud Api support

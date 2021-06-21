@@ -41,7 +41,8 @@
         "https://*.amazon.de/*",
         "https://*.amazon.co.jp/*",
         "https://*.disneyplus.com/*",
-        "https://www.paramountplus.com/*"
+        "https://www.paramountplus.com/*",
+        "https://*.simplilearn.com/*"
       ],
       "js": ["contentScript.bundle.js"],
       "css": ["content.styles.scss"],

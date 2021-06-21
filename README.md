@@ -91,6 +91,8 @@ v2.1.4
 
 - [x] Disneyplus 视频支持
 
+- [x] simplilearn.com支持 
+
 - [x] Yandex 翻译接口接入
 
 - [x] 有道智云接口接入
