@@ -27,7 +27,7 @@ export const dealSubtitle = (
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     background: ${items['backgroundColor']};
-    opacity: ${items['backgroundColor']};
+    opacity: ${items['backgroundOpacity']};
   ">
      <div class="origin_subtitle"
       style="
