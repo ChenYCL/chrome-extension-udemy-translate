@@ -1,19 +1,20 @@
 import { getItem } from '../modules/localStorage';
-import { dealSubtitle } from '../modules/utils.ts';
+import { hiddenSubtitleCssInject, dealSubtitle } from '../modules/utils.ts';
 
 const sub = {
   pre: '',
   current: '',
 };
 
-// const getOriginText = () => {
-//   let obj_text = '';
-//   $('.persistentPanel').find('span').forEach((span) => {
-//     obj_text += (span.innerText + ' ').replace('<br>', ' ')
-//       .replace(/\[(.+)\]/, '');
-//   });
-//   return obj_text;
-// };
+const getOriginText = () => {
+  let obj_text = '';
+  $('.dss-subtitle-renderer-cue').find('span').forEach((span) => {
+    obj_text += (span.innerText + ' ').replace('<br>', ' ')
+      .replace(/\[(.+)\]/, '');
+  });
+  return obj_text;
+};
+
 let time = null;
 const run = async () => {
   try {
@@ -21,7 +22,7 @@ const run = async () => {
     if ($('video') !== null) {
       let plugin_status = await getItem('status');
       if (plugin_status) {
-        let current = $('video')[0].textTracks[0].activeCues[0].text;
+        let current = getOriginText()
         current = current
           .replace('<br>', ' ')
           .replace(/\[(.+)\]/, '')
@@ -31,6 +32,9 @@ const run = async () => {
 
         // when change send request ,then make same
         if (sub.pre !== current && current !== '') {
+          hiddenSubtitleCssInject([
+            '.dss-subtitle-renderer-cue'
+          ]);
           sub.pre = current;
           console.log(sub);
           // send message to background
@@ -51,7 +55,7 @@ const run = async () => {
 };
 time = setInterval(run, 100);
 
-chrome.runtime.onMessage.addListener(async function(
+chrome.runtime.onMessage.addListener(async function (
   request,
   sender,
   sendResponse
