@@ -143,6 +143,9 @@ class Options extends Component {
       },
       caiyun: {
         key: '',
+      },
+      microsofttranslate:{
+        key: ''
       }
     },
   };
@@ -217,7 +220,7 @@ class Options extends Component {
 
   render() {
     const {
-      trans_api: { youdao, baidu, yandex, a_translator, deepl, caiyun },
+      trans_api: { youdao, baidu, yandex, a_translator, deepl, caiyun,microsofttranslate },
     } = this.state;
     return (
       <div className="OptionsContainer">
@@ -321,6 +324,18 @@ class Options extends Component {
                 />
               </p>
             </section>
+            <section>
+              <Radio value={'microsofttranslate'}>Azure Cognitive Services</Radio>
+              <p style={{ padding: '15px' }}>
+                <Input
+                  name="microsofttranslate-key"
+                  onChange={this.inputHandle}
+                  placeholder="密钥"
+                  value={microsofttranslate.key}
+                  style={{ width: '400px' }}
+                />
+              </p>
+            </section>
           </Radio.Group>
         </Card>
         <Card className="Card" title="Origin Language/原字幕" bordered={false}>
@@ -404,6 +419,10 @@ class Options extends Component {
           {/*<a href="www.google.com" target='__blank'>Google</a>*/}
           <a href="https://dashboard.caiyunapp.com/user/sign_in/" target="__blank">
             彩云
+          </a>
+          &nbsp;&nbsp;
+          <a href="https://docs.microsoft.com/zh-cn/azure/cognitive-services/Translator/quickstart-translator?tabs=csharp" target="__blank">
+            Azure Cognitive Services
           </a>
         </Card>
         <Card

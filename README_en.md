@@ -31,6 +31,7 @@ Register links:
 [Baidu](https://fanyi-api.baidu.com/api/trans/product/desktop)
 [Yandex](https://translate.yandex.com/developers/keys)
 [ColorfulClouds](https://dashboard.caiyunapp.com/user/sign_in/)
+[Azure Cognitive Services](https://docs.microsoft.com/zh-cn/azure/cognitive-services/Translator/quickstart-translator?tabs=csharp)
 
 ## Install
 
@@ -84,9 +85,11 @@ v2.1.5
 
 - [x] Disneyplus video support
 
-- [x] simplilearn.com 
+- [x] simplilearn.com
 
 - [x] Yandex translate Api support
+
+- [x] Azure Cognitive Services
 
 - [x] Youdao Cloud Api support
 

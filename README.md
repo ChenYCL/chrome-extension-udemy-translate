@@ -37,15 +37,17 @@
 
 [彩云](https://dashboard.caiyunapp.com/user/sign_in/)
 
+[Azure Cognitive Services](https://docs.microsoft.com/zh-cn/azure/cognitive-services/Translator/quickstart-translator?tabs=csharp)
+
 ## 安装方式
 
 第一种方式: (版本较老不推荐)[应用市场旧版 2.0.5 版本](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
 
-第二种方式:推荐(更新较快) 同时Edge 支持
+第二种方式:推荐(更新较快) 同时 Edge 支持
 
 步骤 1:
 
-关注公众号: 影音下午茶  回复 '工具下载'
+关注公众号: 影音下午茶 回复 '工具下载'
 
 打开你的谷歌或者 Edge 新版浏览器
 
@@ -76,7 +78,7 @@ v2.1.5
 - [x] Netflix 视频支持
 
 - [x] Lynda 视频支持
-  
+
 - [x] Linkedin 视频支持
 
 - [x] Hbo now 视频支持
@@ -91,9 +93,11 @@ v2.1.5
 
 - [x] Disneyplus 视频支持
 
-- [x] simplilearn.com支持 
+- [x] simplilearn.com 支持
 
 - [x] Yandex 翻译接口接入
+
+- [x] Azure Cognitive Services
 
 - [x] 有道智云接口接入
 
@@ -114,7 +118,7 @@ v2.1.5
 - [x] ICON
 
 # TODO
-- [ ] amazon配置支持
+
 - [ ] 字幕样式等
 
 # 合作推广
