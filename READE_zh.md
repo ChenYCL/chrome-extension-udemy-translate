@@ -10,7 +10,7 @@
 
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
-![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/master)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v2.1.7)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 ## 关于本插件
@@ -69,7 +69,7 @@
 
 ## 版本
 
-v2.1.5
+v2.1.7
 
 ## 功能点
 
