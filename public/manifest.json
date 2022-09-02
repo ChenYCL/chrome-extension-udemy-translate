@@ -1,0 +1,56 @@
+{
+    "manifest_version": 3,
+    "name": "Udemy Translate",
+    "description": "Translate tool",
+    "version": "2.1.7",
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "128": "icon-128.png",
+            "48": "icon-48.png"
+        }
+    },
+    "icons": {
+        "48": "icon-48.png",
+        "128": "icon-128.png"
+    },
+    "devtools_page": "devtools.html",
+    "options_page": "options.html",
+    "permissions": [
+        "tabs",
+        "contextMenus",
+        "notifications",
+        "storage",
+        "activeTab",
+        "declarativeContent"
+    ],
+    "optional_permissions": [],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*",
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "content.styles.scss",
+                "icon-128.png",
+                "icon-48.png"
+            ],
+            "matches": [
+                "https://*/*"
+            ]
+        }
+    ]
+}

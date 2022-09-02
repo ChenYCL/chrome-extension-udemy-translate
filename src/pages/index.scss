@@ -1,0 +1,22 @@
+.container {
+  max-width: 36rem;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+  h1 {
+    line-height: 1.4;
+    margin: 1rem 0;
+  }
+  ul {
+    font-size: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      margin: 0 0 1.25rem;
+    }
+  }
+  a {
+    color: #0070f3;
+    text-decoration: none;
+  }
+}
