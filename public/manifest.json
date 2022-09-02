@@ -22,10 +22,7 @@
     "options_page": "options.html",
     "permissions": [
         "tabs",
-        "contextMenus",
-        "notifications",
         "storage",
-        "activeTab",
         "declarativeContent"
     ],
     "optional_permissions": [],
