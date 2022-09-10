@@ -9,8 +9,8 @@ const sub = {
 };
 
 setTimeout(() => {
-  let className = document.querySelector('#rn-video') && document.querySelector('#rn-video').nextSibling && document.querySelector('#rn-video').nextSibling.className
-  delayInjectCss('.' + className)
+  let className = document.querySelector('video') && document.querySelector('#rn-video').nextSibling
+  delayInjectCss(className)
 }, 6000);
 
 
@@ -22,11 +22,12 @@ const run = async () => {
   }
   if (plugin_status) {
     let current = null;
-    let className = document.querySelector('#rn-video') && document.querySelector('#rn-video').nextSibling && document.querySelector('#rn-video').nextSibling.className
-    current = getOriginText('.' + className);
+    let dom = document.querySelector('#rn-video') && document.querySelector('[data-testid=CueBoxContainer]>div')
+    let coverPart = document.querySelector('#rn-video') && document.querySelector('#rn-video').nextSibling
+    current = getOriginText(dom);
     // when change send request ,then make same 
     if (sub.pre !== current && current != '') {
-      injectCss('.' + className)
+      injectCss(coverPart)
       sub.pre = current;
       if (chrome?.runtime?.id) {
         chrome.runtime.sendMessage({ text: current }, async function (res) { });

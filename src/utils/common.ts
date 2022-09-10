@@ -117,9 +117,19 @@ export function loadCssCode(id: string, code: string) {
 }
 
 export function injectCss(domClass = '.well--container--2edq4') {
-    if (document.querySelector(domClass) && document.querySelector(domClass)!.classList?.value.split(' ').map(c => '.' + c).includes(domClass)) {
-        document.querySelector(domClass)!.className += ' __web-inspector-hide-shortcut__'
+    if(typeof domClass === 'string'){
+        if (document.querySelector(domClass) && document.querySelector(domClass)!.classList?.value.split(' ').map(c => '.' + c).includes(domClass)) {
+            document.querySelector(domClass)!.className += ' __web-inspector-hide-shortcut__'
+        }
+    }else{
+        /// dom object 
+        // @ts-ignore
+        if(domClass && !domClass.classList.value!.split(' ').includes('__web-inspector-hide-shortcut__')){
+            //@ts-ignore
+            domClass.className += ' __web-inspector-hide-shortcut__'
+        }
     }
+ 
     if (!document.querySelector('style[id=chrome-extension-plugin-css]')) {
         loadCssCode('chrome-extension-plugin-css', '.__web-inspector-hide-shortcut__, .__web-inspector-hide-shortcut__ *, .__web-inspector-hidebefore-shortcut__::before, .__web-inspector-hideafter-shortcut__::after { display: none !important; }')
     }
@@ -144,7 +154,12 @@ export async function delayInjectCss(dom = '.well--container--2edq4') {
 export function getOriginText(dom = '.well--container--2edq4') {
     try {
         let obj_text = '';
-        obj_text = document.querySelector(dom) ? document.querySelector<HTMLElement>(dom)!.innerText : ''
+        if(typeof dom === 'string'){
+            obj_text = document.querySelector(dom) ? document.querySelector<HTMLElement>(dom)!.innerText : ''
+        }else{
+            // @ts-ignore
+            obj_text = dom.innerText ? dom.innerText : ''
+        }
         if (obj_text !== undefined) {
             obj_text = obj_text.replace('<br>', ' ').replace(/\n/g, ' ')
         }
