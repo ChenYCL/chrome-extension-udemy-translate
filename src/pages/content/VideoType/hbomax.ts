@@ -1,7 +1,7 @@
 
 // 👇️ ts-nocheck ignores all ts errors in the file
 // @ts-nocheck
-import { getItem, getOriginText, injectCss, delayInjectCss, dealSubtitle, $ } from '../../../utils/common.ts';
+import { getItem, getOriginText, injectCss, delayInjectCss, $ } from '../../../utils/common.ts';
 
 const sub = {
   pre: '',

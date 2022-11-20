@@ -2,78 +2,64 @@
 // @ts-nocheck
 
 
-import { getItem, hiddenSubtitleCssInject, dealSubtitle,win ,$} from '../../../utils/common.ts';
+import { getItem, hiddenSubtitleCssInject, dealSubtitle,win ,getOriginText, injectCss, delayInjectCss, $ } from '../../../utils/common.ts';
 
+
+
+setTimeout(() => {
+  let className = document.querySelector('video') && document.querySelector('.player-timedtext')
+  delayInjectCss(className)
+}, 6000);
 
 win();
-// 1.获取节点，获得字幕
+
 const sub = {
   pre: '',
   current: '',
 };
 
-const getOriginText = () => {
-  let obj_text = '';
-  $('.player-timedtext-text-container')
-    .find('span')
-    .forEach((span) => {
-      obj_text += (span.innerText + ' ')
-        .replace('<br>', ' ')
-        .replace(/\[(.+)\]/, '');
-    });
-  return obj_text;
-};
-
-// sub.pre first time get
-sub.pre = getOriginText();
-
 const run = async () => {
-  let plugin_status = await getItem('status');
+  if (chrome.runtime?.id) {
+    var plugin_status = await getItem('status');
+  }
   if (plugin_status) {
-    // cover css
-    window['listStyle'].push(
-      hiddenSubtitleCssInject([
-        '.player-timedtext-text-container',
-        '.mejs-captions-text',
-      ])
-    );
-    let current = getOriginText();
-    // when change send request ,then make same
-    if (sub.pre !== current && current !== '' && current !== ' ') {
+    let current = null;
+    let dom = document.querySelector('video') && document.querySelector('.player-timedtext')
+    // let coverPart = document.querySelector('video') && document.querySelector('.player-timedtext')
+    current = getOriginText(dom);
+    // when change send request ,then make same 
+    if (sub.pre !== current && current != '') {
+      injectCss(dom)
       sub.pre = current;
-      console.log(sub);
-      // send message to background
-      if (typeof chrome.app.isInstalled !== 'undefined') {
-        chrome.runtime.sendMessage({ text: current });
+      if (chrome?.runtime?.id) {
+        chrome.runtime.sendMessage({ text: current }, async function (res) { });
       }
     }
   } else {
-    // close plugin
-    console.log(window['listStyle']);
-    window['listStyle'].forEach((item) => item.remove());
-    await $('.SUBTILTE').remove();
+    document.querySelector('style[id=chrome-extension-plugin-css]') && document.querySelector('style[id=chrome-extension-plugin-css]')?.remove();
+    document.querySelector('.SUBTILTE') && document.querySelector('.SUBTILTE')?.remove();
   }
+  window.requestAnimationFrame(run);
 };
 
-// if exist
-var timer = setTimeout(function() {
-  $('body').on(
-    'DOMNodeInserted',
-    '.player-timedtext-text-container',
-    function() {
-      run();
-      clearTimeout(timer);
-    }
-  );
-}, 3000);
+run();
 
-chrome.runtime.onMessage.addListener(async function(
-  request,
-  sender,
-  sendResponse
-) {
-  console.log(JSON.stringify(request));
+chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
+  console.log(`get message`, JSON.stringify(request));
+  sendResponse({ complete: true })
+  if (request.origin == undefined || request.origin == '' || request.origin == ' ' || request.translate == undefined) {
+    return false;
+  };
   if (sub.current !== sub.pre) {
-    dealSubtitle('.player-timedtext', request);
-  }
-});
+    chrome.storage.local.get(null, (items) => {
+      const subtitle = `<div class="SUBTILTE" style=" position: absolute; bottom:30px; width:100%; text-align: center; margin: 0 .5em 1em; padding: 20px 8px; white-space: pre-line; writing-mode: horizontal-tb; unicode-bidi: plaintext; direction: ltr; -webkit-box-decoration-break: clone; box-decoration-break: clone; background: ${items['backgroundColor']}; opacity: ${items['backgroundOpacity']}; "> <div class="origin_subtitle" style=" color:${items['originColor']} !important; font-weight:${items['originWeight']} !important; font-size:${items['originFont']}px !important;; " >${request.origin}</div> <div class="translate_subtitle" style=" color: ${items['transColor']} !important; font-weight:${items['transWeight']} !important; font-size: ${items['transFont']}px !important; " >${request.translate}</div> </div>`;
+      let hasSubtitleDom = $('div.SUBTILTE').length === 0;
+      if (hasSubtitleDom) {
+        $('video').parent().parent().after(subtitle);
+      } else {
+        $('div.SUBTILTE').remove();
+        $('video').parent().parent().after(subtitle);
+      }
+    });
+  };
+})
