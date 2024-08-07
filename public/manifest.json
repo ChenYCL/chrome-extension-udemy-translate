@@ -23,15 +23,15 @@
     "permissions": [
         "tabs",
         "storage",
-        "declarativeContent"
+        "declarativeContent",
+        "activeTab",
+        "contextMenus"
     ],
-    "optional_permissions": [],
     "content_scripts": [
         {
             "matches": [
                 "http://*/*",
-                "https://*/*",
-                "<all_urls>"
+                "https://*/*"
             ],
             "js": [
                 "content.js"
@@ -46,6 +46,7 @@
                 "icon-48.png"
             ],
             "matches": [
+                "http://*/*",
                 "https://*/*"
             ]
         }

@@ -11,9 +11,6 @@ root.render(
                 <li>
                     <a href="/popup.html">popup</a>
                 </li>
-                {/* <li>
-                    <a href="/newtab.html">newtab</a>
-                </li> */}
                 <li>
                     <a href="/options.html">options</a>
                 </li>

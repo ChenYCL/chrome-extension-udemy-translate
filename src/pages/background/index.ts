@@ -1,49 +1,10 @@
-// if (process.env.NODE_ENV === 'development') {
-//     const eventSource = new EventSource(
-//         `http://${process.env.REACT_APP__HOST__}:${process.env.REACT_APP__PORT__}/reload/`
-//     );
-//     console.log('--- 开始监听更新消息 ---');
-//     eventSource.addEventListener('content_changed_reload', async ({ data }) => {
-//         const [tab] = await chrome.tabs.query({
-//             active: true,
-//             lastFocusedWindow: true,
-//         });
-//         const tabId = tab.id || 0;
-//         console.log(`tabId is ${tabId}`);
-//         await chrome.tabs.sendMessage(tabId, {
-//             type: 'window.location.reload',
-//         });
-//         console.log('chrome extension will reload', data);
-//         chrome.runtime.reload();
-//     });
-// }
-import {
-    baiduRequest,
-    youdaoRequset,
-    yandexRequest,
-    a_translatorRequest,
-    deepLRequest,
-    caiyunRequest,
-    msRequest,
-} from '../../utils/request';
-
-
-
+import { ChatOpenAI } from "@langchain/openai";
 
 console.log('This is the background page.');
 console.log('Put the background scripts here.');
 console.log('init done');
 
-const getItem = (key: string) => {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.get(key, (value) => {
-            resolve(value[key])
-        })
-    })
-}
-
-
-// init storage
+// 初始化存储
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason == 'install') {
         console.log('This is a first install!');
@@ -51,26 +12,15 @@ chrome.runtime.onInstalled.addListener(function (details) {
             status: false,
             backgroundColor: '#000000',
             backgroundOpacity: 1,
-            originColor: '#ffffff',
-            originFont: 22,
-            originWeight: 700,
-            transFont: 28,
-            transColor: '#ffffff',
-            transWeight: 700,
-            language: 'zh-cn',
-            origin_lang: 'auto',
-            trans_way: 'youdao',
-            youdao_id: '',
-            youdao_key: '',
-            baidu_id: '',
-            baidu_key: '',
-            yandex_key: '',
-            a_translater_key: '',
-            deepl_key: '',
-            caiyun_key: '',
-            microsoftTranslate_key: '',
-            // 翻译的文本信息 暂时存储
-            txt: {},
+            originFontColor: '#ffffff',
+            originFontSize: 22,
+            originFontWeight: 700,
+            translatedFontSize: 28,
+            translatedFontColor: '#ffffff',
+            translatedFontWeight: 700,
+            apiKey: '',
+            baseURL: '',
+            prompt: `Translate the following text from English to {TARGET_LANGUAGE}: {SOURCE_TEXT}`,
         });
     } else if (details.reason == 'update') {
         var thisVersion = chrome.runtime.getManifest().version;
@@ -80,76 +30,95 @@ chrome.runtime.onInstalled.addListener(function (details) {
     }
 });
 
-const REQUEST = async (originText: any, callback: (param: any) => void) => {
-    let trans_way = await getItem('trans_way');
-    let res = undefined;
-    return new Promise<{ origin: string, translate: string } | undefined>((async (resolve, reject) => {
+async function getStorageData(): Promise<any> {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(null, (result) => {
+            resolve(result);
+        });
+    });
+}
 
-        switch (trans_way) {
-            case 'youdao':
-                console.log(`youdao`)
-                res = await youdaoRequset(originText);
-                callback(res)
-                break;
-            // case 'google':
-            //     let res = await googleTranslate(originText);
-            //     return {
-            //         origin: originText,
-            //         translate: res.data[0],
-            //     };
-            case 'baidu':
-                res = await baiduRequest(originText);
-                callback(res)
-                break;
-            case 'yandex':
-                res = await yandexRequest(originText);
-                callback(res)
-                break
-            case 'a_translator':
-                res = await a_translatorRequest(originText);
-                callback(res)
-                break
-            case 'caiyun':
-                res = await caiyunRequest(originText);
-                callback(res)
-                break
-            case 'microsofttranslate':
-                res = await msRequest(originText);
-                callback(res)
-                break
-            default:
-                // deepl
-                res = await deepLRequest(originText);
-                callback(res)
+// 向所有标签页广播状态变化
+async function broadcastStatusChange(status: boolean) {
+    const tabs = await chrome.tabs.query({});
+    for (const tab of tabs) {
+        if (tab.id) {
+            chrome.tabs.sendMessage(tab.id, { type: 'STATUS_CHANGED', status });
         }
-    }))
+    }
+}
 
+// 监听存储变化
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local') {
+        if (changes.status) {
+            broadcastStatusChange(changes.status.newValue);
+        }
+    }
+});
 
-};
-
-
-
+// 监听来自 content script 的消息
 chrome.runtime.onMessage.addListener(
-    async function (request, sender, sendResponse) {
-        console.log(`sender`, sender)
-        let { text } = request;
-        setTimeout(async function () {
-            await REQUEST(text, function (result: { translate: any; }) {
-                console.log(`background recevied message`, request, text)
-                // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                //     // @ts-ignore
-                //     chrome.tabs.sendMessage(tabs[0].id, { ...result, origin: text }, function (response) {
-                //         console.log(`complete`,response)
-                //         if (response.complete) {
-                //             return true
-                //         }
-                //     });
-                // });
-                chrome.tabs.sendMessage(sender.tab!.id! as any,{ ...result, origin: text })
+    function (request, sender, sendResponse) {
+        if (request.type === 'TRANSLATE_TEXT') {
+            const { text, targetLanguage } = request;
+            
+            getStorageData().then(async ({ status, apiKey, baseURL, prompt }) => {
+                if (!status) {
+                    sendResponse({ type: 'TRANSLATION_ERROR', error: 'Translation is currently disabled' });
+                    return;
+                }
+
+                if (!apiKey) {
+                    sendResponse({ type: 'TRANSLATION_ERROR', error: 'API Key is not set' });
+                    return;
+                }
+
+                try {
+                    const chatModel = new ChatOpenAI({
+                        modelName: "gpt-4o",
+                        temperature: 0,
+                        openAIApiKey: apiKey,
+                        configuration: {
+                            baseURL: baseURL || undefined,
+                        },
+                    });
+
+                    const formattedPrompt = prompt
+                        .replace('{TARGET_LANGUAGE}', targetLanguage)
+                        .replace('{SOURCE_TEXT}', text);
+
+                    const response = await chatModel.invoke([
+                        ["system", formattedPrompt],
+                        ["human", text]
+                    ]);
+                    console.log('🔥 🔥 Translated text:', response.content);
+                    sendResponse({ type: 'TRANSLATED_TEXT', translatedText: response.content });
+                } catch (error: any) {
+                    sendResponse({ type: 'TRANSLATION_ERROR', error: error?.message });
+                }
+            }).catch(error => {
+                sendResponse({ type: 'TRANSLATION_ERROR', error: error.message });
             });
-        }, 1);
+
+            return true;  // 保持消息通道开放以进行异步响应
+        }
     }
 );
 
+// 添加右键菜单项来快速切换翻译状态
+chrome.contextMenus.create({
+    id: 'd1f89029-0c5d-4e8f-983c-16479a441319',
+    title: 'Toggle Udemy Translation',
+    contexts: ['all'],
+});
 
-
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+    if (info.menuItemId === 'd1f89029-0c5d-4e8f-983c-16479a441319') {
+        const { status } = await getStorageData();
+        const newStatus = !status;
+        await chrome.storage.local.set({ status: newStatus });
+        console.log(`Translation ${newStatus ? 'enabled' : 'disabled'}`);
+        broadcastStatusChange(newStatus);
+    }
+});
