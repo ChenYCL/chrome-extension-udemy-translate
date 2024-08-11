@@ -6,12 +6,10 @@
     "@ant-design/icons": "^5.4.0",
     "@langchain/core": "^0.2.21",
     "@langchain/openai": "^0.2.6",
-    "@vespaiach/axios-fetch-adapter": "^0.3.0",
     "antd": "^4.24.16",
     "axios": "^0.27.2",
     "cross-fetch": "^3.1.5",
     "global": "^4.4.0",
-    "google-translate-open-api": "^1.3.7",
     "jquery": "^3.6.0",
     "ky": "^0.31.1",
     "langchain": "^0.2.13",
@@ -22,8 +20,7 @@
     "react": "^18.1.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.1.0",
-    "uuid": "^8.3.2",
-    "web-ext": "^8.2.0"
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "node scripts/start.js",
