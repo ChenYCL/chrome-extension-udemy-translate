@@ -15,37 +15,28 @@
 
 ## 关于本插件
 
-翻译视频站，提供双字幕，支持 Udemy,Disneyplus,lynda,amazon,hulu,primevideo,Netflix 等站，翻译字幕为中文，英文，日文等。
+这是一个强大的Chrome扩展，可以将任何网站上的字幕实时翻译成不同语言。它不再局限于特定的视频平台，而是支持用户自定义任何网站的字幕翻译。
 
-## 使用说明
+## 主要特性
 
-[先看这个](https://github.com/ChenYCL/chrome-extension-udemy-translate/issues/35)
+- 支持任意网站的字幕翻译
+- 使用OpenAI API进行高质量翻译
+- 支持Ollama本地部署的AI模型
+- 用户可自定义目标网站和DOM选择器
+- 实时翻译，无需刷新页面
+- 支持多语言翻译
+- 可自定义字幕样式和位置
+- [ ] 支持第三方专业翻译接口，openai和ollama翻译质量不可控
 
-<font color=green size=7>请先在下方链接注册相应的密钥，id</font>
 
-<div align=center><img width="60%" height="60%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/config.png"/></div>
-
-<div align=center><img width="30%" height="30%" src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/popup.png"/></div>
-
-注册地址:
-
-[有道智云翻译，通用字幕翻译选择](https://ai.youdao.com/index.s)
-
-[百度翻译](https://fanyi-api.baidu.com/api/trans/product/desktop)
-
-[Yandex](https://translate.yandex.com/developers/keys)
-
-[彩云](https://dashboard.caiyunapp.com/user/sign_in/)
-
-[Azure Cognitive Services](https://docs.microsoft.com/zh-cn/azure/cognitive-services/Translator/quickstart-translator?tabs=csharp)
 
 ## 安装方式
 
-第一种方式: (版本较老不推荐)[应用市场旧版 2.0.5 版本](https://chrome.google.com/webstore/detail/udemy-translate/dechpgocmbnibandhfdpkmfkogmlnbkp?hl=en-US)
+第一种方式: 从Chrome网上应用店安装（链接待更新）
 
-第二种方式:推荐(更新较快) 同时 Edge 支持
+第二种方式：公众号下载,或者下载源代码构建
 
-步骤 1:
+- 步骤 1:
 
 关注公众号: 影音下午茶 回复 '工具下载'
 
@@ -53,7 +44,7 @@
 
 ![第一步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step1.png)
 
-步骤 2:
+- 步骤 2:
 开启开发者模式
 ![第二步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
 
@@ -67,9 +58,10 @@
 
 ![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/hulu.jpg)
 
+
 ## 版本
 
-v2.1.8
+v3.0.0
 
 ## 功能点
 
@@ -98,28 +90,48 @@ v2.1.8
 - [x] Yandex 翻译接口接入
 
 - [x] Azure Cognitive Services
+    
+- [x] openai
+    
+- [x] ollama
+      
+- [x] 字幕样式等
 
-- [x] 有道智云接口接入
+## 使用方法
+- 安装扩展后，点击扩展图标打开配置面板
+- 选择翻译API（OpenAI或Ollama）
+- 输入必要的API密钥或配置信息
+- 添加您想要翻译字幕的网站域名和对应的DOM选择器
+- 保存设置并刷新目标网页
+  
+## API配置
 
-- [x] 百度翻译接口接入
+- OpenAI配置
+1. 在配置面板中选择OpenAI
+2. 输入您的OpenAI API密钥
+3. 选择合适的模型（如gpt-3.5-turbo）
+4. 配置代理url
+   
+- Ollama本地配置
+安装Ollama：访问 Ollama官网 下载并安装
+拉取所需模型：
+```bash
+ollama pull llama2
+```
+在扩展配置面板中选择Ollama
+输入Ollama服务的URL（默认为 http://localhost:11434）
+选择您拉取的模型名称（如llama2）
 
-- [x] deepl 接口接入
+## 自定义网站配置
+1. 在配置面板中，添加您想要翻译字幕的网站域名
+2. 为该网站指定正确的DOM选择器，以定位字幕元素
+3. 保存设置并刷新目标网页以生效
 
-- [x] 彩云 接口接入
+## 注意事项
+确保您有足够的API使用额度
+Ollama本地部署需要较高的硬件配置，请根据您的设备性能选择合适的模型
+首次使用可能需要一些时间来加载和初始化模型
 
-- [x] 控制面板
-
-- [x] 双字幕
-
-- [x] 谷歌翻译 (200 次/小时)
-
-- [x] 多语言支持
-
-- [x] ICON
-
-# TODO
-
-- [ ] 字幕样式等
 
 # 合作推广
 
