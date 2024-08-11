@@ -86,25 +86,30 @@ v3.0.0
 - Add the domain of the website you want to translate subtitles for and the corresponding DOM selector
 - Save the settings and refresh the target webpage
 
-## API Configuration
+# Configuration Guide
 
-- OpenAI Configuration
+## OpenAI Configuration
 1. Select OpenAI in the configuration panel
 2. Enter your OpenAI API key
 3. Choose an appropriate model (e.g., gpt-3.5-turbo)
 4. Configure the proxy URL
 
-- Ollama Local Configuration
-Install Ollama: Visit the Ollama website to download and install
-Pull the required model:
-```bash
-ollama pull llama2
-```
-
-## Ollama Configuration
-- Select Ollama in the extension configuration panel
-- Enter the Ollama service URL (default is http://localhost:11434)
-- Select the model name you pulled (e.g., llama2)
+## Ollama Local Configuration (requires Node.js environment)
+1. Install Ollama: Visit [Ollama official website](https://ollama.com/) to download and install
+2. Pull the required model:
+   ```bash
+   ollama pull gemma2:2b
+   ```
+3. Select Ollama in the extension configuration panel
+4. Enter the Ollama service URL (default is http://localhost:11434)
+5. Start the local Ollama server:
+   ```bash
+   ollama serve
+   ```
+6. Proxy local Ollama to HTTPS:
+   1. Download [https-local-cli](https://github.com/tinny-tool/https-local-cli), navigate to the directory, and run \`npm link\` to generate local SSL files
+   2. Use [ollama-proxy-https](https://github.com/tinny-tool/ollama-proxy-https), run \`npm start\` to start the proxy service, enabling local interface translation (fastest speed, lowest latency)
+`
 
 ## Custom Website Configuration
 1. In the configuration panel, add the domain of the website you want to translate subtitles for
