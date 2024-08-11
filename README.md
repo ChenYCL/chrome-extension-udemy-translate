@@ -43,6 +43,8 @@ Open your Google Chrome or new version of Edge browser
 - Step 2:
 Enable Developer Mode
 ![Step 2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
+<img width="1423" alt="image" src="https://github.com/user-attachments/assets/26087174-c69d-4649-8fa7-feda31e6cce1">
+
 
 Results:
 
