@@ -6,6 +6,14 @@ interface StorageData {
   baseURL: string;
   prompt: string;
   domConfigs: DomConfig[];
+  backgroundColor?: string;
+  backgroundOpacity?: string;
+  originFontColor?: string;
+  originFontWeight?: string;
+  originFontSize?: string;
+  translatedFontColor?: string;
+  translatedFontWeight?: string;
+  translatedFontSize?: string;
 }
 
 interface DomConfig {
@@ -48,7 +56,6 @@ function isDomainAllowed(domConfigs: DomConfig[]): DomConfig | undefined {
 }
 
 const translateElements = debounce(async () => {
-
   if (!isActive) {
     console.log('Translation is not active');
     return;
@@ -67,19 +74,16 @@ const translateElements = debounce(async () => {
     const rootElements = document.querySelectorAll(matchedConfig.selector);
 
     rootElements.forEach((rootElement, index) => {
-      // if (!rootElement.hasAttribute('data-translated')) {
       const textNodes = getTextNodes(rootElement);
       if (textNodes.length > 0) {
         const combinedText = textNodes.map(node => node.textContent?.trim()).filter(Boolean).join(' ');
-        translateCombinedText(combinedText, textNodes);
+        translateCombinedText(combinedText, textNodes, matchedConfig.selector)
       }
-      // rootElement.setAttribute('data-translated', 'true');
-      // }
     });
   } else {
     console.log('Current domain is not in the allowed list');
   }
-}, 300);
+}, 0);
 
 function getTextNodes(element: Element): Text[] {
   const textNodes: Text[] = [];
@@ -95,10 +99,8 @@ function getTextNodes(element: Element): Text[] {
   return textNodes;
 }
 
-async function translateCombinedText(combinedText: string, textNodes: Text[]) {
+async function translateCombinedText(combinedText: string, textNodes: Text[], selector: string) {
   if (!combinedText.trim()) return;
-
-  console.log('Translating combined text:', combinedText);
 
   try {
     chrome.runtime.sendMessage({
@@ -112,8 +114,13 @@ async function translateCombinedText(combinedText: string, textNodes: Text[]) {
       }
 
       if (response && response.type === 'TRANSLATED_TEXT') {
-        const translatedText = response.translatedText;
-        distributeTranslation(translatedText, textNodes);
+        const parts = response?.translatedText.split('@@@');
+        let translatedText = parts[0].trim();
+        if (translatedText.includes('\n')) {
+          translatedText = translatedText.split('\n')[0];
+        }
+        translatedText = translatedText.replace(/\n/g, ' ').replace(/@/g, ' ').trim();
+        distributeTranslation(combinedText, translatedText ? translatedText : 'Oops, translation failed', textNodes, selector);
       } else if (response && response.type === 'TRANSLATION_ERROR') {
         console.error('Translation failed:', response.error);
       }
@@ -123,38 +130,93 @@ async function translateCombinedText(combinedText: string, textNodes: Text[]) {
   }
 }
 
-function distributeTranslation(translatedText: string, textNodes: Text[]) {
-  let translatedWords = translatedText.split(' ');
-  let currentWordIndex = 0;
-  console.log('Distributing translation:', translatedWords);
+function distributeTranslation(originalText: string, translatedText: string, textNodes: Text[], selector: string) {
+  console.log('🔥translation:', originalText, '->', translatedText);
 
-  textNodes.forEach((textNode) => {
-    const originalText = textNode.textContent?.trim() || '';
-    const originalWords = originalText.split(' ');
-    const translatedSegment = [];
+  const targetElement = document.querySelector(selector);
 
-    for (let i = 0; i < originalWords.length; i++) {
-      if (currentWordIndex < translatedWords.length) {
-        translatedSegment.push(translatedWords[currentWordIndex]);
-        currentWordIndex++;
-      }
+  if (!targetElement || !targetElement.parentElement) {
+    console.error('Cannot find target element for subtitle insertion');
+    return;
+  }
+
+  chrome.storage.local.get(null, (items: StorageData | any) => {
+    const subtitleElement = document.createElement('div');
+    subtitleElement.className = 'translated-wrapper';
+    subtitleElement.style.cssText = `
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      margin: 0 .5em 1em;
+      padding: 20px 8px;
+      white-space: pre-line;
+      writing-mode: horizontal-tb;
+      unicode-bidi: plaintext;
+      direction: ltr;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      background: ${items.backgroundColor || 'rgba(0, 0, 0, 0.75)'};
+      opacity: ${items.backgroundOpacity || '0.8'};
+    `;
+
+    const originalSubtitle = document.createElement('div');
+    originalSubtitle.className = 'originalSubtitle';
+    originalSubtitle.style.cssText = `
+      color: ${items.originFontColor || 'white'} !important;
+      font-weight: ${items.originFontWeight || 'normal'} !important;
+      font-size: ${items.originFontSize || '16'}px !important;
+    `;
+    originalSubtitle.textContent = originalText;
+
+    const translatedSubtitle = document.createElement('div');
+    translatedSubtitle.className = 'translatedSubtitle';
+    translatedSubtitle.style.cssText = `
+      color: ${items.translatedFontColor || 'yellow'} !important;
+      font-weight: ${items.translatedFontWeight || 'normal'} !important;
+      font-size: ${items.translatedFontSize || '16'}px !important;
+    `;
+    translatedSubtitle.textContent = translatedText;
+
+    subtitleElement.appendChild(originalSubtitle);
+    subtitleElement.appendChild(translatedSubtitle);
+
+    const existingSubtitle = targetElement?.parentElement?.querySelector('.translated-wrapper');
+    if (existingSubtitle) {
+      existingSubtitle.remove();
     }
 
-    const translatedNodeText = translatedSegment.join(' ');
+    targetElement?.parentElement?.appendChild(subtitleElement);
+  });
+}
 
-    const translatedSpan = document.createElement('span');
-    translatedSpan.textContent = translatedNodeText;
-    translatedSpan.style.color = 'green';
+function createGlobalStyle(selector: string) {
+  const styleId = 'auto-translate-style';
+  let style = document.getElementById(styleId);
 
-    const originalSpan = document.createElement('span');
-    originalSpan.textContent = originalText;
+  if (!style) {
+    style = document.createElement('style');
+    style.id = styleId;
+    document.head.appendChild(style);
+  }
 
-    const container = document.createElement('span');
-    container.appendChild(originalSpan);
-    container.appendChild(document.createElement('br'));
-    container.appendChild(translatedSpan);
+  style.textContent = `
+    ${selector} {
+      display: none !important;
+    }
+  `;
+}
 
-    textNode.parentNode?.replaceChild(container, textNode);
+function checkAndRestartListener() {
+  getStorageData().then(({ status, domConfigs }) => {
+    if (status && isDomainAllowed(domConfigs)) {
+      console.log('Checking and restarting listener');
+      startListening(domConfigs);
+    } else {
+      console.log('Translation not enabled or domain not allowed');
+    }
+  }).catch(error => {
+    console.log('Error in checkAndRestartListener:', error)
   });
 }
 
@@ -164,14 +226,23 @@ function startListening(domConfigs: DomConfig[]) {
     observer.disconnect();
   }
 
-  domConfigs.forEach(domConfig => {
-    observer = new MutationObserver(translateElements);
-    const matchedConfig = isDomainAllowed(domConfigs);
-    if (matchedConfig && document.querySelector(matchedConfig?.selector)) {
+  const matchedConfig = isDomainAllowed(domConfigs);
+  if (matchedConfig) {
+    const targetElement = document.querySelector(matchedConfig.selector);
+    if (targetElement) {
       console.log('Starting observer');
-      observer.observe(document.querySelector(matchedConfig?.selector)!, MutationObserverConfig);
+      createGlobalStyle(matchedConfig.selector);
+      observer = new MutationObserver(translateElements);
+      observer.observe(targetElement, MutationObserverConfig);
+
+      // Add video playback state listeners
+      if (targetElement instanceof HTMLVideoElement) {
+        targetElement.addEventListener('play', checkAndRestartListener);
+        targetElement.addEventListener('pause', checkAndRestartListener);
+        targetElement.addEventListener('ended', checkAndRestartListener);
+      }
     }
-  });
+  }
 }
 
 function stopListening() {
@@ -179,6 +250,21 @@ function stopListening() {
     console.log('Stopping observer');
     observer.disconnect();
     observer = null;
+
+    // Remove video playback state listeners
+    getStorageData().then(({ domConfigs }) => {
+      const matchedConfig = isDomainAllowed(domConfigs);
+      if (matchedConfig) {
+        const targetElement = document.querySelector(matchedConfig.selector);
+        if (targetElement instanceof HTMLVideoElement) {
+          targetElement.removeEventListener('play', checkAndRestartListener);
+          targetElement.removeEventListener('pause', checkAndRestartListener);
+          targetElement.removeEventListener('ended', checkAndRestartListener);
+        }
+      }
+    }).catch(error => {
+      console.log('Error in stopListening:', error)
+    });
   }
 }
 
@@ -243,8 +329,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
         }
       }).catch(error => {
         console.log('Error in storage change:', error)
-      }
-      )
+      })
     }
   }
 });
@@ -269,3 +354,6 @@ document.addEventListener('visibilitychange', () => {
     stopListening();
   }
 });
+
+// Add periodic check mechanism
+setInterval(checkAndRestartListener, 5000);  // Check every 5 seconds

@@ -9,7 +9,6 @@ import {
   CloseSquareOutlined,
   GithubFilled
 } from '@ant-design/icons';
-import { getItem, setItem } from '../../utils/common';
 
 const colors = [
   'transparent',
@@ -89,7 +88,7 @@ const Popup = () => {
     );
   };
 
-  // goto  promotion page
+
   const promotionPage = () => {
     setPromotionStatus(!promotionStatus);
   };

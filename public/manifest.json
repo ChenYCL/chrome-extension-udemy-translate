@@ -25,7 +25,12 @@
         "storage",
         "declarativeContent",
         "activeTab",
-        "contextMenus"
+        "contextMenus",
+        "background"
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
     ],
     "content_scripts": [
         {
@@ -35,7 +40,8 @@
             ],
             "js": [
                 "content.js"
-            ]
+            ],
+            "run_at": "document_end"
         }
     ],
     "web_accessible_resources": [
@@ -50,5 +56,8 @@
                 "https://*/*"
             ]
         }
-    ]
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; connect-src 'self' http://*/* https://*/*  http://localhost:11434 https://localhost:11434 https://api.openai.com/v1/chat/completions; object-src 'self'"
+      }
 }

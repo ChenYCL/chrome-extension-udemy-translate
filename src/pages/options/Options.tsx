@@ -8,6 +8,12 @@ interface DomConfig {
   selector: string;
 }
 
+interface ModelConfig {
+  apiKey: string;
+  baseURL: string;
+  modelName: string;
+}
+
 const setItem = async (key: string, value: any): Promise<void> => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.set({ [key]: value }, () => {
@@ -40,25 +46,28 @@ message.config({
 
 const Options: React.FC = () => {
   const [prompt, setPrompt] = useState<string>(
-    "Translate the following text to {TARGET_LANGUAGE}. Maintain the original meaning and tone as closely as possible:\n\n{SOURCE_TEXT}"
+    `Translate the following English text into Chinese and separate the translations with @@@`
   );
   const [domConfigs, setDomConfigs] = useState<DomConfig[]>([{ domain: '', selector: '' }]);
-  const [apiKey, setApiKey] = useState<string>('');
-  const [baseURL, setBaseURL] = useState<string>('https://api.openai.com/v1');
+  const [selectedModel, setSelectedModel] = useState<string>('openai');
+  const [openaiConfig, setOpenaiConfig] = useState<ModelConfig>({ apiKey: '', baseURL: 'https://api.openai.com/v1', modelName: 'gpt-4o' });
+  const [ollamaConfig, setOllamaConfig] = useState<ModelConfig>({ apiKey: '', baseURL: 'https://localhost:11434/v1', modelName: 'ollama' });
 
   useEffect(() => {
     const init = async () => {
-      const [storedPrompt, storedDomConfigs, storedApiKey, storedBaseURL] = await Promise.all([
+      const [storedPrompt, storedDomConfigs, storedSelectedModel, storedOpenaiConfig, storedOllamaConfig] = await Promise.all([
         getItem('prompt'),
         getItem('domConfigs'),
-        getItem('apiKey'),
-        getItem('baseURL'),
+        getItem('selectedModel'),
+        getItem('openaiConfig'),
+        getItem('ollamaConfig'),
       ]);
 
       if (storedPrompt) setPrompt(storedPrompt);
       if (storedDomConfigs) setDomConfigs(storedDomConfigs);
-      if (storedApiKey) setApiKey(storedApiKey);
-      if (storedBaseURL) setBaseURL(storedBaseURL);
+      if (storedSelectedModel) setSelectedModel(storedSelectedModel);
+      if (storedOpenaiConfig) setOpenaiConfig(storedOpenaiConfig);
+      if (storedOllamaConfig) setOllamaConfig(storedOllamaConfig);
     };
     init();
   }, []);
@@ -91,34 +100,82 @@ const Options: React.FC = () => {
     setItem('prompt', newPrompt);
   }, []);
 
-  const handleApiKeyChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newApiKey = e.target.value;
-    setApiKey(newApiKey);
-    setItem('apiKey', newApiKey);
+  const handleModelChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newModel = e.target.value;
+    setSelectedModel(newModel);
+    setItem('selectedModel', newModel);
   }, []);
 
-  const handleBaseURLChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newBaseURL = e.target.value;
-    setBaseURL(newBaseURL);
-    setItem('baseURL', newBaseURL);
+  const handleConfigUpdate = useCallback((configKey: string, field: keyof ModelConfig, value: string) => {
+    if (configKey === 'openaiConfig') {
+      setOpenaiConfig(prev => {
+        const newConfig = { ...prev, [field]: value };
+        setItem(configKey, newConfig);
+        return newConfig;
+      });
+    } else if (configKey === 'ollamaConfig') {
+      setOllamaConfig(prev => {
+        const newConfig = { ...prev, [field]: value };
+        setItem(configKey, newConfig);
+        return newConfig;
+      });
+    }
   }, []);
 
   return (
     <div className="OptionsContainer">
       <Card className="Card" title="API 配置" extra={<Tooltip title="请谨慎保管您的API密钥"><InfoCircleOutlined /></Tooltip>} bordered={false}>
-        <p>API Key</p>
-        <Input
-          value={apiKey}
-          onChange={handleApiKeyChange}
-          placeholder="输入您的 API Key"
-          type="password"
-        />
-        <p style={{ marginTop: '10px' }}>Base URL</p>
-        <Input
-          value={baseURL}
-          onChange={handleBaseURLChange}
-          placeholder="输入 Base URL（可选）"
-        />
+        <p>选择模型</p>
+        <select value={selectedModel} onChange={handleModelChange}>
+          <option value="openai">OpenAI</option>
+          <option value="ollama">Ollama</option>
+        </select>
+        {selectedModel === 'openai' && (
+          <>
+            <p style={{ marginTop: '10px' }}>OpenAI Model Name</p>
+            <Input
+              value={openaiConfig.modelName}
+              onChange={e => handleConfigUpdate('openaiConfig', 'modelName', e.target.value)}
+              placeholder="输入 OpenAI 模型名称"
+            />
+            <p style={{ marginTop: '10px' }}>API Key</p>
+            <Input
+              value={openaiConfig.apiKey}
+              onChange={e => handleConfigUpdate('openaiConfig', 'apiKey', e.target.value)}
+              placeholder="输入您的 API Key"
+              type="password"
+            />
+            <p style={{ marginTop: '10px' }}>Base URL</p>
+            <Input
+              value={openaiConfig.baseURL}
+              onChange={e => handleConfigUpdate('openaiConfig', 'baseURL', e.target.value)}
+              placeholder="输入 Base URL（可选）"
+            />
+          </>
+        )}
+        {selectedModel === 'ollama' && (
+          <>
+            <p style={{ marginTop: '10px' }}>Ollama Model Name</p>
+            <Input
+              value={ollamaConfig.modelName}
+              onChange={e => handleConfigUpdate('ollamaConfig', 'modelName', e.target.value)}
+              placeholder="输入 Ollama 模型名称"
+            />
+            <p style={{ marginTop: '10px' }}>API Key</p>
+            <Input
+              value={ollamaConfig.apiKey}
+              onChange={e => handleConfigUpdate('ollamaConfig', 'apiKey', e.target.value)}
+              placeholder="输入您的 API Key（随便填）"
+              type="password"
+            />
+            <p style={{ marginTop: '10px' }}>Base URL</p>
+            <Input
+              value={ollamaConfig.baseURL}
+              onChange={e => handleConfigUpdate('ollamaConfig', 'baseURL', e.target.value)}
+              placeholder="https://localhost:11434/v1"
+            />
+          </>
+        )}
       </Card>
 
       <Card className="Card" title="Subtitle/字幕" bordered={false}>
@@ -129,20 +186,20 @@ const Options: React.FC = () => {
           placeholder="Enter your translation prompt template. Use {TARGET_LANGUAGE} for the target language and {SOURCE_TEXT} for the source text."
           autoSize={{ minRows: 3, maxRows: 5 }}
         />
-        <p style={{ marginTop: '10px' }}>{`Example: Translate the following text to {TARGET_LANGUAGE}. Maintain the original meaning and tone as closely as possible:\n\n{SOURCE_TEXT}`}</p>
+        <p style={{ marginTop: '10px' }}>{`Translate the following English text into Chinese and separate the translations with @@@`}</p>
       </Card>
 
       <Card className="Card" title="DOM 配置" bordered={false}>
         {domConfigs.map((config, index) => (
           <div key={index} style={{ marginBottom: '20px' }}>
             <Input
-              placeholder="域名 (例如: www.example.com)"
+              placeholder="域名 (例如: https://www.udemy.com)"
               value={config.domain}
               onChange={(e:any) => handleConfigChange(index, 'domain', e.target.value)}
               style={{ marginBottom: '5px' }}
             />
             <Input
-              placeholder="CSS 选择器"
+              placeholder="CSS 选择器: (例如: .captions-display--captions-container--PqdGQ) 简单参考：https://juejin.cn/post/7278918966214705163"
               value={config.selector}
               onChange={(e:any) => handleConfigChange(index, 'selector', e.target.value)}
               style={{ marginBottom: '5px' }}
