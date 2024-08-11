@@ -115,14 +115,19 @@ v3.0.0
 4. 配置代理url
 
 
-- Ollama本地配置
-1. 安装Ollama：访问 Ollama官网 下载并安装
+- Ollama本地配置（需要安装nodejs环境）
+1. 安装Ollama：访问 Ollama官网https://ollama.com/ 下载并安装
 2. 拉取所需模型：
 ```bash
 ollama pull gemma2:2b
 ```
 3.在扩展配置面板中选择Ollama
+
 4. 输入Ollama服务的URL（默认为 http://localhost:11434）
+5. 本地开启 ollama serve
+6. 代理本地ollama到https
+   1. https://github.com/tinny-tool/https-local-cli 下载当前项目 并在目录下使用npm link , 生成本地ssl等文件
+   2. https://github.com/tinny-tool/ollama-proxy-https 使用当前项目，使用npm start 开启代理服务，实现本地接口翻译（速度最快，延时最低）
 
 
 ## 自定义网站配置
