@@ -183,7 +183,7 @@ const Options: React.FC = () => {
         <Input.TextArea
           value={prompt}
           onChange={handlePromptChange}
-          placeholder="Enter your translation prompt template. Use {TARGET_LANGUAGE} for the target language and {SOURCE_TEXT} for the source text."
+          placeholder="Translate the following English text into Chinese and separate the translations with @@@"
           autoSize={{ minRows: 3, maxRows: 5 }}
         />
         <p style={{ marginTop: '10px' }}>{`Translate the following English text into Chinese and separate the translations with @@@`}</p>
