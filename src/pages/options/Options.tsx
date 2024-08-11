@@ -186,7 +186,7 @@ const Options: React.FC = () => {
           placeholder="Translate the following <English> text into <Chinese> and separate the translations with @@@"
           autoSize={{ minRows: 3, maxRows: 5 }}
         />
-        <p style={{ marginTop: '10px' }}>{`Translate the following English text into Chinese and separate the translations with @@@`}</p>
+        <p style={{ marginTop: '10px' }}>例子：{`Translate the following <English> text into <Chinese> and separate the translations with @@@`}</p>
       </Card>
 
       <Card className="Card" title="DOM 配置" bordered={false}>
