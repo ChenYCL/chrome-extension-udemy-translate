@@ -1,6 +1,3 @@
-// 👇️ ts-nocheck ignores all ts errors in the file
-// @ts-nocheck
-
 import React, { useState, useEffect } from 'react';
 import { CompactPicker } from 'react-color';
 import Icon128 from '../../utils/images/icon-128.png';
@@ -12,7 +9,6 @@ import {
   CloseSquareOutlined,
   GithubFilled
 } from '@ant-design/icons';
-import { getItem, setItem } from '../../utils/common';
 
 const colors = [
   'transparent',
@@ -57,32 +53,29 @@ const Popup = () => {
   const [status, setStatus] = useState(false)
   const [backgroundColor, setBackgroundColor] = useState('#000000')
   const [backgroundOpacity, setBackgroundOpacity] = useState(1)
-  const [originFont, setOriginFont] = useState(22)
-  const [originColor, setOriginColor] = useState('#ffffff')
-  const [originWeight, setOriginWeight] = useState(700)
-  const [transFont, setTransFont] = useState(28)
-  const [transColor, setTransColor] = useState('#ffffff')
-  const [transWeight, setTransWeight] = useState(700)
+  const [originFontSize, setOriginFontSize] = useState(22)
+  const [originFontColor, setOriginColor] = useState('#ffffff')
+  const [originFontWeight, setOriginFontWeight] = useState(700)
+  const [translatedFontSize, setTranslatedFontSize] = useState(28)
+  const [translatedFontColor, setTranslatedFontColor] = useState('#ffffff')
+  const [translatedFontWeight, setTranslatedFontWeight] = useState(700)
 
   const [promotionStatus, setPromotionStatus] = useState(true);
-  //--------------------------------- read storage
   useEffect(() => {
     chrome.storage.local.get(null, function (data) {
-      console.log(data)
+      console.log(`popup page `,data)
       setStatus(data?.status)
       setBackgroundColor(data?.backgroundColor)
       setBackgroundOpacity(data?.backgroundOpacity)
-      setOriginFont(data?.originFont)
-      setOriginColor(data?.originColor)
-      setOriginWeight(data?.originWeight)
-      setTransFont(data?.transFont)
-      setTransColor(data?.transColor)
-      setTransWeight(data?.transWeight)
+      setOriginFontSize(data?.originFontSize)
+      setOriginColor(data?.originFontColor)
+      setOriginFontWeight(data?.originFontWeight)
+      setTranslatedFontSize(data?.translatedFontSize)
+      setTranslatedFontColor(data?.translatedFontColor)
+      setTranslatedFontWeight(data?.translatedFontWeight)
     })
   }, []);
 
-  //---------------------------------
-  // goto setting page
   const Setting = () => {
     chrome.tabs.query(
       {
@@ -95,7 +88,7 @@ const Popup = () => {
     );
   };
 
-  // goto  promotion page
+
   const promotionPage = () => {
     setPromotionStatus(!promotionStatus);
   };
@@ -109,7 +102,6 @@ const Popup = () => {
         <div className={'left'}>
           <Avatar
             style={{ verticalAlign: 'middle' }}
-            size="middle"
             src={Icon128}
           />
           <div className={'brand'}>Udemy Translate</div>
@@ -139,13 +131,12 @@ const Popup = () => {
       {promotionStatus ? (
         <div>
           <div className={'content'}>
-            {/* <h1>{status.toString()}</h1> */}
             <Switch
               checkedChildren="开"
               unCheckedChildren="关"
               checked={status}
               onChange={
-                (e) => {
+                (e: any) => {
                   setStatus(!status)
                   chrome.storage.local.set({ 'status': !status })
                 }
@@ -174,7 +165,7 @@ const Popup = () => {
                 min={0}
                 max={1}
                 step={0.1}
-                onChange={(value) => {
+                onChange={(value:any) => {
                   setBackgroundOpacity(value)
                   chrome.storage.local.set({ 'backgroundOpacity': value })
                 }}
@@ -185,21 +176,21 @@ const Popup = () => {
               <span>[原文大小]</span>
               <Slider
                 style={{ width: '280px' }}
-                onChange={(value) => {
-                  setOriginFont(value)
-                  chrome.storage.local.set({ 'originFont': value })
+                onChange={(value:any) => {
+                  setOriginFontSize(value)
+                  chrome.storage.local.set({ 'originFontSize': value })
                 }}
-                value={originFont}
+                value={originFontSize}
               />
             </List.Item>
             <List.Item className={'flex'}>
               <span>[原文颜色]</span>
               <CompactPicker
-                name="originColor"
-                color={originColor}
+                // name="originFontColor"
+                color={originFontColor}
                 onChangeComplete={(color, event) => {
                   setOriginColor(color.hex)
-                  chrome.storage.local.set({ 'originColor': color.hex })
+                  chrome.storage.local.set({ 'originFontColor': color.hex })
                 }}
                 className={'CompactPicker'}
               />
@@ -211,33 +202,33 @@ const Popup = () => {
                 min={100}
                 max={700}
                 step={100}
-                onChange={(value) => {
-                  setOriginWeight(value)
-                  chrome.storage.local.set({ 'originWeight': value })
+                onChange={(value:any) => {
+                  setOriginFontWeight(value)
+                  chrome.storage.local.set({ 'originFontWeight': value })
                 }}
-                value={originWeight}
+                value={originFontWeight}
               />
             </List.Item>
             <List.Item className={'flex'}>
               <span>[译文大小]</span>
               <Slider
                 style={{ width: '280px' }}
-                onChange={(value) => {
-                  setTransFont(value)
-                  chrome.storage.local.set({ 'transFont': value })
+                onChange={(value:any) => {
+                  setTranslatedFontSize(value)
+                  chrome.storage.local.set({ 'translatedFontSize': value })
                 }}
-                value={transFont}
+                value={translatedFontSize}
               />
             </List.Item>
             <List.Item className={'flex'}>
               <span>[译文颜色]</span>
               <CompactPicker
-                name="transColor"
-                color={transColor}
+                // name="translatedFontColor"
                 onChangeComplete={(color, event) => {
-                  setTransColor(color?.hex)
-                  chrome.storage.local.set({ 'transColor': color?.hex })
+                  setTranslatedFontColor(color?.hex)
+                  chrome.storage.local.set({ 'translatedFontColor': color?.hex })
                 }}
+                color={translatedFontColor}
                 className={'CompactPicker'}
               />
             </List.Item>
@@ -248,11 +239,11 @@ const Popup = () => {
                 min={100}
                 max={700}
                 step={100}
-                onChange={(value) => {
-                  setTransWeight(value)
-                  chrome.storage.local.set({ 'transWeight': value })
+                onChange={(value:any) => {
+                  setTranslatedFontWeight(value)
+                  chrome.storage.local.set({ 'translatedFontWeight': value })
                 }}
-                value={transWeight}
+                value={translatedFontWeight}
               />
             </List.Item>
             <List.Item>

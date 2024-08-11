@@ -15,10 +15,6 @@ module.exports = {
     entry: 'src/pages/devtools/index',
     template: 'public/index.html',
   },
-  newtab: {
-    entry: 'src/pages/newtab/index',
-    template: 'src/pages/newtab/index.html',
-  },
   options: {
     entry: 'src/pages/options/index',
     template: 'src/pages/options/index.html',

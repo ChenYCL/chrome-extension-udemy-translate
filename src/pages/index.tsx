@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import 'antd/dist/antd.min.css';
 import './index.scss';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
     <React.StrictMode>
         <div className="container">
@@ -11,9 +12,6 @@ root.render(
                 <li>
                     <a href="/popup.html">popup</a>
                 </li>
-                {/* <li>
-                    <a href="/newtab.html">newtab</a>
-                </li> */}
                 <li>
                     <a href="/options.html">options</a>
                 </li>
