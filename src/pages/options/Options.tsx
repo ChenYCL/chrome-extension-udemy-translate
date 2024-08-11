@@ -183,7 +183,7 @@ const Options: React.FC = () => {
         <Input.TextArea
           value={prompt}
           onChange={handlePromptChange}
-          placeholder="Translate the following English text into Chinese and separate the translations with @@@"
+          placeholder="Translate the following <English> text into <Chinese> and separate the translations with @@@"
           autoSize={{ minRows: 3, maxRows: 5 }}
         />
         <p style={{ marginTop: '10px' }}>{`Translate the following English text into Chinese and separate the translations with @@@`}</p>

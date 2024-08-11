@@ -16,9 +16,8 @@ chrome.runtime.onInstalled.addListener(function (details) {
             translatedFontSize: 28,
             translatedFontColor: '#ffffff',
             translatedFontWeight: 700,
-            apiKey: '',
-            baseURL: '',
-            prompt: `Translate the following text to {TARGET_LANGUAGE}`,
+            domConfigs: [{ domain: '', selector: '' }, { domain: '', selector: '' }],
+            prompt: `Translate the following English text into Chinese and separate the translations with @@@`,
         });
     } else if (details.reason == 'update') {
         var thisVersion = chrome.runtime.getManifest().version;
