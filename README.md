@@ -8,7 +8,7 @@
 
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
-![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v2.1.7)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v3.0.0)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 ## About This Extension
@@ -43,6 +43,8 @@ Open your Google Chrome or new version of Edge browser
 - Step 2:
 Enable Developer Mode
 ![Step 2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
+<img width="1423" alt="image" src="https://github.com/user-attachments/assets/26087174-c69d-4649-8fa7-feda31e6cce1">
+
 
 Results:
 
@@ -84,25 +86,30 @@ v3.0.0
 - Add the domain of the website you want to translate subtitles for and the corresponding DOM selector
 - Save the settings and refresh the target webpage
 
-## API Configuration
+# Configuration Guide
 
-- OpenAI Configuration
+## OpenAI Configuration
 1. Select OpenAI in the configuration panel
 2. Enter your OpenAI API key
 3. Choose an appropriate model (e.g., gpt-3.5-turbo)
 4. Configure the proxy URL
 
-- Ollama Local Configuration
-Install Ollama: Visit the Ollama website to download and install
-Pull the required model:
-```bash
-ollama pull llama2
-```
-
-## Ollama Configuration
-- Select Ollama in the extension configuration panel
-- Enter the Ollama service URL (default is http://localhost:11434)
-- Select the model name you pulled (e.g., llama2)
+## Ollama Local Configuration (requires Node.js environment)
+1. Install Ollama: Visit [Ollama official website](https://ollama.com/) to download and install
+2. Pull the required model:
+   ```bash
+   ollama pull gemma2:2b
+   ```
+3. Select Ollama in the extension configuration panel
+4. Enter the Ollama service URL (default is http://localhost:11434)
+5. Start the local Ollama server:
+   ```bash
+   ollama serve
+   ```
+6. Proxy local Ollama to HTTPS:
+   1. Download [https-local-cli](https://github.com/tinny-tool/https-local-cli), navigate to the directory, and run \`npm link\` to generate local SSL files
+   2. Use [ollama-proxy-https](https://github.com/tinny-tool/ollama-proxy-https), run \`npm start\` to start the proxy service, enabling local interface translation (fastest speed, lowest latency)
+`
 
 ## Custom Website Configuration
 1. In the configuration panel, add the domain of the website you want to translate subtitles for

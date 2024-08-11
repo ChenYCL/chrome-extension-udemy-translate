@@ -10,7 +10,7 @@
 
 [![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
-![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v2.1.7)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v3.0.0)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 ## 关于本插件
@@ -47,6 +47,8 @@
 - 步骤 2:
 开启开发者模式
 ![第二步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
+<img width="1423" alt="image" src="https://github.com/user-attachments/assets/ca4853d9-4369-4135-b9a3-80a1c985a0f7">
+
 
 效果如下
 
@@ -111,16 +113,22 @@ v3.0.0
 2. 输入您的OpenAI API密钥
 3. 选择合适的模型（如gpt-3.5-turbo）
 4. 配置代理url
-   
-- Ollama本地配置
-安装Ollama：访问 Ollama官网 下载并安装
-拉取所需模型：
+
+
+- Ollama本地配置（需要安装nodejs环境）
+1. 安装Ollama：访问 Ollama官网https://ollama.com/ 下载并安装
+2. 拉取所需模型：
 ```bash
-ollama pull llama2
+ollama pull gemma2:2b
 ```
-在扩展配置面板中选择Ollama
-输入Ollama服务的URL（默认为 http://localhost:11434）
-选择您拉取的模型名称（如llama2）
+3.在扩展配置面板中选择Ollama
+
+4. 输入Ollama服务的URL（默认为 http://localhost:11434）
+5. 本地开启 ollama serve
+6. 代理本地ollama到https
+   1. https://github.com/tinny-tool/https-local-cli 下载当前项目 并在目录下使用npm link , 生成本地ssl等文件
+   2. https://github.com/tinny-tool/ollama-proxy-https 使用当前项目，使用npm start 开启代理服务，实现本地接口翻译（速度最快，延时最低）
+
 
 ## 自定义网站配置
 1. 在配置面板中，添加您想要翻译字幕的网站域名
