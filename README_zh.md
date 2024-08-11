@@ -47,6 +47,8 @@
 - 步骤 2:
 开启开发者模式
 ![第二步](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
+<img width="1423" alt="image" src="https://github.com/user-attachments/assets/ca4853d9-4369-4135-b9a3-80a1c985a0f7">
+
 
 效果如下
 
