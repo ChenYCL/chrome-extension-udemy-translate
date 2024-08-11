@@ -1,91 +1,87 @@
-import {
-    translateText
-} from '../../utils/request';
-console.log('init done');
+import { translateText } from '../../utils/request';
 
-chrome.runtime.onInstalled.addListener(function (details) {
-    if (details.reason == 'install') {
-        console.log('This is a first install!');
-        chrome.storage.local.set({
-            status: false,
-            backgroundColor: '#000000',
-            backgroundOpacity: 1,
-            originFontColor: '#ffffff',
-            originFontSize: 22,
-            originFontWeight: 700,
-            translatedFontSize: 28,
-            translatedFontColor: '#ffffff',
-            translatedFontWeight: 700,
-            domConfigs: [{ domain: '', selector: '' }, { domain: '', selector: '' }],
-            prompt: `Translate the following English text into Chinese and separate the translations with @@@`,
-        });
-    } else if (details.reason == 'update') {
-        var thisVersion = chrome.runtime.getManifest().version;
-        console.log(
-            'Updated from ' + details.previousVersion + ' to ' + thisVersion + '!'
-        );
-    }
+console.log('Background script initialized');
+
+const DEFAULT_SETTINGS = {
+  status: false,
+  backgroundColor: '#000000',
+  backgroundOpacity: 1,
+  originFontColor: '#ffffff',
+  originFontSize: 22,
+  originFontWeight: 700,
+  translatedFontSize: 28,
+  translatedFontColor: '#ffffff',
+  translatedFontWeight: 700,
+  domConfigs: [{ domain: '', selector: '' }, { domain: '', selector: '' }],
+  prompt: 'Translate the following English text into Chinese and separate the translations with @@@',
+};
+
+chrome.runtime.onInstalled.addListener(({ reason, previousVersion }) => {
+  if (reason === 'install') {
+    console.log('First install');
+    chrome.storage.local.set(DEFAULT_SETTINGS);
+  } else if (reason === 'update') {
+    const currentVersion = chrome.runtime.getManifest().version;
+    console.log(`Updated from ${previousVersion} to ${currentVersion}`);
+  }
 });
 
-async function getStorageData(): Promise<any> {
-    return new Promise((resolve) => {
-        chrome.storage.local.get(null, (result) => {
-            resolve(result);
-        });
-    });
-}
+const getStorageData = (): Promise<any> =>
+  new Promise(resolve => chrome.storage.local.get(null, resolve));
 
-async function broadcastStatusChange(status: boolean) {
-    const tabs = await chrome.tabs.query({});
-    for (const tab of tabs) {
-        if (tab.id) {
-            chrome.tabs.sendMessage(tab.id, { type: 'STATUS_CHANGED', status });
-        }
+const broadcastStatusChange = async (status: boolean): Promise<void> => {
+  const tabs = await chrome.tabs.query({});
+  tabs.forEach(tab => {
+    if (tab.id) {
+      chrome.tabs.sendMessage(tab.id, { type: 'STATUS_CHANGED', status });
     }
-}
+  });
+};
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'local') {
-        if (changes.status) {
-            broadcastStatusChange(changes.status.newValue);
-        }
-    }
+  if (namespace === 'local' && changes.status) {
+    broadcastStatusChange(changes.status.newValue);
+  }
 });
 
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        if (request.type === 'TRANSLATE_TEXT') {
-            const { text, targetLanguage } = request;
-            
-            getStorageData().then(async ({ status, prompt, selectedModel,ollamaConfig,openaiConfig }) => {
-                if (!status) {
-                    sendResponse({ type: 'TRANSLATION_ERROR', error: 'Translation is currently disabled' });
-                    return;
-                }
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === 'TRANSLATE_TEXT') {
+    handleTranslationRequest(request, sendResponse);
+    return true; // Indicates an asynchronous response
+  }
+});
 
-                if (ollamaConfig?.baseURL === '' || ollamaConfig?.modelName === '' || openaiConfig?.apiKey === '' || openaiConfig?.baseURL === '' || openaiConfig?.modelName === '') {
-                    sendResponse({ type: 'TRANSLATION_ERROR', error: 'API Key or BaseURL or ModelName is not set' });
-                    return;
-                }
+const handleTranslationRequest = async (request: any, sendResponse: (response: any) => void) => {
+  const { text, targetLanguage } = request;
+  
+  try {
+    const storageData = await getStorageData();
+    const { status, prompt, selectedModel, ollamaConfig, openaiConfig } = storageData;
 
-                try {
-                    const response = await translateText(text, targetLanguage, prompt) as any;
-                    console.log('🔥 🔥 Translated text:', response);
-                    if(selectedModel === 'openai'){
-                        sendResponse({ type: 'TRANSLATED_TEXT', translatedText:response?.content });
-                    }else if(selectedModel === 'ollama'){
-                        sendResponse({ type: 'TRANSLATED_TEXT', translatedText: response });
-                    }
-                } catch (error: any) {
-                    sendResponse({ type: 'TRANSLATION_ERROR', error: error?.message });
-                }
-            }).catch(error => {
-                sendResponse({ type: 'TRANSLATION_ERROR', error: error.message });
-            });
-
-            return true;  // awaiting for sync response
-        }
+    if (!status) {
+      throw new Error('Translation is currently disabled');
     }
-);
 
+    if (!isConfigValid(ollamaConfig, openaiConfig)) {
+      throw new Error('API Key, BaseURL, or ModelName is not set');
+    }
 
+    const response = await translateText(text, targetLanguage, prompt);
+    console.log('Translation response:', response);
+
+    const translatedText = selectedModel === 'openai' ? (response as {content?:string})?.content : response;
+    sendResponse({ type: 'TRANSLATED_TEXT', translatedText });
+  } catch (error: any) {
+    sendResponse({ type: 'TRANSLATION_ERROR', error: error.message });
+  }
+};
+
+const isConfigValid = (ollamaConfig: any, openaiConfig: any): boolean => {
+  return !(
+    ollamaConfig?.baseURL === '' ||
+    ollamaConfig?.modelName === '' ||
+    openaiConfig?.apiKey === '' ||
+    openaiConfig?.baseURL === '' ||
+    openaiConfig?.modelName === ''
+  );
+};

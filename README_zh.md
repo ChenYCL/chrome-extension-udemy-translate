@@ -119,7 +119,7 @@ v3.0.0
 1. 安装Ollama：访问 Ollama官网https://ollama.com/ 下载并安装
 2. 拉取所需模型：
 ```bash
-ollama pull gemma2:2b
+ollama pull qwen:4b # 推荐qwen 包括 0.5B、1.8B、4B（默认）、7B、14B、32B（新）和 72B , 数字越小速度越快，准确度会有所下降，4b基本又快又稳定，我推测0.5B可能超快又准确，可尝试
 ```
 3.在扩展配置面板中选择Ollama
 
