@@ -113,16 +113,17 @@ v3.0.0
 2. 输入您的OpenAI API密钥
 3. 选择合适的模型（如gpt-3.5-turbo）
 4. 配置代理url
-   
+
+
 - Ollama本地配置
-安装Ollama：访问 Ollama官网 下载并安装
-拉取所需模型：
+1. 安装Ollama：访问 Ollama官网 下载并安装
+2. 拉取所需模型：
 ```bash
-ollama pull llama2
+ollama pull gemma2:2b
 ```
-在扩展配置面板中选择Ollama
-输入Ollama服务的URL（默认为 http://localhost:11434）
-选择您拉取的模型名称（如llama2）
+3.在扩展配置面板中选择Ollama
+4. 输入Ollama服务的URL（默认为 http://localhost:11434）
+
 
 ## 自定义网站配置
 1. 在配置面板中，添加您想要翻译字幕的网站域名
