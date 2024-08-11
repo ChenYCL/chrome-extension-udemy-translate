@@ -6,7 +6,7 @@
   Udemy Translate
 </h4>
 
-[![Build Status](https://img.shields.io/badge/README-English-yellow.svg)](README_zh.md)
+[![Build Status](https://img.shields.io/badge/README-Chinese-yellow.svg)](README_zh.md)
 ![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v3.0.0)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
