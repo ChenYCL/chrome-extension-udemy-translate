@@ -51,7 +51,7 @@ const Options: React.FC = () => {
   const [domConfigs, setDomConfigs] = useState<DomConfig[]>([{ domain: '', selector: '' }]);
   const [selectedModel, setSelectedModel] = useState<string>('openai');
   const [openaiConfig, setOpenaiConfig] = useState<ModelConfig>({ apiKey: '', baseURL: 'https://api.openai.com/v1', modelName: 'gpt-4o' });
-  const [ollamaConfig, setOllamaConfig] = useState<ModelConfig>({ apiKey: '', baseURL: 'https://localhost:11434/v1', modelName: 'ollama' });
+  const [ollamaConfig, setOllamaConfig] = useState<ModelConfig>({ apiKey: '', baseURL: 'https://localhost:11434/v1', modelName: 'gemma2:2b' });
 
   useEffect(() => {
     const init = async () => {
