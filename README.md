@@ -98,7 +98,7 @@ v3.0.0
 1. Install Ollama: Visit [Ollama official website](https://ollama.com/) to download and install
 2. Pull the required model:
    ```bash
-   ollama pull gemma2:2b
+   ollama pull qwen:4b # recommend qwen
    ```
 3. Select Ollama in the extension configuration panel
 4. Enter the Ollama service URL (default is http://localhost:11434)
