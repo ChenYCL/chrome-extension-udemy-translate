@@ -1,7 +1,7 @@
 import { ChatOpenAI } from "@langchain/openai";
 import Ollama from 'openai';
 
-// 类型定义
+
 export type MessageContentText = {
     type: "text";
     text: string;
