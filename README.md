@@ -34,7 +34,7 @@ Second method: Download from WeChat Official Account or download the source code
 
 - Step 1:
 
-Follow the WeChat Official Account: 影音下午茶 and reply 'Tool Download'
+Follow the WeChat Official Account: 影音下午茶 and reply '工具下载'
 
 Open your Google Chrome or new version of Edge browser
 
