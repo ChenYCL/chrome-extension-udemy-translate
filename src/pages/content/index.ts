@@ -28,19 +28,15 @@ const CONFIG = {
   DEFAULT_TRANSLATED_FONT_COLOR: 'yellow',
   DEFAULT_FONT_WEIGHT: 'normal',
   DEFAULT_FONT_SIZE: '16',
-  INTERVAL_CHECK_TIME: 5000,
+  CHECK_INTERVAL: 500, // 0.5 秒
 };
 
 class TranslationManager {
   private isActive: boolean = true;
-  private observer: MutationObserver | null = null;
   private intervalId: number | null = null;
-
-  private readonly MutationObserverConfig = {
-    childList: true,
-    subtree: true,
-    characterData: true
-  };
+  private lastSubtitleContent: string = '';
+  private translationCache: Map<string, string> = new Map();
+  private videoWrapper: HTMLElement | null = null;
 
   constructor() {}
 
@@ -73,9 +69,8 @@ class TranslationManager {
     try {
       const { status, domConfigs } = await this.getStorageData();
       if (status && this.isDomainAllowed(domConfigs)) {
-        console.log('Initial setup: Starting listener');
-        this.startListening(domConfigs);
-        this.addVideoEventListeners(domConfigs);
+        console.log('Initial setup: Starting translation');
+        this.startTranslation();
       } else {
         console.log('Initial setup: Translation not enabled or domain not allowed');
       }
@@ -101,9 +96,31 @@ class TranslationManager {
     return domConfigs?.find(config => currentDomain === config.domain);
   }
 
-  private translateElements = debounce(async () => {
+  private startTranslation() {
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+    }
+    this.getStorageData().then(({ domConfigs }) => {
+      const matchedConfig = this.isDomainAllowed(domConfigs);
+      if (matchedConfig) {
+        this.createHideOriginalSubtitleStyle(matchedConfig.selector);
+      }
+    }).catch(error => {
+      console.error('Error in startTranslation:', error);
+    });
+    this.intervalId = window.setInterval(() => this.checkAndTranslate(), CONFIG.CHECK_INTERVAL);
+  }
+
+
+  private stopTranslation() {
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  private checkAndTranslate = debounce(async () => {
     if (!this.isActive) {
-      console.log('Translation is not active');
       return;
     }
 
@@ -111,7 +128,6 @@ class TranslationManager {
       const { status, domConfigs } = await this.getStorageData();
 
       if (!status) {
-        console.log('Translation is currently disabled');
         return;
       }
 
@@ -120,41 +136,31 @@ class TranslationManager {
       if (matchedConfig) {
         const rootElements = document.querySelectorAll(matchedConfig.selector);
         rootElements.forEach((rootElement) => {
-          const textNodes = this.getTextNodes(rootElement);
-          if (textNodes.length > 0) {
-            const combinedText = textNodes.map(node => node.textContent?.trim()).filter(Boolean).join(' ');
-            this.translateCombinedText(combinedText, textNodes, matchedConfig.selector);
+          const textContent = rootElement.textContent?.trim();
+          if (textContent && textContent !== this.lastSubtitleContent) {
+            this.lastSubtitleContent = textContent;
+            this.translateText(textContent, matchedConfig.selector);
           }
         });
-      } else {
-        console.log('Current domain is not in the allowed list');
       }
     } catch (error) {
-      console.error('Error in translateElements:', error);
+      console.error('Error in checkAndTranslate:', error);
     }
-  }, 0);
+  }, 200);
 
-  private getTextNodes(element: Element): Text[] {
-    const textNodes: Text[] = [];
-    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
+  private async translateText(text: string, selector: string) {
+    if (!text.trim()) return;
 
-    let node;
-    while (node = walker.nextNode()) {
-      if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
-        textNodes.push(node as Text);
-      }
+    if (this.translationCache.has(text)) {
+      const translatedText = this.translationCache.get(text)!;
+      this.updateSubtitle(text, translatedText);
+      return;
     }
-
-    return textNodes;
-  }
-
-  private async translateCombinedText(combinedText: string, textNodes: Text[], selector: string) {
-    if (!combinedText.trim()) return;
 
     try {
       chrome.runtime.sendMessage({
         type: 'TRANSLATE_TEXT',
-        text: combinedText,
+        text: text,
         targetLanguage: 'Chinese'
       }, (response) => {
         if (chrome.runtime.lastError) {
@@ -163,14 +169,11 @@ class TranslationManager {
         }
 
         if (response && response.type === 'TRANSLATED_TEXT') {
-          const parts = response?.translatedText.split('@@@');
-
-          let translatedText = parts[0].trim();
-          if (translatedText.includes('\n')) {
-            translatedText = translatedText.split('\n')[0];
-          }
+          let translatedText = response.translatedText.split('@@@')[0].trim();
           translatedText = translatedText.replace(/\n/g, ' ').replace(/@/g, ' ').trim();
-          this.distributeTranslation(combinedText, translatedText || 'Oops, translation failed', textNodes, selector);
+          
+          this.translationCache.set(text, translatedText);
+          this.updateSubtitle(text, translatedText);
         } else if (response && response.type === 'TRANSLATION_ERROR') {
           console.error('Translation failed:', response.error);
         }
@@ -180,70 +183,8 @@ class TranslationManager {
     }
   }
 
-  private distributeTranslation(originalText: string, translatedText: string, textNodes: Text[], selector: string) {
-    console.log('🔥translation:', originalText, '->', translatedText);
-
-    const targetElement = document.querySelector(selector);
-
-    if (!targetElement || !targetElement.parentElement) {
-      console.error('Cannot find target element for subtitle insertion');
-      return;
-    }
-
-    this.getStorageData().then((items: StorageData) => {
-      const subtitleElement = document.createElement('div');
-      subtitleElement.className = 'translated-wrapper';
-      subtitleElement.style.cssText = `
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        text-align: center;
-        margin: 0 .5em 1em;
-        padding: 20px 8px;
-        white-space: pre-line;
-        writing-mode: horizontal-tb;
-        unicode-bidi: plaintext;
-        direction: ltr;
-        -webkit-box-decoration-break: clone;
-        box-decoration-break: clone;
-        background: ${items.backgroundColor || CONFIG.DEFAULT_BACKGROUND_COLOR};
-        opacity: ${items.backgroundOpacity || CONFIG.DEFAULT_OPACITY};
-      `;
-
-      const originalSubtitle = document.createElement('div');
-      originalSubtitle.className = 'originalSubtitle';
-      originalSubtitle.style.cssText = `
-        color: ${items.originFontColor || CONFIG.DEFAULT_ORIGIN_FONT_COLOR} !important;
-        font-weight: ${items.originFontWeight || CONFIG.DEFAULT_FONT_WEIGHT} !important;
-        font-size: ${items.originFontSize || CONFIG.DEFAULT_FONT_SIZE}px !important;
-      `;
-      originalSubtitle.textContent = originalText;
-
-      const translatedSubtitle = document.createElement('div');
-      translatedSubtitle.className = 'translatedSubtitle';
-      translatedSubtitle.style.cssText = `
-        color: ${items.translatedFontColor || CONFIG.DEFAULT_TRANSLATED_FONT_COLOR} !important;
-        font-weight: ${items.translatedFontWeight || CONFIG.DEFAULT_FONT_WEIGHT} !important;
-        font-size: ${items.translatedFontSize || CONFIG.DEFAULT_FONT_SIZE}px !important;
-      `;
-      translatedSubtitle.textContent = translatedText;
-
-      subtitleElement.appendChild(originalSubtitle);
-      subtitleElement.appendChild(translatedSubtitle);
-
-      const existingSubtitle = targetElement?.parentElement?.querySelector('.translated-wrapper');
-      if (existingSubtitle) {
-        existingSubtitle.remove();
-      }
-
-      targetElement?.parentElement?.appendChild(subtitleElement);
-    }).catch(error => {
-      console.error('Error getting storage data:', error);
-    });
-  }
-
-  private createGlobalStyle(selector: string) {
-    const styleId = 'auto-translate-style';
+  private createHideOriginalSubtitleStyle(selector: string) {
+    const styleId = 'hide-original-subtitle-style';
     let style = document.getElementById(styleId) as HTMLStyleElement | null;
 
     if (!style) {
@@ -259,102 +200,76 @@ class TranslationManager {
     `;
   }
 
-  private startPeriodicCheck() {
-    if (this.intervalId !== null) {
-      clearInterval(this.intervalId);
-    }
-    this.intervalId = window.setInterval(() => this.checkAndRestartListener(), CONFIG.INTERVAL_CHECK_TIME);
-  }
-
-  private stopPeriodicCheck() {
-    if (this.intervalId !== null) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
+  private showOriginalSubtitle() {
+    const styleElement = document.getElementById('hide-original-subtitle-style');
+    if (styleElement) {
+      styleElement.remove();
     }
   }
 
-  private async checkAndRestartListener() {
-    try {
-      const { status, domConfigs } = await this.getStorageData();
-      if (status && this.isDomainAllowed(domConfigs)) {
-        console.log('Checking and restarting listener');
-        this.startListening(domConfigs);
-      } else {
-        console.log('Translation not enabled or domain not allowed');
-        this.stopListening();
-        this.stopPeriodicCheck();
+  private updateSubtitle(originalText: string, translatedText: string) {
+    console.log('🔥translation:', originalText, '->', translatedText);
+  
+    const videoElement = document.querySelector('video');
+    if (!videoElement) {
+      console.error('Cannot find video element for subtitle insertion');
+      return;
+    }
+  
+    this.getStorageData().then((items: StorageData) => {
+      if (!this.videoWrapper) {
+        this.videoWrapper = document.createElement('div');
+        this.videoWrapper.className = 'video-subtitle-wrapper';
+        this.videoWrapper.style.cssText = `
+          position: relative;
+          display: inline-block;
+          width: ${videoElement.offsetWidth}px;
+          height: ${videoElement.offsetHeight}px;
+        `;
+        videoElement.parentNode?.insertBefore(this.videoWrapper, videoElement);
+        this.videoWrapper.appendChild(videoElement);
       }
-    } catch (error) {
-      console.error('Error in checkAndRestartListener:', error);
-      this.stopPeriodicCheck();
-    }
-  }
-
-  private addVideoEventListeners(domConfigs: DomConfig[]) {
-    const matchedConfig = this.isDomainAllowed(domConfigs);
-    if (matchedConfig) {
-      const videoElements = document.querySelectorAll('video');
-      videoElements.forEach(video => {
-        video.addEventListener('play', () => this.onVideoPlay(matchedConfig));
-      });
-    }
-  }
-
-  private onVideoPlay(config: DomConfig) {
-    console.log('Video started playing, triggering translation');
-    this.startListening([config]);
-    this.translateElements();
-  }
-
-  public startListening(domConfigs: DomConfig[]) {
-    if (this.observer) {
-      console.log('Disconnecting existing observer');
-      this.observer.disconnect();
-    }
-
-    const matchedConfig = this.isDomainAllowed(domConfigs);
-    if (matchedConfig) {
-      const targetElement = document.querySelector(matchedConfig.selector);
-      if (targetElement) {
-        console.log('Starting observer');
-        this.createGlobalStyle(matchedConfig.selector);
-        this.observer = new MutationObserver(() => this.translateElements());
-        this.observer.observe(targetElement, this.MutationObserverConfig);
-
-        // Trigger initial translation
-        this.translateElements();
-
-        this.startPeriodicCheck();
+  
+      let subtitleElement = this.videoWrapper.querySelector('.translated-wrapper') as HTMLElement;
+      if (!subtitleElement) {
+        subtitleElement = document.createElement('div');
+        subtitleElement.className = 'translated-wrapper';
+        this.videoWrapper.appendChild(subtitleElement);
       }
-    }
-  }
-
-  public stopListening() {
-    if (this.observer) {
-      console.log('Stopping observer');
-      this.observer.disconnect();
-      this.observer = null;
-
-      this.getStorageData().then(({ domConfigs }) => {
-        const matchedConfig = this.isDomainAllowed(domConfigs);
-        if (matchedConfig) {
-          const targetElement = document.querySelector(matchedConfig.selector);
-          if (targetElement instanceof HTMLVideoElement) {
-            this.removeVideoListeners(targetElement);
-          }
-        }
-      }).catch(error => {
-        console.error('Error in stopListening:', error);
-      });
-    }
-
-    this.stopPeriodicCheck();
-  }
-
-  private removeVideoListeners(videoElement: HTMLVideoElement) {
-    videoElement.removeEventListener('play', () => this.checkAndRestartListener());
-    videoElement.removeEventListener('pause', () => this.checkAndRestartListener());
-    videoElement.removeEventListener('ended', () => this.checkAndRestartListener());
+  
+      const backgroundColor = items.backgroundColor || CONFIG.DEFAULT_BACKGROUND_COLOR;
+      const opacity = items.backgroundOpacity || CONFIG.DEFAULT_OPACITY;
+  
+      subtitleElement.style.cssText = `
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 2147483647;
+        pointer-events: none;
+        background-color: ${backgroundColor};
+        opacity: ${opacity};
+        padding: 10px;
+      `;
+  
+      subtitleElement.innerHTML = `
+        <div class="originalSubtitle" style="
+          color: ${items.originFontColor || CONFIG.DEFAULT_ORIGIN_FONT_COLOR};
+          font-weight: ${items.originFontWeight || CONFIG.DEFAULT_FONT_WEIGHT};
+          font-size: ${items.originFontSize || CONFIG.DEFAULT_FONT_SIZE}px;
+          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        ">${originalText}</div>
+        <div class="translatedSubtitle" style="
+          color: ${items.translatedFontColor || CONFIG.DEFAULT_TRANSLATED_FONT_COLOR};
+          font-weight: ${items.translatedFontWeight || CONFIG.DEFAULT_FONT_WEIGHT};
+          font-size: ${items.translatedFontSize || CONFIG.DEFAULT_FONT_SIZE}px;
+          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        ">${translatedText}</div>
+      `;
+    }).catch(error => {
+      console.error('Error getting storage data:', error);
+    });
   }
 
   public handleStatusChange(status: boolean) {
@@ -362,8 +277,8 @@ class TranslationManager {
     if (status) {
       this.getStorageData().then(({ domConfigs }) => {
         if (this.isDomainAllowed(domConfigs)) {
-          console.log('Status changed to active, starting listener');
-          this.startListening(domConfigs);
+          console.log('Status changed to active, starting translation');
+          this.startTranslation();
         } else {
           console.log('Status changed to active, but domain not allowed');
         }
@@ -371,8 +286,8 @@ class TranslationManager {
         console.error('Error in STATUS_CHANGED:', error);
       });
     } else {
-      console.log('Status changed to inactive, stopping listener');
-      this.stopListening();
+      console.log('Status changed to inactive, stopping translation');
+      this.stopTranslation();
     }
   }
 
@@ -381,11 +296,11 @@ class TranslationManager {
     if (changes.status || changes.domConfigs) {
       this.getStorageData().then(({ status, domConfigs }) => {
         if (status && this.isDomainAllowed(domConfigs)) {
-          console.log('Status or domConfigs changed, starting listener');
-          this.startListening(domConfigs);
+          console.log('Status or domConfigs changed, starting translation');
+          this.startTranslation();
         } else {
-          console.log('Status or domConfigs changed, stopping listener');
-          this.stopListening();
+          console.log('Status or domConfigs changed, stopping translation');
+          this.stopTranslation();
         }
       }).catch(error => {
         console.error('Error in storage change:', error);
@@ -395,7 +310,7 @@ class TranslationManager {
       this.getStorageData().then(({ domConfigs }) => {
         if (this.isDomainAllowed(domConfigs)) {
           console.log('API settings changed, triggering translation');
-          this.translateElements();
+          this.checkAndTranslate();
         } else {
           console.log('API settings changed, but domain not allowed');
         }
@@ -411,8 +326,8 @@ class TranslationManager {
     if (this.isActive) {
       this.getStorageData().then(({ status, domConfigs }) => {
         if (status && this.isDomainAllowed(domConfigs)) {
-          console.log('Page became visible, starting listener');
-          this.startListening(domConfigs);
+          console.log('Page became visible, starting translation');
+          this.startTranslation();
         } else {
           console.log('Page became visible, but translation not enabled or domain not allowed');
         }
@@ -420,8 +335,8 @@ class TranslationManager {
         console.error('Error in visibility change:', error);
       });
     } else {
-      console.log('Page became hidden, stopping listener');
-      this.stopListening();
+      console.log('Page became hidden, stopping translation');
+      this.stopTranslation();
     }
   }
 }
