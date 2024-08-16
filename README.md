@@ -15,6 +15,12 @@
 
 This is a powerful Chrome extension that can translate subtitles from any website into different languages in real-time. It's no longer limited to specific video platforms but supports user-defined subtitle translation for any website.
 
+## Intro
+
+
+https://github.com/user-attachments/assets/3d6a300d-4c5e-4ec5-b92c-57a989920980
+
+
 ## Key Features
 
 - Supports subtitle translation for any website
