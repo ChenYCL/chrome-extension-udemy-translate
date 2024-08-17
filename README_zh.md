@@ -111,7 +111,7 @@ v3.0.0
   
 ## API配置
 
-- OpenAI配置
+- OpenAI配置(支持openai格式转发接口，poe2gpt（openai规范），speeddeek等接口）
 1. 在配置面板中选择OpenAI
 2. 输入您的OpenAI API密钥
 3. 选择合适的模型（如gpt-3.5-turbo）
