@@ -94,7 +94,7 @@ v3.0.0
 
 # Configuration Guide
 
-## OpenAI Configuration
+## OpenAI Configuration（also support openai style api: speeddeek,poe2gpt...)
 1. Select OpenAI in the configuration panel
 2. Enter your OpenAI API key
 3. Choose an appropriate model (e.g., gpt-3.5-turbo)
