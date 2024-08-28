@@ -37,6 +37,7 @@ class TranslationManager {
   private lastSubtitleContent: string = '';
   private translationCache: Map<string, string> = new Map();
   private videoWrapper: HTMLElement | null = null;
+  private subtitleTimeout: number | null = null;
 
   constructor() {}
 
@@ -111,12 +112,13 @@ class TranslationManager {
     this.intervalId = window.setInterval(() => this.checkAndTranslate(), CONFIG.CHECK_INTERVAL);
   }
 
-
   private stopTranslation() {
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+    this.cleanupSubtitles();
+    this.showOriginalSubtitle();
   }
 
   private checkAndTranslate = debounce(async () => {
@@ -253,23 +255,58 @@ class TranslationManager {
         padding: 10px;
       `;
   
-      subtitleElement.innerHTML = `
-        <div class="originalSubtitle" style="
-          color: ${items.originFontColor || CONFIG.DEFAULT_ORIGIN_FONT_COLOR};
-          font-weight: ${items.originFontWeight || CONFIG.DEFAULT_FONT_WEIGHT};
-          font-size: ${items.originFontSize || CONFIG.DEFAULT_FONT_SIZE}px;
-          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        ">${originalText}</div>
-        <div class="translatedSubtitle" style="
-          color: ${items.translatedFontColor || CONFIG.DEFAULT_TRANSLATED_FONT_COLOR};
-          font-weight: ${items.translatedFontWeight || CONFIG.DEFAULT_FONT_WEIGHT};
-          font-size: ${items.translatedFontSize || CONFIG.DEFAULT_FONT_SIZE}px;
-          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        ">${translatedText}</div>
+      subtitleElement.innerHTML = '';
+
+      const originalSubtitle = document.createElement('div');
+      originalSubtitle.className = 'originalSubtitle';
+      originalSubtitle.style.cssText = `
+        color: ${items.originFontColor || CONFIG.DEFAULT_ORIGIN_FONT_COLOR};
+        font-weight: ${items.originFontWeight || CONFIG.DEFAULT_FONT_WEIGHT};
+        font-size: ${items.originFontSize || CONFIG.DEFAULT_FONT_SIZE}px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
       `;
+      originalSubtitle.textContent = originalText;
+
+      const translatedSubtitle = document.createElement('div');
+      translatedSubtitle.className = 'translatedSubtitle';
+      translatedSubtitle.style.cssText = `
+        color: ${items.translatedFontColor || CONFIG.DEFAULT_TRANSLATED_FONT_COLOR};
+        font-weight: ${items.translatedFontWeight || CONFIG.DEFAULT_FONT_WEIGHT};
+        font-size: ${items.translatedFontSize || CONFIG.DEFAULT_FONT_SIZE}px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      `;
+      translatedSubtitle.textContent = translatedText;
+
+      subtitleElement.appendChild(originalSubtitle);
+      subtitleElement.appendChild(translatedSubtitle);
+
+      if (this.subtitleTimeout !== null) {
+        clearTimeout(this.subtitleTimeout);
+      }
+
+      this.subtitleTimeout = window.setTimeout(() => {
+        if (subtitleElement) {
+          subtitleElement.remove()
+        }
+        this.subtitleTimeout = null;
+      }, 3000);
+
     }).catch(error => {
       console.error('Error getting storage data:', error);
     });
+  }
+
+  private cleanupSubtitles() {
+    if (this.videoWrapper) {
+      const subtitleElement = this.videoWrapper.querySelector('.translated-wrapper');
+      if (subtitleElement) {
+        subtitleElement.remove();
+      }
+    }
+    if (this.subtitleTimeout !== null) {
+      clearTimeout(this.subtitleTimeout);
+      this.subtitleTimeout = null;
+    }
   }
 
   public handleStatusChange(status: boolean) {

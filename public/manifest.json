@@ -58,6 +58,6 @@
         }
     ],
     "content_security_policy": {
-        "extension_pages": "script-src 'self'; connect-src 'self' http://*/* https://*/*  http://localhost:11435 https://localhost:11435 https://api.openai.com/v1/chat/completions; object-src 'self'"
+        "extension_pages": "script-src 'self'; connect-src 'self' http://*/* https://*/*  http://localhost:11435 https://localhost:11435 http://localhost:11434 https://localhost:11434 https://api.openai.com/v1/chat/completions https://api.useaihub.com/v1/chat/completions; object-src 'self'"
       }
 }

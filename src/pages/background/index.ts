@@ -68,9 +68,7 @@ const handleTranslationRequest = async (request: any, sendResponse: (response: a
 
     const response = await translateText(text, targetLanguage, prompt);
     console.log('Translation response:', response);
-
-    const translatedText = selectedModel === 'openai' ? (response as {content?:string})?.content : response;
-    sendResponse({ type: 'TRANSLATED_TEXT', translatedText });
+    sendResponse({ type: 'TRANSLATED_TEXT', 'translatedText': response } );
   } catch (error: any) {
     sendResponse({ type: 'TRANSLATION_ERROR', error: error.message });
   }

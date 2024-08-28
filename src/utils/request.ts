@@ -1,6 +1,4 @@
-import { ChatOpenAI } from "@langchain/openai";
 import Ollama from 'openai';
-
 
 export type MessageContentText = {
     type: "text";
@@ -41,21 +39,6 @@ interface StorageData {
 
 type TranslationModel = 'openai' | 'ollama' | 'thirdparty';
 
-type OpenAIResponse = {
-    content: MessageContent;
-};
-
-const createOpenAIApi = (config: ModelConfig): ChatOpenAI => {
-    return new ChatOpenAI({
-        openAIApiKey: config.apiKey,
-        configuration: {
-            baseURL: config.baseURL,
-        },
-        modelName: config.modelName,
-        temperature: 0.7,
-    });
-};
-
 const createOllamaApi = (config: ModelConfig): Ollama => {
     return new Ollama({
         baseURL: config.baseURL,
@@ -63,37 +46,29 @@ const createOllamaApi = (config: ModelConfig): Ollama => {
     });
 };
 
-const extractTextContent = (content: MessageContent): string => {
-    if (typeof content === 'string') {
-        return content;
-    } else if (Array.isArray(content)) {
-        return content.map(item => extractTextContent(item)).join(' ');
-    } else if (typeof content === 'object') {
-        if ('type' in content) {
-            switch (content.type) {
-                case 'text':
-                    return content.text;
-                case 'image_url':
-                    return '[Image URL]';
-                default:
-                    if ('text' in content && typeof content.text === 'string') {
-                        return content.text;
-                    }
-            }
-        } else if ('text' in content && typeof content.text === 'string') {
-            return content.text;
-        }
+const translateWithOpenAICompatible = async (config: ModelConfig, text: string, prompt: string): Promise<string> => {
+    const response = await fetch(`${config.baseURL}/chat/completions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${config.apiKey}`
+        },
+        body: JSON.stringify({
+            model: config.modelName,
+            messages: [
+                { role: "system", content: prompt },
+                { role: 'user', content: text }
+            ],
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return JSON.stringify(content);
-};
 
-const translateWithOpenAI = async (instance: ChatOpenAI, text: string, prompt: string): Promise<string> => {
-    const result = await instance.invoke([
-        ["system", prompt],
-        ["human", text]
-    ]) as OpenAIResponse;
-
-    return extractTextContent(result.content);
+    const data = await response.json();
+    console.log('🔥 🔥 Translated text (OpenAI Compatible):', data);
+    return data.choices[0].message?.content || '';
 };
 
 const translateWithOllama = async (instance: Ollama, text: string, prompt: string, modelName: string): Promise<string> => {
@@ -116,7 +91,7 @@ const translateWithOllama = async (instance: Ollama, text: string, prompt: strin
     }
 
     const msg = await response.json();
-    console.log('🔥 🔥 Translated text:', msg);
+    console.log('🔥 🔥 Translated text (Ollama):', msg);
     return msg.choices[0].message?.content || '';
 };
 
@@ -132,18 +107,17 @@ const translateText = async (
     text: string,
     targetLanguage: string,
     prompt: string
-): Promise< string | {content?:string}> => {
+): Promise<string> => {
     try {
         const { selectedModel, ollamaConfig, openaiConfig } = await getStorageData();
 
-        console.log('Selected model:', selectedModel, ollamaConfig, openaiConfig);
+        // console.log('Selected model:', selectedModel, ollamaConfig, openaiConfig);
 
         let result: string;
 
         switch (selectedModel as TranslationModel) {
             case 'openai':
-                const openaiInstance = createOpenAIApi(openaiConfig);
-                result = await translateWithOpenAI(openaiInstance, text, prompt);
+                result = await translateWithOpenAICompatible(openaiConfig, text, prompt);
                 break;
             case 'ollama':
                 const ollamaInstance = createOllamaApi(ollamaConfig);
