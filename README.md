@@ -17,8 +17,9 @@ This is a powerful Chrome extension that can translate subtitles from any websit
 
 ## Intro
 
+https://github.com/user-attachments/assets/8089f430-894f-4abc-9c86-544739ab0f57
 
-https://github.com/user-attachments/assets/3d6a300d-4c5e-4ec5-b92c-57a989920980
+https://github.com/user-attachments/assets/de6300f6-af87-441a-9304-dd58b255a17a
 
 
 ## Key Features
