@@ -97,12 +97,12 @@ v3.0.0
 ## OpenAI Configuration（also support openai style api: speeddeek,poe2gpt...)
 1. Select OpenAI in the configuration panel
 2. Enter your OpenAI API key
-3. Choose an appropriate model (e.g., gpt-3.5-turbo)
-4. Configure the proxy URL
+3. Choose an appropriate model (e.g., gpt-4o-mini)
+4. Configure the proxy URL （only support https://api.useaihub.com/v1 , https://api.openai.com/v1 
 
 ## Ollama Local Configuration 
-1. Install Ollama: Visit [docker-ollama-with-https](https://github.com/ChenYCL/docker-ollama-with-https) setup
-2. recommend qwen:1.5b qwen:4b 
+1. Install Ollama: Visit [easy-proxy-ollama-https](https://github.com/ChenYCL/easy-proxy-ollama-https) setup
+2. recommend qwen2:4b qwen2:0.5b
 
 ## Custom Website Configuration
 1. In the configuration panel, add the domain of the website you want to translate subtitles for
