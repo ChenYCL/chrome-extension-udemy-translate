@@ -115,11 +115,11 @@ v3.0.0
 1. 在配置面板中选择OpenAI
 2. 输入您的OpenAI API密钥
 3. 选择合适的模型（如gpt-3.5-turbo）
-4. 配置代理url
+4. 配置代理url (目前仅支持 https://api.useaihub.com/v1,https://api.openai.com/v1
 
 
 - Ollama本地配置
-1. 参考[docker-ollama-with-https](https://github.com/ChenYCL/docker-ollama-with-https) 配置
+1. 参考[easy-proxy-ollama-https](https://github.com/ChenYCL/easy-proxy-ollama-https) 配置
 2. 推荐 qwen:1.5b 或者 qwen:4b 模型
 
 
