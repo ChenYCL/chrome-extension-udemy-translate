@@ -18,7 +18,13 @@
 这是一个强大的Chrome扩展，可以将任何网站上的字幕实时翻译成不同语言。它不再局限于特定的视频平台，而是支持用户自定义任何网站的字幕翻译。
 
 ## 介绍
-https://github.com/user-attachments/assets/3d6a300d-4c5e-4ec5-b92c-57a989920980
+
+
+https://github.com/user-attachments/assets/8089f430-894f-4abc-9c86-544739ab0f57
+https://github.com/user-attachments/assets/de6300f6-af87-441a-9304-dd58b255a17a
+
+
+
 
 ## 主要特性
 
