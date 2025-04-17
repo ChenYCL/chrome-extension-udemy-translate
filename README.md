@@ -125,6 +125,9 @@ There are related plugin usage tutorials. Follow and reply 'Translation Tool' to
 
 ## Donation Channel ☕️
 
+### Discount
+1watchtv.com
+
 ### Alipay
 <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
 
