@@ -31,6 +31,9 @@ https://github.com/user-attachments/assets/8089f430-894f-4abc-9c86-544739ab0f57
 
 https://github.com/user-attachments/assets/de6300f6-af87-441a-9304-dd58b255a17a
 
+![IMG_8903](https://github.com/user-attachments/assets/fff487b3-fb93-4702-bf22-325bfe72fa85)
+
+
 ## ✨ 主要特性
 
 - 🌐 **通用支持** - 适用于任何有字幕的网站
