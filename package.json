@@ -1,18 +1,15 @@
 {
   "name": "react-config",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
-    "@langchain/core": "^0.2.21",
-    "@langchain/openai": "^0.2.6",
     "antd": "^4.24.16",
     "axios": "^0.27.2",
     "cross-fetch": "^3.1.5",
     "global": "^4.4.0",
     "jquery": "^3.6.0",
     "ky": "^0.31.1",
-    "langchain": "^0.2.13",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "ollama": "^0.5.6",
@@ -25,7 +22,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js && node scripts/zip.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "check-mv3": "node check-mv3-compatibility.js",
+    "test-apis": "node test-openai-api.js"
   },
   "browserslist": {
     "production": [
@@ -145,7 +144,6 @@
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.0.1",
     "prettier": "^2.6.2",
-    "prompts": "link:@langchain/core/prompts",
     "react-app-polyfill": "^3.0.0",
     "react-dev-utils": "^12.0.1",
     "react-refresh": "^0.11.0",

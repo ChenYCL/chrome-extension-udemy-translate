@@ -24,3 +24,5 @@ yarn-error.log*
 
 .idea
 .vscode
+easy-proxy-ollama-https
+local-https-proxy-ollama

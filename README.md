@@ -1,124 +1,236 @@
 <p align="center">
-  <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/ball-logo.png" alt="Udemy Translate" height="128" width="128" />
+  <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/ball-logo.png" alt="Universal Subtitle Translator" height="128" width="128" />
 </p>
 
-<h4 align="center">
-  Udemy Translate
-</h4>
+<h1 align="center">
+  Universal Subtitle Translator
+</h1>
 
-[![Build Status](https://img.shields.io/badge/README-Chinese-yellow.svg)](README_zh.md)
-![GitHub All Releases](https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total)
-![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/v3.0.0)
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+<p align="center">
+  <strong>Real-time subtitle translation for any website</strong>
+</p>
 
-## About This Extension
+<p align="center">
+  <a href="README_zh.md">
+    <img src="https://img.shields.io/badge/README-中文-yellow.svg" alt="Chinese README">
+  </a>
+  <img src="https://img.shields.io/github/downloads/ChenYCL/chrome-extension-udemy-translate/total" alt="Downloads">
+  <img src="https://img.shields.io/github/package-json/v/ChenYCL/chrome-extension-udemy-translate/main" alt="Version">
+  <a href="https://opensource.org/licenses/mit-license.php">
+    <img src="https://badges.frapsoft.com/os/mit/mit.svg?v=103" alt="MIT License">
+  </a>
+</p>
 
-This is a powerful Chrome extension that can translate subtitles from any website into different languages in real-time. It's no longer limited to specific video platforms but supports user-defined subtitle translation for any website.
+## 🌟 About This Extension
 
-## Intro
+A powerful Chrome extension that translates subtitles from any website into different languages in real-time. No longer limited to specific video platforms - supports user-defined subtitle translation for any website with customizable selectors.
+
+## 🎬 Demo Videos
 
 https://github.com/user-attachments/assets/8089f430-894f-4abc-9c86-544739ab0f57
 
 https://github.com/user-attachments/assets/de6300f6-af87-441a-9304-dd58b255a17a
 
+## ✨ Key Features
 
-## Key Features
+- 🌐 **Universal Support** - Works on any website with subtitles
+- 🤖 **Multiple AI Models** - OpenAI API and local Ollama support
+- 🎯 **Custom Selectors** - Define your own DOM selectors for any site
+- ⚡ **Real-time Translation** - Instant translation without page refresh
+- 🌍 **Multi-language** - Supports translation to any language
+- 🎨 **Customizable UI** - Adjustable subtitle style and position
+- 🔧 **Easy Configuration** - One-click preset configurations
+- 🧪 **Built-in Testing** - Test API configurations directly in options
 
-- Supports subtitle translation for any website
-- Uses OpenAI API for high-quality translation
-- Supports locally deployed Ollama AI models
-- Users can customize target websites and DOM selectors
-- Real-time translation without page refresh
-- Supports multi-language translation
-- Customizable subtitle style and position
-- [ ] Support for third-party professional translation interfaces, as OpenAI and Ollama translation quality is not controllable
+## 📦 Installation
 
-## Installation Methods
+### Method 1: Chrome Web Store (Recommended)
 
-First method: Install from the Chrome Web Store (link to be updated)
+_Coming soon - Extension will be available on Chrome Web Store_
 
-Second method: Download from WeChat Official Account or download the source code to build
+### Method 2: Manual Installation
 
-- Step 1:
+1. **Download the Extension**
 
-Follow the WeChat Official Account: 影音下午茶 and reply '工具下载'
+   - Download the latest release from [Releases](https://github.com/ChenYCL/chrome-extension-udemy-translate/releases)
+   - Or clone and build from source
 
-Open your Google Chrome or new version of Edge browser
+2. **Install in Chrome**
 
-![Step 1](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step1.png)
+   - Open Chrome and go to `chrome://extensions/`
+   - Enable "Developer mode" in the top right
+   - Click "Load unpacked" and select the extension folder
 
-- Step 2:
-Enable Developer Mode
-![Step 2](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/step2.png)
-<img width="1423" alt="image" src="https://github.com/user-attachments/assets/26087174-c69d-4649-8fa7-feda31e6cce1">
+3. **Configure the Extension**
+   - Right-click the extension icon → Options
+   - Configure your preferred AI model (OpenAI or Ollama)
+   - Add website configurations for subtitle translation
 
+## 🎯 Supported Platforms
 
-Results:
+- ✅ **Netflix** - Real-time subtitle translation
+- ✅ **YouTube** - Video subtitle support
+- ✅ **Amazon Prime Video** - Streaming subtitles
+- ✅ **Disney+** - Multi-language support
+- ✅ **HBO Max** - Premium content translation
+- ✅ **Hulu** - Live and on-demand content
+- ✅ **Paramount+** - Sports and entertainment
+- ✅ **LinkedIn Learning** - Educational content
+- ✅ **Udemy** - Course subtitles
+- ✅ **Any Website** - Custom selector configuration
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/show.png)
+## 🚀 Quick Start
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/netflix.png)
+### Step 1: Choose Your AI Model
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/lynda.png)
+**Option A: OpenAI API (Recommended)**
 
-![Show](https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/master/example/hulu.jpg)
+- High-quality translation
+- Multiple model options
+- Supports third-party compatible APIs
 
-## Version
+**Option B: Local Ollama**
 
-v3.0.0
+- Privacy-focused local processing
+- No API costs
+- Requires local setup
 
-## Features
+### Step 2: Configure API
 
-- [x] Basic translation
-- [x] Netflix video support
-- [x] Lynda video support
-- [x] LinkedIn video support
-- [x] HBO Now video support
-- [x] HBO Max video support
-- [x] Hulu video support
-- [x] Amazon video support
-- [x] Paramount+ video support
-- [x] Disney+ video support
-- [x] simplilearn.com support
-- [x] Yandex translation API integration
-- [x] Azure Cognitive Services
-- [x] OpenAI
-- [x] Ollama
-- [x] Subtitle styling options
+1. **OpenAI Configuration:**
 
-## Usage
-- After installing the extension, click the extension icon to open the configuration panel
-- Choose the translation API (OpenAI or Ollama)
-- Enter the necessary API keys or configuration information
-- Add the domain of the website you want to translate subtitles for and the corresponding DOM selector
-- Save the settings and refresh the target webpage
+   - Get API key from [OpenAI Platform](https://platform.openai.com/)
+   - Choose from preset configurations:
+     - OpenAI Official: `https://api.openai.com/v1`
+     - Third-party services: Various compatible APIs
+   - Test configuration with built-in testing tool
 
-# Configuration Guide
+2. **Ollama Configuration:**
+   - Install Ollama locally
+   - Set up HTTPS proxy (see [local-https-proxy-ollama](https://github.com/ChenYCL/local-https-proxy-ollama))
+   - Configure local endpoint
 
-## OpenAI Configuration（also support openai style api: speeddeek,poe2gpt...)
-1. Select OpenAI in the configuration panel
-2. Enter your OpenAI API key
-3. Choose an appropriate model (e.g., gpt-4o-mini)
-4. Configure the proxy URL （only support https://api.useaihub.com/v1 , https://api.openai.com/v1 
+### Step 3: Add Website Configuration
 
-## Ollama Local Configuration 
-1. Install Ollama: Visit [easy-proxy-ollama-https](https://github.com/ChenYCL/easy-proxy-ollama-https) setup
-2. recommend qwen2:4b qwen2:0.5b
+1. **Access Options Page**
 
-## Custom Website Configuration
-1. In the configuration panel, add the domain of the website you want to translate subtitles for
-2. Specify the correct DOM selector for that website to locate subtitle elements
-3. Save the settings and refresh the target webpage to take effect
+   - Right-click extension icon → Options
+   - Or click extension icon → Settings
 
-## Notes
-- Ensure you have sufficient API usage quota
-- Ollama local deployment requires higher hardware configuration, please choose an appropriate model based on your device performance
-- First-time use may require some time to load and initialize the model
+2. **Add Website Configuration**
+
+   - Domain: `https://www.netflix.com`
+   - Selector: `.player-timedtext-text-container` (for Netflix subtitles)
+   - Save configuration
+
+3. **Test Translation**
+   - Visit configured website
+   - Play video with subtitles
+   - Translation should appear automatically
+
+## ⚙️ Configuration Guide
+
+### 🤖 OpenAI API Setup
+
+#### Supported Services
+
+- **OpenAI Official**: `https://api.openai.com/v1`
+- **Third-party Compatible APIs**:
+  - OAIPro: `https://api.oaipro.com/v1`
+  - UseAIHub: `https://api.useaihub.com/v1`
+  - Any OpenAI-compatible service
+
+#### Configuration Steps
+
+1. **Get API Key**
+
+   - Visit [OpenAI Platform](https://platform.openai.com/)
+   - Create account and generate API key
+   - Or use third-party service credentials
+
+2. **Configure Extension**
+   - Select **OpenAI** model
+   - Choose preset configuration or enter custom URL
+   - Enter your API key
+   - Select model (gpt-3.5-turbo, gpt-4, etc.)
+   - Click **🧪 Test API Configuration** to verify
+
+#### Troubleshooting
+
+- **401 Error**: Check API key validity
+- **429 Error**: Rate limit exceeded, check quota
+- **404 Error**: Verify model name and endpoint URL
+
+### 🏠 Ollama Local Setup
+
+#### Prerequisites
+
+- Local Ollama installation
+- HTTPS proxy for Chrome extension compatibility
+- Sufficient system resources (4GB+ RAM recommended)
+
+#### Quick Setup
+
+```bash
+# 1. Install Ollama
+# Visit https://ollama.ai for installation instructions
+
+# 2. Download recommended model
+ollama pull qwen2:0.5b  # Lightweight, good for translation
+
+# 3. Set up HTTPS proxy
+git clone https://github.com/ChenYCL/local-https-proxy-ollama.git
+cd local-https-proxy-ollama
+./setup.sh  # macOS/Linux or setup.bat for Windows
+
+# 4. Start proxy server
+npm start
+```
+
+#### Extension Configuration
+
+1. Select **Ollama** model
+2. Set Base URL: `https://localhost:11435/v1`
+3. Set Model Name: `qwen2:0.5b`
+4. API Key: `ollama` (any value works)
+
+For detailed setup instructions, see: [local-https-proxy-ollama](https://github.com/ChenYCL/local-https-proxy-ollama)
+
+## 🌐 Custom Website Configuration
+
+### Adding New Websites
+
+1. **Find Subtitle Selector**
+
+   - Open browser developer tools (F12)
+   - Inspect subtitle elements
+   - Copy CSS selector
+
+2. **Add Configuration**
+   - Domain: Full website URL (e.g., `https://www.example.com`)
+   - Selector: CSS selector for subtitle elements
+   - Save and test
+
+### Common Selectors
+
+- **Netflix**: `.player-timedtext-text-container`
+- **YouTube**: `.ytp-caption-segment`
+- **Amazon Prime**: `.atvwebplayersdk-captions-text`
+- **Disney+**: `.dss-subtitle-renderer-cue`
+
+## 🔧 Advanced Features
+
+- **Custom Translation Prompts**: Modify translation instructions
+- **Subtitle Styling**: Customize appearance and position
+- **Multiple Domains**: Support multiple websites simultaneously
+- **Real-time Testing**: Built-in API configuration testing
 
 ## Cooperation Promotion
+
 Contact via WeChat Official Account
 
 ## Welcome to Follow the WeChat Official Account
+
 There are related plugin usage tutorials. Follow and reply 'Translation Tool' to get it. Follow and reply '工具下载' to get the latest version. Regular sharing of audiovisual information worth watching.
 
 <img src="https://raw.githubusercontent.com/ChenYCL/chrome-extension-udemy-translate/master/example/qrcode.BMP" alt="" height="148" width="148" />
@@ -126,18 +238,23 @@ There are related plugin usage tutorials. Follow and reply 'Translation Tool' to
 ## Donation Channel ☕️
 
 ### Discount
+
 [1watchtv.com](https://1watchtv.com)
 
 ### Alipay
+
 <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
 
 ### WeChat
+
 <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
 
 ## Communication
+
 [Telegram Group](https://t.me/joinchat/Gs1RFzD5MpIwJ7S-)
 
 <img src="https://i.loli.net/2021/01/12/Vti5GPdqxjN3ETL.jpg" alt="" height="148" width="148" />
 
 ## Code Contribution
+
 Contributions are welcome! Just send a PR for fixes and documentation updates, and open an issue for new features beforehand. Make sure tests pass and coverage remains high. Thank you!

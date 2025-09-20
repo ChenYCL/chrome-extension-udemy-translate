@@ -6,7 +6,7 @@ module.exports = {
   },
   background: {
     entry: 'src/pages/background/index',
-    template: 'src/pages/background/index.html',
+    // Manifest V3 service worker 不需要 HTML 模板
   },
   content: {
     entry: 'src/pages/content/index',

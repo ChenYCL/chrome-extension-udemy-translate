@@ -246,7 +246,7 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new TerserPlugin({
           /** 改动：禁止生成 *.LICENSE.txt 文件 */
-          terserOptions:{
+          terserOptions: {
             compress: {
               drop_console: isEnvProduction,
               drop_debugger: isEnvProduction
@@ -524,11 +524,13 @@ module.exports = function (webpackEnv) {
             to: path.join(__dirname, '../build'),
             transform: function (content, path) {
               if (path.includes('manifest.json')) {
+                const manifest = JSON.parse(content.toString());
+                const packageJson = require('../package.json');
                 return Buffer.from(
                   JSON.stringify({
-                    // version: process.env.npm_package_version,
-                    // description: process.env.npm_package_description,
-                    ...JSON.parse(content.toString()),
+                    ...manifest,
+                    version: packageJson.version,
+                    description: packageJson.description || manifest.description,
                   })
                 );
               }

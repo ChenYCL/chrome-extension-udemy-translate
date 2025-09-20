@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Udemy Translate",
     "description": "Translate tool",
-    "version": "3.0",
+    "version": "3.0.1",
     "background": {
         "service_worker": "background.js",
         "type": "module"
@@ -21,12 +21,8 @@
     "devtools_page": "devtools.html",
     "options_page": "options.html",
     "permissions": [
-        "tabs",
         "storage",
-        "declarativeContent",
-        "activeTab",
-        "contextMenus",
-        "background"
+        "activeTab"
     ],
     "host_permissions": [
         "http://*/*",
@@ -58,6 +54,6 @@
         }
     ],
     "content_security_policy": {
-        "extension_pages": "script-src 'self'; connect-src 'self' http://*/* https://*/*  http://localhost:11435 https://localhost:11435 http://localhost:11434 https://localhost:11434 https://api.openai.com/v1/chat/completions https://api.useaihub.com/v1/chat/completions; object-src 'self'"
-      }
+        "extension_pages": "script-src 'self'; connect-src 'self' https://*/* localhost:* http://localhost:*; object-src 'self'"
+    }
 }
