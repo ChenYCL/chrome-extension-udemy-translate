@@ -14,6 +14,67 @@ interface ModelConfig {
   modelName: string
 }
 
+// Provider types: OpenAI-compatible  or Ollama
+type ProviderType = 'openai-compatible' | 'ollama'
+
+interface ProviderPreset {
+  name: string
+  baseURL: string
+  defaultModel: string
+  requiresApiKey: boolean
+  description: string
+  examples?: Array<{
+    name: string
+    baseURL: string
+    model: string
+    description?: string
+    signupUrl?: string
+    promoText?: string
+  }>
+}
+
+// Provider presets configuration
+const PROVIDER_PRESETS: Record<ProviderType, ProviderPreset> = {
+  'openai-compatible': {
+    name: 'OpenAI-Compatible API',
+    baseURL: 'https://api.openai.com/v1',
+    defaultModel: 'gpt-4o',
+    requiresApiKey: true,
+    description: 'Any OpenAI-compatible API (OpenAI, 智谱 AI, DeepSeek, etc.)',
+    examples: [
+      {
+        name: 'OpenAI',
+        baseURL: 'https://api.openai.com/v1',
+        model: 'gpt-4o',
+        description: 'Official OpenAI API',
+      },
+      {
+        name: '智谱 AI (GLM) 🎁',
+        baseURL: 'https://open.bigmodel.cn/api/paas/v4',
+        model: 'glm-4-flash',
+        description:
+          '免费模型 glm-4-flash，支持 Claude Code、Cline 等 10+ 编程工具',
+        signupUrl: 'https://www.bigmodel.cn/claude-code?ic=HTKMARY5TE',
+        promoText:
+          '🚀 速来拼好模，智谱 GLM Coding 超值订阅，邀你一起薅羊毛！Claude Code、Cline 等 10+ 大编程工具无缝支持，"码力"全开，越拼越爽！立即开拼，享限时惊喜价！',
+      },
+      {
+        name: 'DeepSeek',
+        baseURL: 'https://api.deepseek.com/v1',
+        model: 'deepseek-chat',
+        description: 'DeepSeek AI API',
+      },
+    ],
+  },
+  ollama: {
+    name: 'Ollama (Local)',
+    baseURL: 'https://localhost:11435/v1',
+    defaultModel: 'qwen2:0.5b',
+    requiresApiKey: false,
+    description: 'Local Ollama server',
+  },
+}
+
 const setItem = async (key: string, value: any): Promise<void> => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.set({ [key]: value }, () => {
@@ -51,16 +112,12 @@ const Options: React.FC = () => {
   const [domConfigs, setDomConfigs] = useState<DomConfig[]>([
     { domain: '', selector: '' },
   ])
-  const [selectedModel, setSelectedModel] = useState<string>('openai')
-  const [openaiConfig, setOpenaiConfig] = useState<ModelConfig>({
+  const [selectedProvider, setSelectedProvider] =
+    useState<ProviderType>('openai-compatible')
+  const [providerConfig, setProviderConfig] = useState<ModelConfig>({
     apiKey: '',
-    baseURL: 'https://api.openai.com/v1',
-    modelName: 'gpt-4o',
-  })
-  const [ollamaConfig, setOllamaConfig] = useState<ModelConfig>({
-    apiKey: '',
-    baseURL: 'https://localhost:11435/v1',
-    modelName: 'qwen2:0.5b',
+    baseURL: PROVIDER_PRESETS['openai-compatible'].baseURL,
+    modelName: PROVIDER_PRESETS['openai-compatible'].defaultModel,
   })
   const [testing, setTesting] = useState<boolean>(false)
   const [testResult, setTestResult] = useState<{
@@ -73,12 +130,18 @@ const Options: React.FC = () => {
       const [
         storedPrompt,
         storedDomConfigs,
+        storedSelectedProvider,
+        storedProviderConfig,
+        // Legacy support
         storedSelectedModel,
         storedOpenaiConfig,
         storedOllamaConfig,
       ] = await Promise.all([
         getItem('prompt'),
         getItem('domConfigs'),
+        getItem('selectedProvider'),
+        getItem('providerConfig'),
+        // Legacy keys
         getItem('selectedModel'),
         getItem('openaiConfig'),
         getItem('ollamaConfig'),
@@ -86,9 +149,49 @@ const Options: React.FC = () => {
 
       if (storedPrompt) setPrompt(storedPrompt)
       if (storedDomConfigs) setDomConfigs(storedDomConfigs)
-      if (storedSelectedModel) setSelectedModel(storedSelectedModel)
-      if (storedOpenaiConfig) setOpenaiConfig(storedOpenaiConfig)
-      if (storedOllamaConfig) setOllamaConfig(storedOllamaConfig)
+
+      // Migrate from legacy config
+      if (storedSelectedProvider) {
+        // 迁移旧的 provider 类型到新的类型
+        if (
+          storedSelectedProvider === 'openai' ||
+          storedSelectedProvider === 'zhipu'
+        ) {
+          setSelectedProvider('openai-compatible')
+          await setItem('selectedProvider', 'openai-compatible')
+        } else {
+          setSelectedProvider(storedSelectedProvider)
+        }
+      } else if (storedSelectedModel) {
+        // Migrate old selectedModel to selectedProvider
+        if (
+          storedSelectedModel === 'openai' ||
+          storedSelectedModel === 'zhipu'
+        ) {
+          setSelectedProvider('openai-compatible')
+          await setItem('selectedProvider', 'openai-compatible')
+        } else {
+          setSelectedProvider(storedSelectedModel as ProviderType)
+          await setItem('selectedProvider', storedSelectedModel)
+        }
+      }
+
+      if (storedProviderConfig) {
+        setProviderConfig(storedProviderConfig)
+      } else {
+        // Migrate from legacy configs
+        if (storedSelectedModel === 'openai' && storedOpenaiConfig) {
+          setProviderConfig(storedOpenaiConfig)
+          await setItem('providerConfig', storedOpenaiConfig)
+        } else if (storedSelectedModel === 'zhipu' && storedOpenaiConfig) {
+          // 智谱 AI 也使用 openaiConfig
+          setProviderConfig(storedOpenaiConfig)
+          await setItem('providerConfig', storedOpenaiConfig)
+        } else if (storedSelectedModel === 'ollama' && storedOllamaConfig) {
+          setProviderConfig(storedOllamaConfig)
+          await setItem('providerConfig', storedOllamaConfig)
+        }
+      }
     }
     init()
   }, [])
@@ -130,74 +233,140 @@ const Options: React.FC = () => {
     [],
   )
 
-  const handleModelChange = useCallback(
+  const handleProviderChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newModel = e.target.value
-      setSelectedModel(newModel)
-      setItem('selectedModel', newModel)
+      const newProvider = e.target.value as ProviderType
+      setSelectedProvider(newProvider)
+      setItem('selectedProvider', newProvider)
+
+      // Update config with provider preset
+      const preset = PROVIDER_PRESETS[newProvider]
+      const newConfig: ModelConfig = {
+        apiKey: providerConfig.apiKey, // Keep existing API key
+        baseURL: preset.baseURL,
+        modelName: preset.defaultModel,
+      }
+      setProviderConfig(newConfig)
+      setItem('providerConfig', newConfig)
     },
-    [],
+    [providerConfig.apiKey],
   )
 
   const handleConfigUpdate = useCallback(
-    (configKey: string, field: keyof ModelConfig, value: string) => {
-      if (configKey === 'openaiConfig') {
-        setOpenaiConfig((prev) => {
-          const newConfig = { ...prev, [field]: value }
-          setItem(configKey, newConfig)
-          return newConfig
-        })
-      } else if (configKey === 'ollamaConfig') {
-        setOllamaConfig((prev) => {
-          const newConfig = { ...prev, [field]: value }
-          setItem(configKey, newConfig)
-          return newConfig
-        })
-      }
+    (field: keyof ModelConfig, value: string) => {
+      setProviderConfig((prev) => {
+        const newConfig = { ...prev, [field]: value }
+        setItem('providerConfig', newConfig)
+        return newConfig
+      })
     },
     [],
   )
 
-  const testOpenAIConfig = useCallback(async () => {
+  // 统一的 API 测试函数
+  const testProviderConfig = useCallback(async () => {
     setTesting(true)
     setTestResult(null)
 
     try {
-      const response = await fetch(`${openaiConfig.baseURL}/chat/completions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${openaiConfig.apiKey}`,
-        },
-        body: JSON.stringify({
-          model: openaiConfig.modelName,
-          messages: [
-            {
-              role: 'system',
-              content:
-                'Translate the following English text into Chinese and separate the translations with @@@',
-            },
-            {
-              role: 'user',
-              content: 'Hello, how are you?',
-            },
-          ],
-          temperature: 0.3,
-          max_tokens: 100,
-        }),
+      const preset = PROVIDER_PRESETS[selectedProvider]
+      console.log(`🧪 开始测试 ${preset.name} 配置:`, {
+        provider: selectedProvider,
+        baseURL: providerConfig.baseURL,
+        modelName: providerConfig.modelName,
+        hasApiKey: !!providerConfig.apiKey,
       })
+
+      // Ollama 需要先进行健康检查
+      if (selectedProvider === 'ollama') {
+        const healthUrl = providerConfig.baseURL.replace('/v1', '') + '/health'
+        console.log('🏥 检查 Ollama 健康状态:', healthUrl)
+
+        const healthResponse = await fetch(healthUrl, { method: 'GET' })
+        console.log(
+          '📥 健康检查响应:',
+          healthResponse.status,
+          healthResponse.statusText,
+        )
+
+        if (!healthResponse.ok) {
+          setTestResult({
+            success: false,
+            message: `Ollama 服务不可用 (${healthResponse.status})。请确保：
+1. Ollama 正在运行（ollama serve）
+2. HTTPS 代理已启动（https://localhost:11435）
+3. 证书已信任`,
+          })
+          return
+        }
+        console.log('✅ Ollama 健康检查通过')
+      }
+
+      // 构建请求体
+      const requestBody = {
+        model: providerConfig.modelName,
+        messages: [
+          {
+            role: 'system',
+            content:
+              'Translate the following English text into Chinese and separate the translations with @@@',
+          },
+          {
+            role: 'user',
+            content: 'Hello, how are you?',
+          },
+        ],
+        temperature: 0.3,
+        max_tokens: 100,
+        stream: false,
+      }
+
+      console.log('📤 发送测试请求:', requestBody)
+
+      // 构建请求头
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+
+      // 只有需要 API Key 的 provider 才添加 Authorization 头
+      if (preset.requiresApiKey && providerConfig.apiKey) {
+        headers['Authorization'] = `Bearer ${providerConfig.apiKey}`
+      }
+
+      const response = await fetch(
+        `${providerConfig.baseURL}/chat/completions`,
+        {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(requestBody),
+        },
+      )
+
+      console.log('📥 收到响应:', response.status, response.statusText)
 
       if (!response.ok) {
         const errorText = await response.text()
+        console.error('❌ API 错误响应:', errorText)
+
         let errorMessage = `HTTP ${response.status}: ${response.statusText}`
 
         try {
           const errorData = JSON.parse(errorText)
           if (errorData.error?.message) {
             errorMessage = errorData.error.message
+          } else if (errorData.error) {
+            errorMessage =
+              typeof errorData.error === 'string'
+                ? errorData.error
+                : JSON.stringify(errorData.error)
           }
         } catch (e) {
-          // 如果不是JSON格式，使用原始错误文本
+          errorMessage = errorText || errorMessage
+        }
+
+        // 提供特定 provider 的错误提示
+        if (selectedProvider === 'ollama' && response.status === 404) {
+          errorMessage = `模型 "${providerConfig.modelName}" 未找到。请运行：ollama pull ${providerConfig.modelName}`
         }
 
         setTestResult({
@@ -208,28 +377,51 @@ const Options: React.FC = () => {
       }
 
       const data = await response.json()
+      console.log('✅ API 响应成功:', data)
 
       if (data.choices && data.choices[0] && data.choices[0].message) {
         const translatedText = data.choices[0].message.content
         setTestResult({
           success: true,
-          message: `翻译测试成功！原文: "Hello, how are you?" 译文: "${translatedText}"`,
+          message: `✅ ${preset.name} 测试成功！
+原文: "Hello, how are you?"
+译文: "${translatedText}"`,
         })
       } else {
+        console.error('❌ 响应格式错误:', data)
         setTestResult({
           success: false,
           message: 'API 响应格式错误：缺少 choices 或 message',
         })
       }
     } catch (error: any) {
+      console.error('❌ 测试异常:', error)
+
+      let errorMessage = error.message || '未知错误'
+
+      if (error.message.includes('Failed to fetch')) {
+        if (selectedProvider === 'ollama') {
+          errorMessage = `无法连接到 Ollama 服务。请检查：
+1. Ollama 是否正在运行（ollama serve）
+2. HTTPS 代理是否已启动
+3. Base URL 是否正确：${providerConfig.baseURL}
+4. 浏览器是否信任 HTTPS 证书`
+        } else {
+          errorMessage = `无法连接到 API 服务。请检查：
+1. Base URL 是否正确：${providerConfig.baseURL}
+2. 网络连接是否正常
+3. API Key 是否有效`
+        }
+      }
+
       setTestResult({
         success: false,
-        message: `测试失败: ${error.message}`,
+        message: `测试失败: ${errorMessage}`,
       })
     } finally {
       setTesting(false)
     }
-  }, [openaiConfig])
+  }, [selectedProvider, providerConfig])
 
   return (
     <div className="OptionsContainer">
@@ -243,171 +435,205 @@ const Options: React.FC = () => {
         }
         bordered={false}
       >
-        <p>选择模型 / Select Model</p>
-        <select value={selectedModel} onChange={handleModelChange}>
-          <option value="openai">OpenAI</option>
-          <option value="ollama">Ollama</option>
+        <p>选择 Provider / Select Provider</p>
+        <select value={selectedProvider} onChange={handleProviderChange}>
+          <option value="openai-compatible">
+            OpenAI-Compatible API (OpenAI, 智谱 AI, DeepSeek, etc.)
+          </option>
+          <option value="ollama">Ollama (Local)</option>
         </select>
-        {selectedModel === 'openai' && (
-          <>
-            <p style={{ marginTop: '10px' }}>
-              OpenAI 模型名称 / OpenAI Model Name
+
+        <p style={{ marginTop: '10px', fontSize: '12px', color: '#666' }}>
+          {PROVIDER_PRESETS[selectedProvider].description}
+        </p>
+
+        {/* 显示示例配置 */}
+        {PROVIDER_PRESETS[selectedProvider].examples && (
+          <div
+            style={{
+              marginTop: '10px',
+              padding: '10px',
+              backgroundColor: '#f5f5f5',
+              borderRadius: '4px',
+            }}
+          >
+            <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>
+              常用配置示例 / Common Examples:
             </p>
-            <Input
-              value={openaiConfig.modelName}
-              onChange={(e) =>
-                handleConfigUpdate('openaiConfig', 'modelName', e.target.value)
-              }
-              placeholder="输入 OpenAI 模型名称 / Enter OpenAI model name"
-            />
-            <p style={{ marginTop: '10px' }}>API 密钥 / API Key</p>
-            <Input
-              value={openaiConfig.apiKey}
-              onChange={(e) =>
-                handleConfigUpdate('openaiConfig', 'apiKey', e.target.value)
-              }
-              placeholder="输入您的 API 密钥 / Enter your API Key"
-              type="password"
-            />
-            <p style={{ marginTop: '10px' }}>基础 URL / Base URL</p>
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-              <Button
-                onClick={() =>
-                  handleConfigUpdate(
-                    'openaiConfig',
-                    'baseURL',
-                    'https://api.openai.com/v1',
-                  )
-                }
-                size="small"
-                type={
-                  openaiConfig.baseURL === 'https://api.openai.com/v1'
-                    ? 'primary'
-                    : 'default'
-                }
-              >
-                OpenAI 官方
-              </Button>
-              <Button
-                onClick={() =>
-                  handleConfigUpdate(
-                    'openaiConfig',
-                    'baseURL',
-                    'https://api.oaipro.com/v1',
-                  )
-                }
-                size="small"
-                type={
-                  openaiConfig.baseURL === 'https://api.oaipro.com/v1'
-                    ? 'primary'
-                    : 'default'
-                }
-              >
-                OAIPro
-              </Button>
-              <Button
-                onClick={() =>
-                  handleConfigUpdate(
-                    'openaiConfig',
-                    'baseURL',
-                    'https://api.useaihub.com/v1',
-                  )
-                }
-                size="small"
-                type={
-                  openaiConfig.baseURL === 'https://api.useaihub.com/v1'
-                    ? 'primary'
-                    : 'default'
-                }
-              >
-                UseAIHub
-              </Button>
-            </div>
-            <Input
-              value={openaiConfig.baseURL}
-              onChange={(e) =>
-                handleConfigUpdate('openaiConfig', 'baseURL', e.target.value)
-              }
-              placeholder="输入基础 URL（可选）/ Enter Base URL (optional)"
-            />
-            <div style={{ marginTop: '15px' }}>
-              <Button
-                onClick={testOpenAIConfig}
-                type="default"
-                loading={testing}
-                disabled={
-                  !openaiConfig.apiKey ||
-                  !openaiConfig.baseURL ||
-                  !openaiConfig.modelName
-                }
-              >
-                🧪 测试 API 配置
-              </Button>
-              {testResult && (
+            {PROVIDER_PRESETS[selectedProvider].examples?.map(
+              (example, idx) => (
                 <div
+                  key={idx}
                   style={{
-                    marginTop: '10px',
-                    padding: '10px',
+                    marginBottom: '8px',
+                    padding: '8px',
+                    backgroundColor: 'white',
                     borderRadius: '4px',
-                    backgroundColor: testResult.success ? '#f6ffed' : '#fff2f0',
-                    border: `1px solid ${
-                      testResult.success ? '#b7eb8f' : '#ffccc7'
-                    }`,
+                    border: example.promoText
+                      ? '2px solid #ff6b6b'
+                      : '1px solid #e8e8e8',
                   }}
                 >
                   <div
                     style={{
-                      color: testResult.success ? '#52c41a' : '#ff4d4f',
-                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      setProviderConfig({
+                        ...providerConfig,
+                        baseURL: example.baseURL,
+                        modelName: example.model,
+                      })
                     }}
                   >
-                    {testResult.success ? '✅ 测试成功' : '❌ 测试失败'}
+                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                      {example.name}
+                    </div>
+                    {example.description && (
+                      <div
+                        style={{
+                          fontSize: '12px',
+                          color: '#666',
+                          marginBottom: '4px',
+                        }}
+                      >
+                        {example.description}
+                      </div>
+                    )}
+                    <div style={{ fontSize: '12px', color: '#666' }}>
+                      Base URL: {example.baseURL}
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#666' }}>
+                      Model: {example.model}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '11px',
+                        color: '#1890ff',
+                        marginTop: '4px',
+                      }}
+                    >
+                      点击使用此配置 / Click to use this config
+                    </div>
                   </div>
-                  <div
-                    style={{
-                      marginTop: '5px',
-                      fontSize: '12px',
-                      color: '#666',
-                    }}
-                  >
-                    {testResult.message}
-                  </div>
+
+                  {/* 推广信息 */}
+                  {example.promoText && example.signupUrl && (
+                    <div
+                      style={{
+                        marginTop: '8px',
+                        padding: '8px',
+                        backgroundColor: '#fff7e6',
+                        borderRadius: '4px',
+                        border: '1px solid #ffd591',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '12px',
+                          color: '#d46b08',
+                          marginBottom: '6px',
+                          lineHeight: '1.5',
+                        }}
+                      >
+                        {example.promoText}
+                      </div>
+                      <a
+                        href={example.signupUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-block',
+                          fontSize: '12px',
+                          color: '#1890ff',
+                          textDecoration: 'none',
+                          fontWeight: 'bold',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        🎁 立即注册获取 API Key →
+                      </a>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </>
+              ),
+            )}
+          </div>
         )}
-        {selectedModel === 'ollama' && (
+
+        <p style={{ marginTop: '10px' }}>模型名称 / Model Name</p>
+        <Input
+          value={providerConfig.modelName}
+          onChange={(e) => handleConfigUpdate('modelName', e.target.value)}
+          placeholder={`输入模型名称 / Enter model name (e.g., ${PROVIDER_PRESETS[selectedProvider].defaultModel})`}
+        />
+
+        {PROVIDER_PRESETS[selectedProvider].requiresApiKey && (
           <>
-            <p style={{ marginTop: '10px' }}>
-              Ollama 模型名称 / Ollama Model Name
-            </p>
-            <Input
-              value={ollamaConfig.modelName}
-              onChange={(e) =>
-                handleConfigUpdate('ollamaConfig', 'modelName', e.target.value)
-              }
-              placeholder="输入 Ollama 模型名称 / Enter Ollama model name"
-            />
             <p style={{ marginTop: '10px' }}>API 密钥 / API Key</p>
             <Input
-              value={ollamaConfig.apiKey}
-              onChange={(e) =>
-                handleConfigUpdate('ollamaConfig', 'apiKey', e.target.value)
-              }
-              placeholder="输入您的 API 密钥（随便填）/ Enter your API Key (any value)"
+              value={providerConfig.apiKey}
+              onChange={(e) => handleConfigUpdate('apiKey', e.target.value)}
+              placeholder="输入您的 API 密钥 / Enter your API Key"
               type="password"
-            />
-            <p style={{ marginTop: '10px' }}>基础 URL / Base URL</p>
-            <Input
-              value={ollamaConfig.baseURL}
-              onChange={(e) =>
-                handleConfigUpdate('ollamaConfig', 'baseURL', e.target.value)
-              }
-              placeholder="https://localhost:11435/v1"
             />
           </>
         )}
+
+        <p style={{ marginTop: '10px' }}>基础 URL / Base URL</p>
+        <Input
+          value={providerConfig.baseURL}
+          onChange={(e) => handleConfigUpdate('baseURL', e.target.value)}
+          placeholder={PROVIDER_PRESETS[selectedProvider].baseURL}
+        />
+
+        <div style={{ marginTop: '15px' }}>
+          <Button
+            onClick={testProviderConfig}
+            type="default"
+            loading={testing}
+            disabled={
+              !providerConfig.baseURL ||
+              !providerConfig.modelName ||
+              (PROVIDER_PRESETS[selectedProvider].requiresApiKey &&
+                !providerConfig.apiKey)
+            }
+          >
+            🧪 测试 {PROVIDER_PRESETS[selectedProvider].name} 配置
+          </Button>
+          {testResult && (
+            <div
+              style={{
+                marginTop: '10px',
+                padding: '10px',
+                borderRadius: '4px',
+                backgroundColor: testResult.success ? '#f6ffed' : '#fff2f0',
+                border: `1px solid ${
+                  testResult.success ? '#b7eb8f' : '#ffccc7'
+                }`,
+              }}
+            >
+              <div
+                style={{
+                  color: testResult.success ? '#52c41a' : '#ff4d4f',
+                  fontWeight: 'bold',
+                }}
+              >
+                {testResult.success ? '✅ 测试成功' : '❌ 测试失败'}
+              </div>
+              <div
+                style={{
+                  marginTop: '5px',
+                  fontSize: '12px',
+                  color: '#666',
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {testResult.message}
+              </div>
+            </div>
+          )}
+        </div>
       </Card>
 
       <Card className="Card" title="字幕 / Subtitle" bordered={false}>

@@ -54,6 +54,6 @@
         }
     ],
     "content_security_policy": {
-        "extension_pages": "script-src 'self'; connect-src 'self' https://*/* localhost:* http://localhost:*; object-src 'self'"
+        "extension_pages": "script-src 'self'; connect-src 'self' https://*.openai.com https://*.bigmodel.cn https://*.deepseek.com https://* localhost:* http://localhost:*; object-src 'self'"
     }
 }

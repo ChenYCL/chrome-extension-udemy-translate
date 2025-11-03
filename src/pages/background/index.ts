@@ -96,17 +96,31 @@ const handleTranslationRequest = async (
 
   try {
     const storageData = await getStorageData()
-    const { status, prompt, selectedModel, ollamaConfig, openaiConfig } =
-      storageData
+    const {
+      status,
+      prompt,
+      selectedProvider,
+      providerConfig,
+      selectedModel,
+      ollamaConfig,
+      openaiConfig,
+    } = storageData
 
     if (!status) {
       throw new Error('Translation is currently disabled')
     }
 
-    if (!isConfigValid(selectedModel, ollamaConfig, openaiConfig)) {
-      const modelType = selectedModel === 'openai' ? 'OpenAI' : 'Ollama'
+    if (
+      !isConfigValid(
+        selectedProvider,
+        providerConfig,
+        selectedModel,
+        ollamaConfig,
+        openaiConfig,
+      )
+    ) {
       throw new Error(
-        `${modelType} 配置不完整。请检查 API Key、Base URL 和模型名称是否正确设置。`,
+        'API 配置不完整。请检查 API Key、Base URL 和模型名称是否正确设置。',
       )
     }
 
@@ -119,10 +133,37 @@ const handleTranslationRequest = async (
 }
 
 const isConfigValid = (
-  selectedModel: string,
+  selectedProvider: string | undefined,
+  providerConfig: any,
+  selectedModel: string | undefined,
   ollamaConfig: any,
   openaiConfig: any,
 ): boolean => {
+  if (selectedProvider && providerConfig) {
+    let provider = selectedProvider
+    if (provider === 'openai' || provider === 'zhipu') {
+      provider = 'openai-compatible'
+    }
+
+    if (provider === 'openai-compatible') {
+      return !!(
+        providerConfig?.apiKey &&
+        providerConfig?.baseURL &&
+        providerConfig?.modelName &&
+        providerConfig.apiKey.trim() !== '' &&
+        providerConfig.baseURL.trim() !== '' &&
+        providerConfig.modelName.trim() !== ''
+      )
+    } else if (provider === 'ollama') {
+      return !!(
+        providerConfig?.baseURL &&
+        providerConfig?.modelName &&
+        providerConfig.baseURL.trim() !== '' &&
+        providerConfig.modelName.trim() !== ''
+      )
+    }
+  }
+
   if (selectedModel === 'openai') {
     return !!(
       openaiConfig?.apiKey &&
@@ -140,5 +181,6 @@ const isConfigValid = (
       ollamaConfig.modelName.trim() !== ''
     )
   }
+
   return false
 }

@@ -1,5 +1,3 @@
-import Ollama from 'openai'
-
 export type MessageContentText = {
   type: 'text'
   text: string
@@ -34,143 +32,140 @@ interface ModelConfig {
 }
 
 interface StorageData {
-  selectedModel: string
-  baseURL: string
-  ollamaConfig: ModelConfig
-  openaiConfig: ModelConfig
+  selectedProvider?: string
+  providerConfig?: ModelConfig
+  // Legacy support
+  selectedModel?: string
+  ollamaConfig?: ModelConfig
+  openaiConfig?: ModelConfig
 }
 
-type TranslationModel = 'openai' | 'ollama' | 'thirdparty'
+type ProviderType = 'openai-compatible' | 'ollama'
 
-const createOllamaApi = (config: ModelConfig): Ollama => {
-  return new Ollama({
-    baseURL: config.baseURL,
-    apiKey: 'ollama',
-  })
-}
-
+// 统一的 OpenAI-compatible API 翻译函数
 const translateWithOpenAICompatible = async (
   config: ModelConfig,
   text: string,
   prompt: string,
+  provider: ProviderType,
 ): Promise<string> => {
+  const providerName =
+    provider === 'ollama' ? 'Ollama' : 'OpenAI-Compatible API'
+
   try {
+    console.log(`🚀 ${providerName} API 请求配置:`, {
+      provider,
+      baseURL: config.baseURL,
+      modelName: config.modelName,
+      hasApiKey: !!config.apiKey,
+      textLength: text.length,
+    })
+
+    const requestBody = {
+      model: config.modelName,
+      messages: [
+        { role: 'system', content: prompt },
+        { role: 'user', content: text },
+      ],
+      temperature: 0.3,
+      max_tokens: 1000,
+      stream: false, // 明确禁用流式响应
+    }
+
+    console.log(
+      `📤 ${providerName} 请求体:`,
+      JSON.stringify(requestBody, null, 2),
+    )
+
+    // 构建请求头
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    }
+
+    // Ollama 不需要 API Key，其他 provider 需要
+    if (provider !== 'ollama' && config.apiKey) {
+      headers['Authorization'] = `Bearer ${config.apiKey}`
+    }
+
     const response = await fetch(`${config.baseURL}/chat/completions`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${config.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: config.modelName,
-        messages: [
-          { role: 'system', content: prompt },
-          { role: 'user', content: text },
-        ],
-        temperature: 0.3,
-        max_tokens: 1000,
-      }),
+      headers,
+      body: JSON.stringify(requestBody),
     })
+
+    console.log(
+      `📥 ${providerName} 响应状态:`,
+      response.status,
+      response.statusText,
+    )
 
     if (!response.ok) {
       const errorText = await response.text()
+      console.error(`❌ ${providerName} API 错误响应:`, errorText)
+
       let errorMessage = `HTTP ${response.status}: ${response.statusText}`
 
       try {
         const errorData = JSON.parse(errorText)
         if (errorData.error?.message) {
           errorMessage = errorData.error.message
+        } else if (errorData.error) {
+          errorMessage =
+            typeof errorData.error === 'string'
+              ? errorData.error
+              : JSON.stringify(errorData.error)
         }
       } catch (e) {
         // 如果不是 JSON 格式，使用原始错误文本
         errorMessage = errorText || errorMessage
       }
 
-      throw new Error(`OpenAI API 错误: ${errorMessage}`)
-    }
-
-    const data = await response.json()
-    console.log('🔥 OpenAI API 响应:', data)
-
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      throw new Error('OpenAI API 返回格式错误：缺少 choices 或 message')
-    }
-
-    return data.choices[0].message.content || ''
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error
-    }
-    throw new Error(`OpenAI API 请求失败: ${error}`)
-  }
-}
-
-const translateWithOllama = async (
-  instance: Ollama,
-  text: string,
-  prompt: string,
-  modelName: string,
-): Promise<string> => {
-  try {
-    const response = await fetch(`${instance.baseURL}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: modelName,
-        messages: [
-          { role: 'system', content: prompt },
-          { role: 'user', content: text },
-        ],
-        temperature: 0.3,
-        stream: false,
-      }),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      let errorMessage = `HTTP ${response.status}: ${response.statusText}`
-
-      try {
-        const errorData = JSON.parse(errorText)
-        if (errorData.error) {
-          errorMessage = errorData.error
+      // 提供特定 provider 的错误提示
+      if (provider === 'ollama') {
+        if (response.status === 404) {
+          errorMessage = `模型 "${config.modelName}" 未找到。请确保已安装该模型：ollama pull ${config.modelName}`
+        } else if (response.status === 500) {
+          errorMessage = `Ollama 服务器错误。请检查 Ollama 是否正常运行：ollama serve`
         }
-      } catch (e) {
-        errorMessage = errorText || errorMessage
       }
 
-      // 提供更友好的错误信息
-      if (response.status === 404) {
-        errorMessage = `模型 "${modelName}" 未找到。请确保已安装该模型：ollama pull ${modelName}`
-      } else if (response.status === 500) {
-        errorMessage = `Ollama 服务器错误。请检查 Ollama 是否正常运行：ollama serve`
-      }
-
-      throw new Error(`Ollama API 错误: ${errorMessage}`)
+      throw new Error(`${providerName} API 错误: ${errorMessage}`)
     }
 
     const data = await response.json()
-    console.log('🔥 Ollama API 响应:', data)
+    console.log(`✅ ${providerName} API 响应成功:`, data)
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      throw new Error('Ollama API 返回格式错误：缺少 choices 或 message')
+      console.error(`❌ ${providerName} API 返回格式错误:`, data)
+      throw new Error(
+        `${providerName} API 返回格式错误：缺少 choices 或 message`,
+      )
     }
 
-    return data.choices[0].message.content || ''
+    const result = data.choices[0].message.content || ''
+    console.log('📝 翻译结果:', result.substring(0, 100) + '...')
+
+    return result
   } catch (error) {
+    console.error(`❌ ${providerName} API 请求异常:`, error)
     if (error instanceof Error) {
       throw error
     }
-    throw new Error(`Ollama API 请求失败: ${error}`)
+    throw new Error(`${providerName} API 请求失败: ${error}`)
   }
 }
 
 const getStorageData = (): Promise<StorageData> => {
   return new Promise((resolve) => {
     chrome.storage.local.get(
-      ['selectedModel', 'baseURL', 'ollamaConfig', 'openaiConfig'],
+      [
+        'selectedProvider',
+        'providerConfig',
+        // Legacy keys
+        'selectedModel',
+        'ollamaConfig',
+        'openaiConfig',
+      ],
       (result) => {
         resolve(result as StorageData)
       },
@@ -184,31 +179,54 @@ const translateText = async (
   prompt: string,
 ): Promise<string> => {
   try {
-    const { selectedModel, ollamaConfig, openaiConfig } = await getStorageData()
+    const storageData = await getStorageData()
 
-    // console.log('Selected model:', selectedModel, ollamaConfig, openaiConfig);
+    // 获取 provider 和配置（支持新旧格式）
+    let provider: ProviderType
+    let config: ModelConfig
 
-    let result: string
+    if (storageData.selectedProvider && storageData.providerConfig) {
+      // 新格式
+      let rawProvider = storageData.selectedProvider as string
 
-    switch (selectedModel as TranslationModel) {
-      case 'openai':
-        result = await translateWithOpenAICompatible(openaiConfig, text, prompt)
-        break
-      case 'ollama':
-        const ollamaInstance = createOllamaApi(ollamaConfig)
-        result = await translateWithOllama(
-          ollamaInstance,
-          text,
-          prompt,
-          ollamaConfig.modelName,
-        )
-        break
-      // case 'thirdparty':
-      //     //TODO: Implement third-party API translation here
-      //     break;
-      default:
-        throw new Error('Unsupported model selected')
+      // 迁移旧的 provider 类型
+      if (rawProvider === 'openai' || rawProvider === 'zhipu') {
+        provider = 'openai-compatible'
+      } else {
+        provider = rawProvider as ProviderType
+      }
+
+      config = storageData.providerConfig
+    } else {
+      // 兼容旧格式
+      const selectedModel = storageData.selectedModel || 'openai'
+
+      // 迁移旧的 model 类型
+      if (selectedModel === 'openai' || selectedModel === 'zhipu') {
+        provider = 'openai-compatible'
+      } else {
+        provider = selectedModel as ProviderType
+      }
+
+      if (selectedModel === 'ollama' && storageData.ollamaConfig) {
+        config = storageData.ollamaConfig
+      } else if (storageData.openaiConfig) {
+        // openai 和 zhipu 都使用 openaiConfig
+        config = storageData.openaiConfig
+      } else {
+        throw new Error('No valid configuration found')
+      }
     }
+
+    console.log('🔧 使用 Provider:', provider, config)
+
+    // 使用统一的翻译函数
+    const result = await translateWithOpenAICompatible(
+      config,
+      text,
+      prompt,
+      provider,
+    )
 
     return result
   } catch (error) {

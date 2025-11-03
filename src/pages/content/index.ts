@@ -61,9 +61,20 @@ class TranslationManager {
 
   public async start() {
     console.log('TranslationManager starting...')
+    this.cleanupAllSubtitles()
     await this.initialize()
     this.registerEventListeners()
     console.log('TranslationManager started')
+  }
+
+  private cleanupAllSubtitles() {
+    const allFloatingSubtitles = document.querySelectorAll(
+      '.udemy-translate-floating-subtitle',
+    )
+    allFloatingSubtitles.forEach((subtitle) => {
+      console.log('🧹 Cleaning up old subtitle container')
+      subtitle.remove()
+    })
   }
 
   private registerEventListeners() {
@@ -409,13 +420,29 @@ class TranslationManager {
     translatedText: string,
     items: StorageData,
   ) {
-    // 创建或获取浮动字幕容器
+    // 清理所有可能存在的旧字幕容器（防止累积）
+    const existingContainers = document.querySelectorAll(
+      '.udemy-translate-floating-subtitle',
+    )
+    existingContainers.forEach((container) => {
+      if (container !== this.floatingSubtitle) {
+        container.remove()
+      }
+    })
+
     if (!this.floatingSubtitle) {
-      this.floatingSubtitle = this.createFloatingSubtitleContainer(items)
-      document.body.appendChild(this.floatingSubtitle)
+      const existingContainer = document.getElementById(
+        'udemy-translate-floating-subtitle',
+      ) as HTMLElement | null
+
+      if (existingContainer) {
+        this.floatingSubtitle = existingContainer
+      } else {
+        this.floatingSubtitle = this.createFloatingSubtitleContainer(items)
+        document.body.appendChild(this.floatingSubtitle)
+      }
     }
 
-    // 更新字幕内容
     this.updateFloatingSubtitleContent(
       originalText,
       translatedText,
@@ -423,7 +450,6 @@ class TranslationManager {
       this.floatingSubtitle,
     )
 
-    // 设置自动隐藏
     if (this.subtitleTimeout !== null) {
       clearTimeout(this.subtitleTimeout)
     }
@@ -446,14 +472,12 @@ class TranslationManager {
     const height = items.subtitleHeight || CONFIG.DEFAULT_SUBTITLE_HEIGHT
     const isDraggable = items.isDraggable ?? CONFIG.DEFAULT_DRAGGABLE
 
-    // 计算初始位置
     const initialPosition = this.calculateInitialPosition(
       position,
       width,
       height,
     )
 
-    // 使用保存的位置或默认位置
     const x = items.subtitleX ?? initialPosition.x
     const y = items.subtitleY ?? initialPosition.y
 
@@ -485,12 +509,10 @@ class TranslationManager {
       text-align: center;
     `
 
-    // 添加拖拽功能
     if (isDraggable) {
       this.addDragFunctionality(container)
     }
 
-    // 添加右键菜单（用于配置）
     this.addContextMenu(container)
 
     return container
@@ -721,13 +743,18 @@ class TranslationManager {
   }
 
   private cleanupSubtitles() {
-    // 清理浮动字幕
     if (this.floatingSubtitle) {
       this.floatingSubtitle.remove()
       this.floatingSubtitle = null
     }
 
-    // 清理旧的字幕系统
+    const allFloatingSubtitles = document.querySelectorAll(
+      '.udemy-translate-floating-subtitle',
+    )
+    allFloatingSubtitles.forEach((subtitle) => {
+      subtitle.remove()
+    })
+
     if (this.videoWrapper) {
       const subtitleElement = this.videoWrapper.querySelector(
         '.translated-wrapper',
