@@ -244,6 +244,8 @@ There are related plugin usage tutorials. Follow and reply 'Translation Tool' to
 
 [1watchtv.com](https://1watchtv.com)
 
+[奈飞小铺](https://ihezu.cool/YqDFNq)
+
 ### Alipay
 
 <img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/alipay.JPG" alt="" height="148" width="148" />
