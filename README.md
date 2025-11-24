@@ -252,7 +252,8 @@ There are related plugin usage tutorials. Follow and reply 'Translation Tool' to
 
 ### WeChat
 
-<img src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
+![image](https://github.com/user-attachments/assets/ace0a879-7f4f-4965-91f4-ca73eeac9776)
+
 
 ## Communication
 
