@@ -250,7 +250,8 @@ npm start
 
 ### 微信
 
-  <img  src="https://github.com/ChenYCL/chrome-extension-udemy-translate/raw/v2.0.0/example/wechat.JPG" alt="" height="148" width="148" />
+![image](https://github.com/user-attachments/assets/1a5309f8-06ef-495f-91db-d3fd9af99a9d)
+
   
 ### 交流
 
